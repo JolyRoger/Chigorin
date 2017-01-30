@@ -1,0 +1,48 @@
+@import tags._
+@main(title = "Chess") {
+	<form id="loadgame" accept="application/octet-stream">
+		<input id="gamefile" type="file" size="45" name="gamefile" class="input">
+	</form>
+
+	<div class="board">
+		<img src="@routes.Assets.at("images/empty_board448.png")">
+		<div class="promotion">
+			<img src="@routes.Assets.at("images/promotion.png")">
+			<div id="queen" class="promoted piece"></div>
+			<div id="rook" class="promoted piece"></div>
+			<div id="bishop" class="promoted piece"></div>
+			<div id="knight" class="promoted piece"></div>
+		</div>
+		<script type="text/javascript">init()</script>
+	</div>
+	
+	<div id="notation"> </div>
+	<div id="btn-group" class="btn-group">
+        <div style="height: 100%;">
+            <button name="newgame" value="new" class="btn handlebtn" onclick="newPosition('8/8/4P3/8/8/k5K1/8 w - - 10 40')">New game</button>
+            <button name="savegame" value="save" class="btn handlebtn" onclick="saveGame()">Save game</button>
+            <button name="loadgame" value="load" class="btn handlebtn" onclick="
+                $(':file').click()">Load game</button>
+    @*		<button name="move" value="move" class="btn handlebtn" onclick="updatePosition()">Move</button> *@
+            <button name="moveback" value="moveback" class="btn handlebtn" onclick="doMoveBack()">Move back</button>
+            <button name="turnsides" value="turnsides" class="btn handlebtn" onclick="turnSide()">Turn sides</button>
+        </div>
+        <div style="height: 40px; margin-top: -77px;">
+            <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="updatePosition()">MOVE</button>
+        </div>
+        <div id="showMoves">
+            <button id="movedown" name="movedown" value="movedown" class="btn handlebtn" onclick="moveDownShow()">&lt;&lt;</button>
+            <button id="moveup" name="moveup" value="moveup" class="btn handlebtn" onclick="moveUpShow()">&gt;&gt;</button>
+        </div>
+    </div>
+	
+	<img src="@routes.Assets.at("images/loading.gif")">
+	
+	<div id="winpanel"></div>
+	<div id="wintitlepanel">
+		<span id="wintitle">Unknown</span>
+	</div>
+	@settings("aaa")
+    @about("bbb")
+	<output></output>
+}

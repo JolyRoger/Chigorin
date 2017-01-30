@@ -1,0 +1,224 @@
+// @CHARSET "UTF-8";
+
+@promotionWidth:	    		320px;
+@promotionOffset: 				56;
+@promotedPieceWidth:	    	(@promotionWidth - @promotionOffset) / 4;
+
+@promotedPiecePanelWidth:  		224px;
+@promotionHeight:	    		100px;
+@boardSize:	    				448px;
+@buttonPadding:                 10px;
+@boardPower:	  			  	8;
+@pieceOriginalSize:	    		64px;
+@squareTargetSize:				@boardSize / @boardPower;
+@border:						2px;
+@factor:						@squareTargetSize / @pieceOriginalSize * @pieceOriginalSize;	
+
+#content {
+	background: url(/assets/images/background.jpg) repeat;
+	height: @boardSize;
+    padding: 20px;
+}
+
+.board {
+	position: relative;
+	width: @boardSize;
+	float: left;
+}
+
+.promotion {
+	display: none;
+	position: absolute;
+	top: (@boardSize - @promotionHeight) / 2;
+	left: (@boardSize - @promotionWidth) / 2;
+	width: @promotionWidth;	
+	height: @promotionHeight;
+	z-index: 2;	
+}
+
+.promoted {
+	top: (@promotionHeight - @squareTargetSize) / 2;
+	z-index: 3;
+}
+
+.panel {
+	float: left;
+	padding: 20px;
+}
+
+span.block {
+	display: block;
+}
+.piece {
+	position: absolute;
+	width: @squareTargetSize;
+	height: @squareTargetSize;
+}
+.square {
+	position: absolute;
+	width: @squareTargetSize;
+	height: @squareTargetSize;
+}
+
+#queen {
+	left: (@promotedPieceWidth - @squareTargetSize + @promotionOffset) / 2;
+}
+#rook {
+	left: (@promotedPieceWidth - @squareTargetSize + @promotionOffset) / 2 + @promotedPieceWidth;
+}
+#bishop {
+	left: (@promotedPieceWidth - @squareTargetSize + @promotionOffset) / 2 + (@promotedPieceWidth * 2);
+}
+#knight {
+	left: (@promotedPieceWidth - @squareTargetSize + @promotionOffset) / 2 + (@promotedPieceWidth * 3);
+}
+
+.wking {
+	background: url(/assets/images/pieces/wking.png) center no-repeat; background-size: @factor;
+}
+.wqueen {
+	background: url(/assets/images/pieces/wqueen.png) center no-repeat;background-size: @factor;
+}
+.wrook {
+	background: url(/assets/images/pieces/wrook.png) center no-repeat;background-size: @factor;
+}
+.wbishop {
+	background: url(/assets/images/pieces/wbishop.png) center no-repeat;background-size: @factor;
+}
+.wknight {
+	background: url(/assets/images/pieces/wknight.png) center no-repeat;background-size: @factor;
+}
+.wpawn {
+	background: url(/assets/images/pieces/wpawn.png) center no-repeat;background-size: @factor;
+}
+.bking {
+	background: url(/assets/images/pieces/bking.png) center no-repeat;background-size: @factor;
+}
+.bqueen {
+	background: url(/assets/images/pieces/bqueen.png) center no-repeat;background-size: @factor;
+}
+.brook {
+	background: url(/assets/images/pieces/brook.png) center no-repeat;background-size: @factor;
+}
+.bbishop {
+	background: url(/assets/images/pieces/bbishop.png) center no-repeat;background-size: @factor;
+}
+.bknight {
+	background: url(/assets/images/pieces/bknight.png) center no-repeat;background-size: @factor;
+}
+.bpawn {
+	background: url(/assets/images/pieces/bpawn.png) center no-repeat;background-size: @factor;
+}
+
+.clickedFrom {
+	border: @border solid yellow;
+	width: @squareTargetSize - 2 * @border;
+	height: @squareTargetSize - 2 * @border;
+}
+.clickedTo {
+	border: @border solid red;
+	width: @squareTargetSize - 2 * @border;
+	height: @squareTargetSize - 2 * @border;
+}
+form#loadgame {
+	visibility: hidden; 
+	position: absolute;
+}
+#wintitlepanel {
+	position: absolute;
+	font: 38pt sans-serif;
+	width: @boardSize;
+	height: @boardSize;
+	display: none;
+}
+
+#wintitle {
+	position: relative;
+	left: 50%;
+	top: 50%;
+	margin-left: -224px;
+	margin-top: -30px;
+	text-align: center;
+	color: black;
+	display: block;
+	font: 38pt sans-serif;
+	opacity: 1.0;
+	width: @boardSize;
+	height: 60px;
+}
+
+#winpanel {
+	background: url(/assets/images/win.gif);
+	position: absolute;
+	width: @boardSize;
+	height: @boardSize;
+	opacity: 0.3;
+	display: none;
+}
+
+#notation {
+	background: url(/assets/images/notation_background.jpg);
+	position: relative;
+	font: 20pt Verdana;
+	color: #fff5ee;
+	left: 40px;	
+	border: solid gray;
+	overflow-y: scroll;
+	width: 250px;
+//	height:@boardSize;
+	height: 425px;
+	padding: 10px;
+	float: left;
+}
+
+#btn-group {
+	position: relative;
+	display: block;
+	width: 160px;
+	height: 425px;
+	color: yellow;
+	border: solid gray;
+	padding: @buttonPadding;
+//	margin-right: 20px;
+//	margin-left: -30px;
+	float: right;
+}
+
+button.handlebtn {
+	display: block;
+	margin: 5px auto;
+	width: 100%;
+	color: blue;
+}
+
+div#showMoves {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    margin-left: -@buttonPadding;
+    margin-bottom: -(@buttonPadding / 2);
+}
+button#movedown {
+    float: left;
+    width: 50%;
+}
+button#moveup {
+    float: right;
+    width: 50%;
+}
+#movebtn {
+  height: 40px;
+//  margin: 5px;
+//  width: 100%;
+}
+.custombtn {
+  background: url("/assets/images/movebtn_back2.png");
+  width: 123px;
+  height: 44px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 0;
+  border: 0;
+  text-indent: -1000em;
+  cursor: pointer;
+}

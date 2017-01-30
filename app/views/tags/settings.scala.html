@@ -1,0 +1,72 @@
+@(value: String)
+<div class="generic_dialog" id="fb-modal-settings">
+	<div class="generic_dialog_popup" style="top: 70px; ">
+		<table class="pop_dialog_table" id="pop_dialog_table"
+			style="width: 532px; height: 230px;" >
+			<tbody>
+				<tr>
+					<td class="pop_topleft" />
+					<td class="pop_border pop_top" />
+					<td class="pop_topright" />
+				</tr>
+				<tr>
+					<td class="pop_border pop_side" />
+					<td id="pop_content" class="pop_content">
+						<h2 class="dialog_title">
+							<span>Settings</span>
+						</h2>
+						<div class="dialog_content">
+							<div class="dialog_body">
+								<div id="settingsL">
+									<label for="showmoves">Show available moves</label>
+									<input id="showmoves" type="checkbox" 
+										onchange="showAvailableMoves(this)" checked/>
+									<br><hr>
+									<div id="players" onclick="setPlayers()">
+										Select players<br><br>	
+										<label for="ai_ai">Mediocre vs. Mediocre</label>
+										<input id="ai_ai" type="radio" name="players" value="ai_ai"/><br> 
+										<label for="human_human">Human vs. Human</label>
+										<input id="human_human" type="radio" name="players" value="human_human"/><br> 
+										<label for="ai_human">Mediocre vs. Human</label>
+										<input id="ai_human" type="radio" name="players" value="ai_human" checked/><br> 
+									</div>
+								</div>
+								<div id="settingsR">
+									<label disabled="true" style="color: #a9a9a9;" for="showtimer">Show timer</label>
+									<input disabled="true" id="showtimer" type="checkbox"/>
+									<br><hr>
+									Think time<br><br>
+									<div id="ponderTime" onclick="setPonderTime()">
+										<label for="time1">&nbsp;1 sec.</label> 
+										<input id="time1" type="radio" name="pondertime" value="onesec"/><br>
+										<label for="time5">&nbsp;5 sec.</label> 
+										<input id="time5" type="radio" name="pondertime" value="fivesec" checked/><br>
+										<label for="time10">&nbsp;10 sec.</label> 
+										<input id="time10" type="radio" name="pondertime" value="tensec"/><br>
+										<label disabled="true" for="timeinfinite" style="color: #a9a9a9">&nbsp;Infinite</label>
+										<input disabled="true" id="timeinfinite" type="radio" name="pondertime" value="infinite"/><br>
+																				 
+									</div>
+								</div>
+
+								<div class="dialog_buttons">
+@*									<input type="button" value="Save" name="save"
+										class="inputsubmit" id="fb-save-settings" />	*@
+									<input type="button" value="Close" name="close"
+										class="inputsubmit" id="fb-close-settings" />
+								</div>
+							</div>
+						</div>
+					</td>
+					<td class="pop_border pop_side" />
+				</tr>
+				<tr>
+					<td class="pop_bottomleft" />
+					<td class="pop_border pop_bottom" />
+					<td class="pop_bottomright" />
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

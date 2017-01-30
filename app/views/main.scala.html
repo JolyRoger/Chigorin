@@ -1,0 +1,49 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+<head>
+        <title>@title</title>
+        <meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/chess.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/settings.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" charset="UTF-8"></script>
+		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery.blockUI.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/bootstrap.js")" charset="UTF-8"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/jscripts.js")" charset="UTF-8"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/webkit.js")" charset="UTF-8"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/chess.js")" charset="UTF-8"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/fen.js")" charset="UTF-8"></script>
+</head>
+    <body onunload="unload()">
+     <div id="header">
+     	<h1 id="welcome"></h1>
+                <div id="options">
+@*					|
+					<span class="jslink" onclick="print()">Print</span>&nbsp;
+                    |
+                    <a title="Go to the start page" href="/game">Main</a>
+                    |
+                    <span title="Dosmth" href="javascript:doSmth()">Do smth</span>
+*@
+                    |
+                    <span title="Settings" class="jslink" id="fb-trigger-settings">Settings</span>
+                    |
+                    <span title="About" class="jslink" id="fb-trigger-about">About</span>
+                </div>
+        </div>
+        
+        <script type="text/javascript" charset="utf-8">
+</script>
+   <div id="content">
+        @content
+      </div>
+      <div id="footer">The chess uses <a href="http://mediocrechess.sourceforge.net/">Mediocre</a> engine by 
+      <a href="mailto:mediocrechess@@gmail.com">Jonatan Pettersson</a>. Design and web programming by 
+      <a href="mailto:mjelnr@@gmail.com">Daniil Monakhov</a>.<br>Gens una sumus</div>
+    </body>
+</html>

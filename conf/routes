@@ -1,0 +1,26 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                                        controllers.Application.index
+GET     /initEngine/:time                                        controllers.Application.initEngine(time: Int)
+GET     /deleteID/  			                                 controllers.Application.deleteID
+GET     /game                                                    controllers.Application.game
+GET     /new					                                 controllers.Application.newPosition()
+POST    /update/				                                 controllers.Application.update(move = "")
+POST    /update/:move			                                 controllers.Application.update(move)
+POST    /stopPonder				                                 controllers.Application.stopPonder
+GET     /start                                                   controllers.Application.start
+POST    /next/:playWithFen										 controllers.Application.next(playWithFen)
+GET     /rate   				                                 controllers.Application.rate
+POST    /loadGame   				                             controllers.Application.loadGame
+POST    /saveGame 				                                 controllers.Application.saveGame
+GET     /settings  				                                 controllers.Settings.settings
+GET 	/getLegalMoves/:fen								         controllers.Settings.getLegalMoves(fen)
+GET     /setPonderTime/:time		                             controllers.Settings.setPonderTime(time: Int)
+
+				                                                
+# Map static resources from the /public folder to the /assets URL path
+# GET     /assets/saves/*file               		controllers.Application.at(path="/public/saves", file)
+GET     /assets/*file               			controllers.Assets.at(path="/public", file)
