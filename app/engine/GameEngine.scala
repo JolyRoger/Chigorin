@@ -48,11 +48,11 @@ object GameEngine {
     "Success"
 	}
 
-	def setFromMoves(id: Session, position: String /*, idMap: Map[Int, Uci]*/) {
+	def setFromMoves(id: Session, position: String) {
 	  send(id, POSITION_STARTPOS + MOVES + position)
 	}
-	def setFromFen(id: Session, history: String, fen: String/*, idMap: Map[Int, Uci]*/) {
-		send(id, POSITION_FEN + fen + MOVES + history/*.drop(history.lastIndexOf(' ')+1)*/)
+	def setFromFen(id: Session, history: String, fen: String) {
+		send(id, POSITION_FEN + fen)
 	}
 
 	def send(id: Session, command: String) {
@@ -63,7 +63,7 @@ object GameEngine {
 	}
 
 	def go(id: Session) = {
-    idMap(id).write(GO_MOVETIME + " 5000")
+    idMap(id).write(GO_MOVETIME + " " + idMap(id).getPonderTime)
     idMap(id).read("bestmove").get
 	}
 

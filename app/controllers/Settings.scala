@@ -17,7 +17,6 @@ object Settings extends Controller {
     board.setTheBoardUp
     board.generateMoves
     val legalMoves = board.toString
-//    println("legal: " + legalMoves)
     Ok(legalMoves)
   }
 

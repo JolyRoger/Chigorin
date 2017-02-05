@@ -73,4 +73,8 @@ public class EngineInstance {
     public void setPonderTime(int ponderTime) {
         this.ponderTime = ponderTime;
     }
+
+    public int getPonderTime() {
+        return ponderTime;
+    }
 }

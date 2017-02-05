@@ -14,13 +14,9 @@ POST    /stopPonder				                                 controllers.Application.
 GET     /start                                                   controllers.Application.start
 POST    /next/:playWithFen										 controllers.Application.next(playWithFen)
 GET     /rate   				                                 controllers.Application.rate
-POST    /loadGame   				                             controllers.Application.loadGame
-POST    /saveGame 				                                 controllers.Application.saveGame
 GET     /settings  				                                 controllers.Settings.settings
 GET 	/getLegalMoves/:fen								         controllers.Settings.getLegalMoves(fen)
 GET     /setPonderTime/:time		                             controllers.Settings.setPonderTime(time: Int)
 
-				                                                
 # Map static resources from the /public folder to the /assets URL path
-# GET     /assets/saves/*file               		controllers.Application.at(path="/public/saves", file)
 GET     /assets/*file               			controllers.Assets.at(path="/public", file)

@@ -230,10 +230,10 @@ public class King extends Chessman {
     }
 
     protected String printMove(int moveIndex) {
-        if (moveIndex < CASTLE_SEGMENT_LENGTH)
-            return moveIndex == 0 ? "oo" : "ooo";
-        else
-            return super.printMove(moveIndex);
+        if (moveIndex < CASTLE_SEGMENT_LENGTH) {
+            char ver = isWhite ? '1' : '8';
+            return "e" + ver + (moveIndex == 0 ? 'g' : 'c') + ver;
+        } else return super.printMove(moveIndex);
     }
 
     protected void playMove(int moveIndex) {
