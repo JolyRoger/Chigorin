@@ -3,21 +3,22 @@
 @promotionWidth:	    		320px;
 @promotionOffset: 				56;
 @promotedPieceWidth:	    	(@promotionWidth - @promotionOffset) / 4;
-
 @promotedPiecePanelWidth:  		224px;
 @promotionHeight:	    		100px;
 @boardSize:	    				448px;
+@contentHeight:	    			460px;
 @buttonPadding:                 10px;
 @boardPower:	  			  	8;
 @pieceOriginalSize:	    		64px;
+@fenHeight:	    		        28px;
 @squareTargetSize:				@boardSize / @boardPower;
 @border:						2px;
 @factor:						@squareTargetSize / @pieceOriginalSize * @pieceOriginalSize;	
 
 #content {
 	background: url(/assets/images/background.jpg) repeat;
-	height: @boardSize;
-    padding: 20px;
+	height: @contentHeight;
+    padding: 60px;
 }
 
 .board {
@@ -211,24 +212,51 @@ button#moveup {
 //  margin: 5px;
 //  width: 100%;
 }
-.custombtn {
-  background: url("/assets/images/movebtn_back2.png");
-  width: 123px;
-  height: 44px;
-  margin: 0 auto;
-  margin-bottom: 10px;
-  padding: 0;
-  border: 0;
-  text-indent: -1000em;
-  cursor: pointer;
+
+//#fencontent {
+.fen-content-element {
+  position: relative;
+  padding: 10px;
+  margin: 10px;
 }
 
-#fenstring {
-  position: relative;
+#fenstringpaste {
+  width: 100%;
+  position: absolute;
+  padding: 12px 0;
   font: 14pt Arial;
-  background: url(/assets/images/background.jpg) repeat;
-  color: #0005ee;
+  color: black;
+  //padding-left: 15px;
+}
+
+.fen-string-element {
+  position: absolute;
+  font: 14pt Arial;
+  background: #f9f9f9;
+  color: black;
+  border: 1px solid black;
+  padding: 10px 0;
+  width: 100%;
+  left: -1px;
+}
+
+#fencontainer {
+  position: relative;
+  top: @contentHeight;
+}
+.fen-btn {
+  border: ridge gray;
+  cursor: pointer;
+  font-size: small;
+  position: absolute;
+  display: block;
+  margin: auto;
+  padding: 0 10px;
+  right: 0;
+  user-select: none;
+  -moz-user-select: none;
+}
+.fen-btn:active {
   border: solid black;
-  height: 28px;
-  padding: 10px;
+  color: black;
 }

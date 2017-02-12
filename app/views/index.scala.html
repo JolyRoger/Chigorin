@@ -22,6 +22,8 @@
             <button name="newgame" value="new" class="btn handlebtn" onclick="newPosition()">New game</button>
             <button name="moveback" value="moveback" class="btn handlebtn" onclick="doMoveBack()">Move back</button>
             <button name="turnsides" value="turnsides" class="btn handlebtn" onclick="turnSide()">Turn sides</button>
+            <button name="showfen" value="showfen" class="btn handlebtn" onclick="showFen()">Show FEN Block</button>
+            <button name="loadfen" value="loadfen" class="btn handlebtn" onclick="readLoadFen()">Load FEN</button>
         </div>
         <div style="height: 40px; margin-top: -77px;">
             <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="updatePosition()">MOVE</button>
@@ -29,6 +31,17 @@
         <div id="showMoves">
             <button id="movedown" name="movedown" value="movedown" class="btn handlebtn" onclick="moveDownShow()">&lt;&lt;</button>
             <button id="moveup" name="moveup" value="moveup" class="btn handlebtn" onclick="moveUpShow()">&gt;&gt;</button>
+        </div>
+    </div>
+
+    <div id="fencontainer">
+        <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
+        <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here"/>
+        <div id="fencopybtn" class="fen-element fen-btn  fen-copy-element" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
+            <img src="@routes.Assets.at("images/copy.png")">
+        </div>
+        <div id="fenpastebtn" class="fen-element fen-btn fen-paste-element" onclick="loadFen()">Load
+            <img src="@routes.Assets.at("images/cancel.png")">
         </div>
     </div>
 

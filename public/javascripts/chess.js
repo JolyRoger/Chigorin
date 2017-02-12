@@ -21,7 +21,7 @@ var enPassantSquare = '-'
 var halfmoveCounter = 0
 var fullmoveCounter = 1
 var charCodeOffset = 96;
-var settings = { showToMove: true, whoPlay: 'ai_human', showTimer: false, howLongThink: 5 }
+var settings = { showToMove: true, whoPlay: 'ai_human', showTimer: false, howLongThink: 1 }
 
 function Square(_ver, _hor) {
     var piece
@@ -148,6 +148,9 @@ function init() {
     $(document).ready(function() {
 		$('button[name="move"]').attr('disabled', 'true')
 		$('button[name="moveback"]').attr('disabled', 'true')
+        $('#fencontainer').hide()
+        $('.fen-paste-element').hide()
+
 		$(window).resize(function() {
 			for(x in Squares) {
 				if (typeof Squares[x] == 'object')
@@ -188,11 +191,14 @@ function Move(_note) {
 	this.setLegal = function(_legal) { legal = this.legal = _legal }
 }
 
-function newPosition() {
+function newPosition(fen) {
 	if (thinking) return
 	sweepAll()
-    var fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-    $('#fenstring').html(fen)
+    if (fen == undefined) fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    $('#fencontent').html(fen)
+    showFenBlock(false)
+    $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
+
 	$.getJSON('/new', function(json) {
         $.get('/getLegalMoves/' + encodeURIComponent(fen), function(legal) {
             console.log("legalMoves: " + legal)
@@ -310,7 +316,8 @@ function doMove(move) {
 function doSimpleMove(squareFrom, squareTo) {
     squareTo.setPiece(squareFrom.getPiece())
     squareFrom.removePiece()
-    $('#fenstring').html(getFenFromPosition())
+    $('#fencontent').html(getFenFromPosition())
+    $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
 function finishMove(move) {
