@@ -13,7 +13,7 @@ var tmpMovesHistory
 var isFen = false
 var thinking = false		// true if server is thinking
 var playWithFen = false
-
+var START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 var whiteToMove = true
 var whiteCastling = 'KQ'
 var blackCastling = 'kq'
@@ -194,32 +194,32 @@ function Move(_note) {
 function newPosition(fen) {
 	if (thinking) return
 	sweepAll()
-    if (fen == undefined) fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    playWithFen = fen != undefined
+    if (fen == undefined) fen = START_FEN
+    var fenArr = fen.split(' ')
+    whiteToMove = fenArr[1] == 'w'
+    whiteCastling = getCastlingFromFen(fenArr[2], true)
+    blackCastling = getCastlingFromFen(fenArr[2], false)
+
     $('#fencontent').html(fen)
     showFenBlock(false)
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 
-	$.getJSON('/new', function(json) {
-        $.get('/getLegalMoves/' + encodeURIComponent(fen), function(legal) {
-            console.log("legalMoves: " + legal)
-            whiteToMove = true
-            legalMoves = legal.split(' ')
-            setPositionFromFen(fen)
+	$.getJSON('/new/' + encodeURIComponent(fen), function(json) {
+        legalMoves = json.legalMoves.split(' ')
+        setPositionFromFen(fen)
 
-            $('button[name="move"]').removeAttr('disabled')
+        $('button[name="move"]').removeAttr('disabled')
 
-            for(x in Squares) {
-                if (typeof Squares[x] == 'object')
-                    Squares[x].setLocation()
-            }
-            $('#notation').html(' ')
-            if ($('#winpanel').css('display') == 'block') {
-                $('#winpanel').css('display', 'none')
-                $('#wintitlepanel').css('display', 'none')
-            }
-            playWithFen = false
-            //playWithFen = true
-        })
+        for(x in Squares) {
+            if (typeof Squares[x] == 'object')
+                Squares[x].setLocation()
+        }
+        $('#notation').html(' ')
+        if ($('#winpanel').css('display') == 'block') {
+            $('#winpanel').css('display', 'none')
+            $('#wintitlepanel').css('display', 'none')
+        }
 	})
 }
 
@@ -279,7 +279,6 @@ function updatePosition() {
                     gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
                     return
                 }
-                console.log("legalMoves: " + legal)
                 legalMoves = legal.split(' ')
                 setEnableButton(true)
             })
@@ -306,7 +305,6 @@ function doMove(move) {
             castlingMove(squareFrom, squareTo)
             if (!promotionMove(squareFrom, squareTo, move)) {
                 doSimpleMove(squareFrom, squareTo)
-                console.log(getFenFromPosition())
             } else return true
 		}
 	}
@@ -316,6 +314,7 @@ function doMove(move) {
 function doSimpleMove(squareFrom, squareTo) {
     squareTo.setPiece(squareFrom.getPiece())
     squareFrom.removePiece()
+
     $('#fencontent').html(getFenFromPosition())
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
@@ -384,8 +383,7 @@ function setPosition(from, to) {
 function isMovable(ver, hor) {
 	var piece = Squares.get(ver, hor).piece
 	var spl = movesHistory.trim().split(' ')
-	return piece !== undefined &&
-		   (piece.isWhite === ((movesHistory.trim().split(' ').length % 2 == 0) || movesHistory.trim().length == 0))
+    return piece.isWhite == whiteToMove
 }
 
 function addMoveToSet(move, oldLegal, oldFen, newLegal, newFen) {
@@ -560,20 +558,20 @@ function pawnMove(squareFrom, squareTo) {
 function updateCastlingState(squareFrom) {
     var pieceFrom = squareFrom.getPiece()
     if (pieceFrom.type == 'r') {
-        if (pieceFrom.hor == 0 && whiteCastling != '-') {
-            if (pieceFrom.ver == 0 && whiteCastling[0] == 'K') {
+        if (squareFrom.hor == 1 && whiteCastling != '-') {
+            if (squareFrom.ver == 'h' && whiteCastling[0] == 'K') {
                 if (whiteCastling == 'KQ') whiteCastling = 'Q'; else whiteCastling = '-'
             }
-            if (pieceFrom.ver == 7 && (whiteCastling[0] == 'Q' || whiteCastling[1] == 'Q')) {
+            if (squareFrom.ver == 'a' && (whiteCastling[0] == 'Q' || whiteCastling[1] == 'Q')) {
                 if (whiteCastling == 'KQ') whiteCastling = 'K'; else whiteCastling = '-'
             }
         }
-        if (pieceFrom.hor == 7 && blackCastling != '-') {
-            if (pieceFrom.ver == 7 && blackCastling[0] == 'k') {
-                if (blackCastling == 'kq') blackCastling = 'k'; else blackCastling = '-'
+        if (squareFrom.hor == 8 && blackCastling != '-') {
+            if (squareFrom.ver == 'h' && blackCastling[0] == 'k') {
+                if (blackCastling == 'kq') blackCastling = 'q'; else blackCastling = '-'
             }
-            if (pieceFrom.ver == 8 && (whiteCastling[0] == 'Q' || whiteCastling[1] == 'Q')) {
-                if (whiteCastling == 'kq') whiteCastling = 'q'; else whiteCastling = '-'
+            if (squareFrom.ver == 'a' && (blackCastling[0] == 'q' || blackCastling[1] == 'q')) {
+                if (blackCastling == 'kq') blackCastling = 'k'; else blackCastling = '-'
             }
         }
     }
@@ -608,8 +606,11 @@ function promotionMove(squareFrom, squareTo, move) {
     var pieceFrom = squareFrom.getPiece()
 
     if ((squareTo.hor == 1 || squareTo.hor == 8) && pieceFrom.type == 'p') {									// promotion
-        if (move[4] !== undefined) pieceFrom = new Piece(move[4], squareTo.hor == 8)
-        else {
+        if (move[4] !== undefined) {
+            pieceFrom = new Piece(move[4], squareTo.hor == 8)
+            squareFrom.removePiece()
+            squareFrom.setPiece(pieceFrom)
+        } else {
             var promotedPieces = { q: 'queen', r: 'rook', b: 'bishop', n: 'knight' }
             function finishPromotion() {
                 sweepPanels()
@@ -628,6 +629,7 @@ function promotionMove(squareFrom, squareTo, move) {
 //						I don't know why it doesn't want to be called by anonimously (lambda-way), without the variable 'f'
                 var f = function(i) {
                     $('#' + promotedPieces[i]).click(function() {
+                        squareFrom.removePiece()
                         squareFrom.setPiece(new Piece(i, squareTo.hor == 8))
                         move += i
                         movesHistory += i

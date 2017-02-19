@@ -7,7 +7,7 @@ GET     /                                                        controllers.App
 GET     /initEngine/:time                                        controllers.Application.initEngine(time: Int)
 GET     /deleteID/  			                                 controllers.Application.deleteID
 GET     /game                                                    controllers.Application.game
-GET     /new					                                 controllers.Application.newPosition()
+GET     /new/:fen					                             controllers.Application.newPosition(fen: String)
 POST    /update/				                                 controllers.Application.update(move = "")
 POST    /update/:move			                                 controllers.Application.update(move)
 POST    /stopPonder				                                 controllers.Application.stopPonder
@@ -19,4 +19,4 @@ GET 	/getLegalMoves/:fen								         controllers.Settings.getLegalMoves(fen)
 GET     /setPonderTime/:time		                             controllers.Settings.setPonderTime(time: Int)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               			controllers.Assets.at(path="/public", file)
+GET     /assets/*file               			                 controllers.Assets.at(path="/public", file)

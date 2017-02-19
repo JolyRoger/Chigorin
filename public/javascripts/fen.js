@@ -1,6 +1,6 @@
 var counter = 0
+
 function getFenFromPosition() {
-//"fen" -> "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     var k = 0
     var out = ''
     var abcdefgh = 'abcdefgh'
@@ -18,10 +18,10 @@ function getFenFromPosition() {
         }
     }
     if (k != 0) { out += k; k=0 }
-//	console.log('FEN: ' + out)
+    var castling = (whiteCastling + blackCastling).replace('-', '')
+
     out += ' ' + (whiteToMove ? 'w' : 'b')
-    out += ' ' + whiteCastling
-    out += blackCastling
+    out += ' ' + (castling == '' ? '-' : castling)
     out += ' ' + enPassantSquare
     out += ' ' + halfmoveCounter
     out += ' ' + fullmoveCounter
@@ -53,6 +53,15 @@ function setPositionFromFen(fen) {
             k++; verIndex++
         }
     }
+}
+
+function getCastlingFromFen(fenCastling, forWhite) {
+    var kingSymbol = forWhite ? 'K' : 'k'
+    var queenSymbol = forWhite ? 'Q' : 'q'
+    var out = ""
+    if (fenCastling.indexOf(kingSymbol) > -1) out += kingSymbol
+    if (fenCastling.indexOf(queenSymbol) > -1) out += queenSymbol
+    if (fenCastling == "") return '-'; else return out
 }
 
 function showFen() {
@@ -105,7 +114,7 @@ function copyFen() {
 }
 
 function loadFen() {
-    var v = $('#fenstringpaste').val()
-    console.log('value: ' + v)
-    newPosition(v)
+    var str = $('#fenstringpaste').val()
+    var newstr = str.replace(/\s{2,}/g, ' ')
+    newPosition(newstr.trim())
 }

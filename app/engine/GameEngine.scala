@@ -9,6 +9,9 @@ object GameEngine {
   val OWN_BOOK_PATH = "public/books/performance.bin"
   val STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
   val UCI = "uci "
+  val UCIOK = "uciok"
+  val ISREADY = "isready"
+  val READYOK = "readyok"
 	val UCINEWGAME = "ucinewgame"
 	val GO_INFINITE = "go infinite "
 	val POSITION_STARTPOS = "position startpos"
@@ -25,10 +28,10 @@ object GameEngine {
         val engine = new EngineInstance()
         idMap += session -> engine
         engine.process(STOCKFISH_PATH, true)
-        engine.write("uci")
-        engine.read("uciok").get
-        engine.write("isready")
-        engine.read("readyok").get
+        engine.write(UCI)
+        engine.read(UCIOK).get
+        engine.write(ISREADY)
+        engine.read(READYOK).get
     }
 	}
 
@@ -42,7 +45,8 @@ object GameEngine {
 	}
 
 	def newGame(id: Session) = {
-    "Success"
+    send(id, UCINEWGAME)
+    "OK"
 	}
 
 	def setFromMoves(id: Session, position: String) {
@@ -83,7 +87,9 @@ object GameEngine {
     Map.empty[Session, EngineInstance]
   }
 
-  def exist(session: Session) = idMap(session) != null
+  def exist(session: Session) = {
+    idMap(session) != null
+  }
 
 	def print {
     "Success"
