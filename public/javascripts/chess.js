@@ -49,7 +49,7 @@ function Square(_ver, _hor) {
         } else {
             if ($(this).hasClass('clickedTo')) {
                 var move = $('.clickedFrom').attr('id')+ver+hor
-                addMoveToSet(move, legalMoves, fen)
+                //addMoveToSet(move, legalMoves, getFenFromPosition())
                 movesHistory = movesHistory + ' ' + move
 // It means a promotion has been done by player. Move will be finished later in finishMove function.
                 if (doMove(move)) return
@@ -229,19 +229,11 @@ function newPosition(fen) {
 function newMoveReceived(json) {
     $('button[name="move"]').click(updatePosition)
 
-    var bm = json.bestmove.split(' ')
-    var moveIndex = function() {
-        for (var i=0; i<bm.length; i++) {
-            if (bm[i] == 'bestmove') return i+1
-        }
-    }()
-    var move = bm[moveIndex]
-    movesHistory += ' ' + move
-
+    var move = json.bestmove
     if (json.status.indexOf('bestmove') !== 0) {
         gameOver(json.status); return
     }
-    fen = currentFen = json.newfen
+    movesHistory += ' ' + move
     doMove(move)
     addClickToMove($('#thinking').parent(), move)
     $('#thinking').replaceWith(move)
@@ -283,6 +275,7 @@ function updatePosition() {
                     return
                 }
                 legalMoves = legal.split(' ')
+                addMoveToSet(json.bestmove, legalMoves, getFenFromPosition())
                 setEnableButton(true)
             })
         } })
@@ -324,13 +317,13 @@ function doSimpleMove(squareFrom, squareTo) {
 
 function finishMove(move) {
     addMoveToPage(move, !whiteToMove)
-
     $.get('/getLegalMoves/' + encodeURIComponent(getFenFromPosition()), function(legal) {
         if (legal == "") {
             gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
             return
         }
         legalMoves = legal.split(' ')
+        addMoveToSet(move, legalMoves, getFenFromPosition())
         if (settings.whoPlay != 'human_human') {
             setEnableButton(false)
             updatePosition(move)
@@ -390,7 +383,7 @@ function isMovable(ver, hor) {
 function addMoveToSet(move, oldLegal, oldFen, newLegal, newFen) {
 	var moveObj = new Move(move)
 	moveObj.setFen(oldFen)
-	moveObj.setLegal(oldLegal)
+	moveObj.setLegal(oldLegal.join(' '))
     Moves[Moves.length] = moveObj
 }
 
@@ -448,10 +441,9 @@ function addClickToMove(semiMoveElement, move) {
 		var movesHstArray = tmpMovesHistory.trim().split(' ')     // array
         movesHstArray.length = parentIndex * 2 + index + 1
         movesHistory = movesHstArray.join(' ')
-
-        legalMoves = Moves.length > moveNum ? Moves[moveNum].legal : currentLegalMoves
-        fen = Moves.length > moveNum ? Moves[moveNum].fen : currentFen
-        setPositionFromFen(fen)
+        whiteToMove = Moves[moveNum].fen.split(' ')[1] == 'w'
+        legalMoves = Moves[moveNum].legal.split(' ')
+        setPositionFromFen(Moves[moveNum].fen)
 	})
 }
 

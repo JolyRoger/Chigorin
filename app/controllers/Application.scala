@@ -74,7 +74,7 @@ object Application extends Controller {
         promiseOfString.map(res =>
           Ok(Json.toJson(Map("status" -> res,
             "newfen" -> GameEngine.getFen(request.session),
-            "bestmove" -> res,
+            "bestmove" -> res.split(" ")(1),
             "gamover" -> GameEngine.isGamover(request.session))))
         )
       case None => Future(BadRequest("Unknown JSON"))
