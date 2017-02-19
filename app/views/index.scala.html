@@ -36,9 +36,7 @@
 
     <div id="fencontainer">
         <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
-        <div style="padding-left: 10px; width: 100%">
-            <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here"/>
-        </div>
+        <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here"/>
         <div id="fencopybtn" class="fen-element fen-btn  fen-copy-element" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
             <img src="@routes.Assets.at("images/copy.png")">
         </div>

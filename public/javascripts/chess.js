@@ -200,6 +200,9 @@ function newPosition(fen) {
     whiteToMove = fenArr[1] == 'w'
     whiteCastling = getCastlingFromFen(fenArr[2], true)
     blackCastling = getCastlingFromFen(fenArr[2], false)
+    enPassantSquare = fenArr[3]
+    halfmoveCounter = parseInt(fenArr[4])
+    fullmoveCounter = parseInt(fenArr[5])
 
     $('#fencontent').html(fen)
     showFenBlock(false)
@@ -381,9 +384,7 @@ function setPosition(from, to) {
 }
 
 function isMovable(ver, hor) {
-	var piece = Squares.get(ver, hor).piece
-	var spl = movesHistory.trim().split(' ')
-    return piece.isWhite == whiteToMove
+    return Squares.get(ver, hor).piece.isWhite == whiteToMove
 }
 
 function addMoveToSet(move, oldLegal, oldFen, newLegal, newFen) {
@@ -394,18 +395,29 @@ function addMoveToSet(move, oldLegal, oldFen, newLegal, newFen) {
 }
 
 function addMoveToPage(move, isWhite, dontCreateClick) {
+    var getEmptyMoveElement = function() { return $('<div>', {'text': fullmoveCounter + '.'}); }
+    var createSemiMoveElement = function(move) {
+        var semiMoveElement = $('<span>')
+        semiMoveElement.addClass('semiMoveElement')
+        semiMoveElement.append(move)
+        return semiMoveElement
+    }
+    var semiMoveElement = createSemiMoveElement(move)
     var moveElement
-    var semiMoveElement = $('<span>')
-    semiMoveElement.append(move)
     removeGrayMoves()
 
     if (typeof move !== 'object' && !dontCreateClick) {
         addClickToMove(semiMoveElement, move)
     }
-    if (isWhite) {
-        moveElement = $('<div>', {'text':  ($('#notation').children().length+1) + '. '})
+
+    if ($('#notation').children().size() == 0 && !isWhite) {
+        moveElement = getEmptyMoveElement()
         $('#notation').append(moveElement)
-        semiMoveElement.append('&nbsp;')
+        moveElement.append(createSemiMoveElement("&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;"))
+    }
+    if (isWhite) {
+        moveElement = getEmptyMoveElement()
+        $('#notation').append(moveElement)
     } else {
         moveElement = $('#notation').children().last()
     }
@@ -419,7 +431,6 @@ function addMoveToPage(move, isWhite, dontCreateClick) {
 
 function addClickToMove(semiMoveElement, move) {
     var moveNum = Moves.length
-	semiMoveElement.css('cursor', 'pointer')
     tmpMovesHistory = movesHistory
 	semiMoveElement.click(function() {
 		if (thinking) return
