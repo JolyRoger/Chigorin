@@ -1,7 +1,7 @@
 package engine
 
+import play.Play
 import play.api.mvc.Session
-
 
 object GameEngine {
 
@@ -24,7 +24,8 @@ object GameEngine {
       case None =>
         val engine = new EngineInstance()
         idMap += session -> engine
-        engine.process(STOCKFISH_PATH, true)
+
+        engine.process(Play.application.getFile(STOCKFISH_PATH).getAbsolutePath, System.getProperty("os.name").contains("Linux"))
         engine.write("uci")
         engine.read("uciok").get
         engine.write("isready")

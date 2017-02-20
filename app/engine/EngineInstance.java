@@ -15,8 +15,12 @@ public class EngineInstance {
     private ChessBoard board;
 
     public void process(String pathTo, boolean withWine) {
-        ProcessBuilder builder = new ProcessBuilder(withWine ? "wine" : "", pathTo);
+        ProcessBuilder builder = null;
         Process process = null;
+
+        if (withWine)  builder = new ProcessBuilder("wine", pathTo);
+        else builder = new ProcessBuilder(pathTo);
+
         try {
             process = builder.start();
             OutputStream stdin = process.getOutputStream();
