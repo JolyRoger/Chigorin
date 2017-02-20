@@ -1,6 +1,7 @@
 package controllers
 
 import play.api._
+import play.api.libs.ws.{WSResponse, WSRequestHolder, WS}
 import play.api.mvc._
 import play.api.libs.json._
 import play.api.Play.current
@@ -30,16 +31,12 @@ object Application extends Controller {
     Ok("Success")
   }
 
-  def newPosition = Action { request =>
-    val status = "status" -> "OK"
+  def newPosition(fen: String) = Action/*.async */{ request =>
     val whiteIsUp = "whiteIsUp" -> "false"
-    if (GameEngine.exist(request.session)) {
-      GameEngine.newGame(request.session)
-      Ok(Json.toJson( Map(status, whiteIsUp)))
-    } else {
-      val id = routes.Application.initEngine(5).toString
-      Ok(Json.toJson( Map(status, whiteIsUp)))
-    }
+    var status: String = null
+    if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
+    else status = routes.Application.initEngine(1).toString
+    Ok(Json.toJson( Map("status" -> status, "legalMoves" -> Settings.getLegalMovesAsString(fen), whiteIsUp)))
   }
 
   def deleteID = Action { request =>
@@ -77,7 +74,7 @@ object Application extends Controller {
         promiseOfString.map(res =>
           Ok(Json.toJson(Map("status" -> res,
             "newfen" -> GameEngine.getFen(request.session),
-            "bestmove" -> res,
+            "bestmove" -> res.split(" ")(1),
             "gamover" -> GameEngine.isGamover(request.session))))
         )
       case None => Future(BadRequest("Unknown JSON"))

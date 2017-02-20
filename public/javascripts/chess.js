@@ -13,7 +13,7 @@ var tmpMovesHistory
 var isFen = false
 var thinking = false		// true if server is thinking
 var playWithFen = false
-
+var START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 var whiteToMove = true
 var whiteCastling = 'KQ'
 var blackCastling = 'kq'
@@ -49,7 +49,7 @@ function Square(_ver, _hor) {
         } else {
             if ($(this).hasClass('clickedTo')) {
                 var move = $('.clickedFrom').attr('id')+ver+hor
-                addMoveToSet(move, legalMoves, fen)
+                //addMoveToSet(move, legalMoves, getFenFromPosition())
                 movesHistory = movesHistory + ' ' + move
 // It means a promotion has been done by player. Move will be finished later in finishMove function.
                 if (doMove(move)) return
@@ -194,51 +194,46 @@ function Move(_note) {
 function newPosition(fen) {
 	if (thinking) return
 	sweepAll()
-    if (fen == undefined) fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    playWithFen = fen != undefined
+    if (fen == undefined) fen = START_FEN
+    var fenArr = fen.split(' ')
+    whiteToMove = fenArr[1] == 'w'
+    whiteCastling = getCastlingFromFen(fenArr[2], true)
+    blackCastling = getCastlingFromFen(fenArr[2], false)
+    enPassantSquare = fenArr[3]
+    halfmoveCounter = parseInt(fenArr[4])
+    fullmoveCounter = parseInt(fenArr[5])
+
     $('#fencontent').html(fen)
     showFenBlock(false)
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 
-	$.getJSON('/new', function(json) {
-        $.get('/getLegalMoves/' + encodeURIComponent(fen), function(legal) {
-            console.log("legalMoves: " + legal)
-            whiteToMove = true
-            legalMoves = legal.split(' ')
-            setPositionFromFen(fen)
+	$.getJSON('/new/' + encodeURIComponent(fen), function(json) {
+        legalMoves = json.legalMoves.split(' ')
+        setPositionFromFen(fen)
 
-            $('button[name="move"]').removeAttr('disabled')
+        $('button[name="move"]').removeAttr('disabled')
 
-            for(x in Squares) {
-                if (typeof Squares[x] == 'object')
-                    Squares[x].setLocation()
-            }
-            $('#notation').html(' ')
-            if ($('#winpanel').css('display') == 'block') {
-                $('#winpanel').css('display', 'none')
-                $('#wintitlepanel').css('display', 'none')
-            }
-            playWithFen = false
-            //playWithFen = true
-        })
+        for(x in Squares) {
+            if (typeof Squares[x] == 'object')
+                Squares[x].setLocation()
+        }
+        $('#notation').html(' ')
+        if ($('#winpanel').css('display') == 'block') {
+            $('#winpanel').css('display', 'none')
+            $('#wintitlepanel').css('display', 'none')
+        }
 	})
 }
 
 function newMoveReceived(json) {
     $('button[name="move"]').click(updatePosition)
 
-    var bm = json.bestmove.split(' ')
-    var moveIndex = function() {
-        for (var i=0; i<bm.length; i++) {
-            if (bm[i] == 'bestmove') return i+1
-        }
-    }()
-    var move = bm[moveIndex]
-    movesHistory += ' ' + move
-
+    var move = json.bestmove
     if (json.status.indexOf('bestmove') !== 0) {
         gameOver(json.status); return
     }
-    fen = currentFen = json.newfen
+    movesHistory += ' ' + move
     doMove(move)
     addClickToMove($('#thinking').parent(), move)
     $('#thinking').replaceWith(move)
@@ -279,8 +274,8 @@ function updatePosition() {
                     gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
                     return
                 }
-                console.log("legalMoves: " + legal)
                 legalMoves = legal.split(' ')
+                addMoveToSet(json.bestmove, legalMoves, getFenFromPosition())
                 setEnableButton(true)
             })
         } })
@@ -306,7 +301,6 @@ function doMove(move) {
             castlingMove(squareFrom, squareTo)
             if (!promotionMove(squareFrom, squareTo, move)) {
                 doSimpleMove(squareFrom, squareTo)
-                console.log(getFenFromPosition())
             } else return true
 		}
 	}
@@ -316,19 +310,20 @@ function doMove(move) {
 function doSimpleMove(squareFrom, squareTo) {
     squareTo.setPiece(squareFrom.getPiece())
     squareFrom.removePiece()
+
     $('#fencontent').html(getFenFromPosition())
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
 function finishMove(move) {
     addMoveToPage(move, !whiteToMove)
-
     $.get('/getLegalMoves/' + encodeURIComponent(getFenFromPosition()), function(legal) {
         if (legal == "") {
             gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
             return
         }
         legalMoves = legal.split(' ')
+        addMoveToSet(move, legalMoves, getFenFromPosition())
         if (settings.whoPlay != 'human_human') {
             setEnableButton(false)
             updatePosition(move)
@@ -382,32 +377,40 @@ function setPosition(from, to) {
 }
 
 function isMovable(ver, hor) {
-	var piece = Squares.get(ver, hor).piece
-	var spl = movesHistory.trim().split(' ')
-	return piece !== undefined &&
-		   (piece.isWhite === ((movesHistory.trim().split(' ').length % 2 == 0) || movesHistory.trim().length == 0))
+    return Squares.get(ver, hor).piece.isWhite == whiteToMove
 }
 
 function addMoveToSet(move, oldLegal, oldFen, newLegal, newFen) {
 	var moveObj = new Move(move)
 	moveObj.setFen(oldFen)
-	moveObj.setLegal(oldLegal)
+	moveObj.setLegal(oldLegal.join(' '))
     Moves[Moves.length] = moveObj
 }
 
 function addMoveToPage(move, isWhite, dontCreateClick) {
+    var getEmptyMoveElement = function() { return $('<div>', {'text': fullmoveCounter + '.'}); }
+    var createSemiMoveElement = function(move) {
+        var semiMoveElement = $('<span>')
+        semiMoveElement.addClass('semiMoveElement')
+        semiMoveElement.append(move)
+        return semiMoveElement
+    }
+    var semiMoveElement = createSemiMoveElement(move)
     var moveElement
-    var semiMoveElement = $('<span>')
-    semiMoveElement.append(move)
     removeGrayMoves()
 
     if (typeof move !== 'object' && !dontCreateClick) {
         addClickToMove(semiMoveElement, move)
     }
-    if (isWhite) {
-        moveElement = $('<div>', {'text':  ($('#notation').children().length+1) + '. '})
+
+    if ($('#notation').children().size() == 0 && !isWhite) {
+        moveElement = getEmptyMoveElement()
         $('#notation').append(moveElement)
-        semiMoveElement.append('&nbsp;')
+        moveElement.append(createSemiMoveElement("&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;"))
+    }
+    if (isWhite) {
+        moveElement = getEmptyMoveElement()
+        $('#notation').append(moveElement)
     } else {
         moveElement = $('#notation').children().last()
     }
@@ -421,7 +424,6 @@ function addMoveToPage(move, isWhite, dontCreateClick) {
 
 function addClickToMove(semiMoveElement, move) {
     var moveNum = Moves.length
-	semiMoveElement.css('cursor', 'pointer')
     tmpMovesHistory = movesHistory
 	semiMoveElement.click(function() {
 		if (thinking) return
@@ -439,10 +441,9 @@ function addClickToMove(semiMoveElement, move) {
 		var movesHstArray = tmpMovesHistory.trim().split(' ')     // array
         movesHstArray.length = parentIndex * 2 + index + 1
         movesHistory = movesHstArray.join(' ')
-
-        legalMoves = Moves.length > moveNum ? Moves[moveNum].legal : currentLegalMoves
-        fen = Moves.length > moveNum ? Moves[moveNum].fen : currentFen
-        setPositionFromFen(fen)
+        whiteToMove = Moves[moveNum].fen.split(' ')[1] == 'w'
+        legalMoves = Moves[moveNum].legal.split(' ')
+        setPositionFromFen(Moves[moveNum].fen)
 	})
 }
 
@@ -560,20 +561,20 @@ function pawnMove(squareFrom, squareTo) {
 function updateCastlingState(squareFrom) {
     var pieceFrom = squareFrom.getPiece()
     if (pieceFrom.type == 'r') {
-        if (pieceFrom.hor == 0 && whiteCastling != '-') {
-            if (pieceFrom.ver == 0 && whiteCastling[0] == 'K') {
+        if (squareFrom.hor == 1 && whiteCastling != '-') {
+            if (squareFrom.ver == 'h' && whiteCastling[0] == 'K') {
                 if (whiteCastling == 'KQ') whiteCastling = 'Q'; else whiteCastling = '-'
             }
-            if (pieceFrom.ver == 7 && (whiteCastling[0] == 'Q' || whiteCastling[1] == 'Q')) {
+            if (squareFrom.ver == 'a' && (whiteCastling[0] == 'Q' || whiteCastling[1] == 'Q')) {
                 if (whiteCastling == 'KQ') whiteCastling = 'K'; else whiteCastling = '-'
             }
         }
-        if (pieceFrom.hor == 7 && blackCastling != '-') {
-            if (pieceFrom.ver == 7 && blackCastling[0] == 'k') {
-                if (blackCastling == 'kq') blackCastling = 'k'; else blackCastling = '-'
+        if (squareFrom.hor == 8 && blackCastling != '-') {
+            if (squareFrom.ver == 'h' && blackCastling[0] == 'k') {
+                if (blackCastling == 'kq') blackCastling = 'q'; else blackCastling = '-'
             }
-            if (pieceFrom.ver == 8 && (whiteCastling[0] == 'Q' || whiteCastling[1] == 'Q')) {
-                if (whiteCastling == 'kq') whiteCastling = 'q'; else whiteCastling = '-'
+            if (squareFrom.ver == 'a' && (blackCastling[0] == 'q' || blackCastling[1] == 'q')) {
+                if (blackCastling == 'kq') blackCastling = 'k'; else blackCastling = '-'
             }
         }
     }
@@ -608,8 +609,11 @@ function promotionMove(squareFrom, squareTo, move) {
     var pieceFrom = squareFrom.getPiece()
 
     if ((squareTo.hor == 1 || squareTo.hor == 8) && pieceFrom.type == 'p') {									// promotion
-        if (move[4] !== undefined) pieceFrom = new Piece(move[4], squareTo.hor == 8)
-        else {
+        if (move[4] !== undefined) {
+            pieceFrom = new Piece(move[4], squareTo.hor == 8)
+            squareFrom.removePiece()
+            squareFrom.setPiece(pieceFrom)
+        } else {
             var promotedPieces = { q: 'queen', r: 'rook', b: 'bishop', n: 'knight' }
             function finishPromotion() {
                 sweepPanels()
@@ -628,6 +632,7 @@ function promotionMove(squareFrom, squareTo, move) {
 //						I don't know why it doesn't want to be called by anonimously (lambda-way), without the variable 'f'
                 var f = function(i) {
                     $('#' + promotedPieces[i]).click(function() {
+                        squareFrom.removePiece()
                         squareFrom.setPiece(new Piece(i, squareTo.hor == 8))
                         move += i
                         movesHistory += i
