@@ -334,7 +334,7 @@ function finishMove(move) {
 
 }
 
-function doMoveBack() {         // TODO: does not work
+function doMoveBack() {
 	if (thinking) return
     removeGrayMoves()
     Moves.length = movesHistory.trim().split(' ').length
@@ -441,7 +441,6 @@ function addClickToMove(semiMoveElement, move) {
 		var movesHstArray = tmpMovesHistory.trim().split(' ')     // array
         movesHstArray.length = parentIndex * 2 + index + 1
         movesHistory = movesHstArray.join(' ')
-        whiteToMove = Moves[moveNum].fen.split(' ')[1] == 'w'
         legalMoves = Moves[moveNum].legal.split(' ')
         setPositionFromFen(Moves[moveNum].fen)
 	})

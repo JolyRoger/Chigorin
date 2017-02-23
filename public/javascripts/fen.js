@@ -36,7 +36,10 @@ function setPositionFromFen(fen) {
     fen = fen.trim()
     Pieces.length = 0
 
-    for(i=0; !fenFinished && i < fen.length; i++) {
+    fenArr = fen.split(' ')
+
+//    for(i=0; !fenFinished && i < fen.length; i++) {
+    for(i=0; i < fenArr[0].length; i++) {
         var currentChar = fen[i];
         var digit = parseInt(currentChar)
         if (!isNaN(digit)) {
@@ -44,8 +47,6 @@ function setPositionFromFen(fen) {
         } else if (currentChar == '/') {
             horIndex++
             verIndex = 0
-        } else if (currentChar == ' ') {
-            fenFinished = true;
         } else {
             var isWhite = currentChar == currentChar.toUpperCase()
             Pieces[k] = new Piece(currentChar.toLowerCase(), isWhite)
@@ -53,6 +54,16 @@ function setPositionFromFen(fen) {
             k++; verIndex++
         }
     }
+
+     whiteToMove = fenArr[1] == 'w'
+
+     whiteCastling = getCastlingFromFen(fenArr[2], true)
+     blackCastling = getCastlingFromFen(fenArr[2], false)
+
+     enPassantSquare = fenArr[3]
+
+     halfmoveCounter = parseInt(fenArr[4])
+     fullmoveCounter = parseInt(fenArr[5])
 }
 
 function getCastlingFromFen(fenCastling, forWhite) {
