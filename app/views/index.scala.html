@@ -13,9 +13,14 @@
 			<div id="bishop" class="promoted piece"></div>
 			<div id="knight" class="promoted piece"></div>
 		</div>
+        <div id="showMoves">
+            <button id="movedown" name="movedown" value="movedown" class="btn handlebtn" onclick="moveDownShow()">&lt;&lt;</button>
+            <button id="moveup" name="moveup" value="moveup" class="btn handlebtn" onclick="moveUpShow()">&gt;&gt;</button>
+        </div>
 		<script type="text/javascript">init()</script>
 	</div>
-	
+
+
 	<div id="notation"> </div>
 	<div id="btn-group" class="btn-group">
         <div style="height: 100%;">
@@ -25,12 +30,8 @@
             <button name="showfen" value="showfen" class="btn handlebtn" onclick="showFen()">Show FEN Block</button>
             <button name="loadfen" value="loadfen" class="btn handlebtn" onclick="readLoadFen()">Load FEN</button>
         </div>
-        <div style="height: 40px; margin-top: -77px;">
+        <div style="margin-top: -50px;">
             <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="updatePosition()">MOVE</button>
-        </div>
-        <div id="showMoves">
-            <button id="movedown" name="movedown" value="movedown" class="btn handlebtn" onclick="moveDownShow()">&lt;&lt;</button>
-            <button id="moveup" name="moveup" value="moveup" class="btn handlebtn" onclick="moveUpShow()">&gt;&gt;</button>
         </div>
     </div>
 

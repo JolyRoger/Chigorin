@@ -146,7 +146,7 @@ function unload() {
 
 function init() {
     $(document).ready(function() {
-		$('button[name="move"]').attr('disabled', 'true')
+		$('#movebtn').attr('disabled', 'true')
 		$('button[name="moveback"]').attr('disabled', 'true')
         $('#fencontainer').hide()
         $('.fen-paste-element').hide()
@@ -212,7 +212,7 @@ function newPosition(fen) {
         legalMoves = json.legalMoves.split(' ')
         setPositionFromFen(fen)
 
-        $('button[name="move"]').removeAttr('disabled')
+        $('#movebtn').removeAttr('disabled')
 
         for(x in Squares) {
             if (typeof Squares[x] == 'object')
@@ -227,7 +227,7 @@ function newPosition(fen) {
 }
 
 function newMoveReceived(json) {
-    $('button[name="move"]').click(updatePosition)
+    $('#movebtn').click(updatePosition)
 
     var move = json.bestmove
     if (json.status.indexOf('bestmove') !== 0) {
@@ -254,9 +254,9 @@ function updatePosition() {
 	thinking = true
 	sweepPanels()
 	setEnableButton(false)
-	if (moveDisablable) $('button[name="move"]').attr('disabled', 'true') 
+	if (moveDisablable) $('#movebtn').attr('disabled', 'true')
 	else {
-		$('button[name="move"]').click(function() {
+		$('#movebtn').click(function() {
 			$.post('/stopPonder', function() { console.log('stop ponder') })
 		})		
 	}
@@ -347,7 +347,7 @@ function doMoveBack() {
     legalMoves = currentLegalMoves = Moves[Moves.length - 1].legal
 	setPositionFromFen(fen)
 
-    $('button[name="move"]').removeAttr('disabled')
+    $('#movebtn').removeAttr('disabled')
 	delete Moves[Moves.length - 1]
 	$('#notation span').last().remove()
 	if ($('#notation > div').last().children().length == 0)
@@ -501,7 +501,7 @@ function setEnableButton(val) {
 	if (val) {
 		$('button[name="newgame"]').removeAttr('disabled')
 		$('button[name="savegame"]').removeAttr('disabled')
-		$('button[name="move"]').removeAttr('disabled')
+		$('#movebtn').removeAttr('disabled')
 		$('button[name="moveback"]').removeAttr('disabled')
 	} else {
 		$('button[name="newgame"]').attr('disabled', 'true')
@@ -517,7 +517,7 @@ function gameOver(result) {
     if ($('#thinking').parents('div').first().children('span').length <= 1)
         $('#thinking').parents('div').first().remove()
     setEnableButton(true)
-    $('button[name="move"]').attr('disabled', 'true')
+    $('#movebtn').attr('disabled', 'true')
     $('#winpanel').css('display', 'block')
 	$('#winpanel').css({ top: $('.board').position().top + 'px', left: $('.board').position().left + 'px' })
 	$('#wintitlepanel').css('display', 'block')
