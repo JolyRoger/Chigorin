@@ -318,12 +318,12 @@ function doSimpleMove(squareFrom, squareTo) {
 function finishMove(move) {
     addMoveToPage(move, !whiteToMove)
     $.get('/getLegalMoves/' + encodeURIComponent(getFenFromPosition()), function(legal) {
+        legalMoves = legal.split(' ')
+        addMoveToSet(move, legalMoves, getFenFromPosition())
         if (legal == "") {
             gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
             return
         }
-        legalMoves = legal.split(' ')
-        addMoveToSet(move, legalMoves, getFenFromPosition())
         if (settings.whoPlay != 'human_human') {
             setEnableButton(false)
             updatePosition(move)
