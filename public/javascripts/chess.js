@@ -193,37 +193,55 @@ function Move(_note) {
 
 function newPosition(fen) {
 	if (thinking) return
-	sweepAll()
+
+    var oldPlayWithFen = playWithFen
     playWithFen = fen != undefined
     if (fen == undefined) fen = START_FEN
-    var fenArr = fen.split(' ')
-    whiteToMove = fenArr[1] == 'w'
-    whiteCastling = getCastlingFromFen(fenArr[2], true)
-    blackCastling = getCastlingFromFen(fenArr[2], false)
-    enPassantSquare = fenArr[3]
-    halfmoveCounter = parseInt(fenArr[4])
-    fullmoveCounter = parseInt(fenArr[5])
 
-    $('#fencontent').html(fen)
-    showFenBlock(false)
-    $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
+    $.ajax({
+        url : '/new/' + encodeURIComponent(fen),
+        dataType: "json",
+        contentType: 'application/json',
+        success: function(json) {
+            legalMoves = json.legalMoves.split(' ')
+            sweepAll()
+            var fenArr = fen.split(' ')
+            whiteToMove = fenArr[1] == 'w'
+            whiteCastling = getCastlingFromFen(fenArr[2], true)
+            blackCastling = getCastlingFromFen(fenArr[2], false)
+            enPassantSquare = fenArr[3]
+            halfmoveCounter = parseInt(fenArr[4])
+            fullmoveCounter = parseInt(fenArr[5])
 
-	$.getJSON('/new/' + encodeURIComponent(fen), function(json) {
-        legalMoves = json.legalMoves.split(' ')
-        setPositionFromFen(fen)
+            $('#fencontent').html(fen)
+            showFenBlock(false)
+            $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 
-        $('#movebtn').removeAttr('disabled')
+            setPositionFromFen(fen)
 
-        for(x in Squares) {
-            if (typeof Squares[x] == 'object')
-                Squares[x].setLocation()
+            $('#movebtn').removeAttr('disabled')
+
+            for(x in Squares) {
+                if (typeof Squares[x] == 'object')
+                    Squares[x].setLocation()
+            }
+            $('#notation').html(' ')
+            if ($('#winpanel').css('display') == 'block') {
+                $('#winpanel').css('display', 'none')
+                $('#wintitlepanel').css('display', 'none')
+            }
+	    },
+        error: function(err) {
+            var fenStringPaste = $('#fenstringpaste')
+            fenStringPaste.val(fenStringPaste.val() + " - invalid fen")
+            fenStringPaste.css('color', 'red')
+            playWithFen = oldPlayWithFen
+            fenStringPaste.click(function() {
+                fenStringPaste.css('color', 'black')
+                fenStringPaste.val(err.responseText)
+            })
         }
-        $('#notation').html(' ')
-        if ($('#winpanel').css('display') == 'block') {
-            $('#winpanel').css('display', 'none')
-            $('#wintitlepanel').css('display', 'none')
-        }
-	})
+    })
 }
 
 function newMoveReceived(json) {
@@ -269,13 +287,17 @@ function updatePosition() {
 		contentType: 'application/json',
 		success: function(json) {
             newMoveReceived(json)
-            $.get('/getLegalMoves/' + encodeURIComponent(getFenFromPosition()), function(legal) {
+            var fen = getFenFromPosition()
+            $.get('/getLegalMoves/' + encodeURIComponent(fen), function(legal) {
+                legalMoves = legal.split(' ')
+                addMoveToSet(json.bestmove, legalMoves, getFenFromPosition())
                 if (legal == "") {
                     gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
                     return
+                } else if (parseInt(fen.split(' ')[4]) > 50) {
+                    gameOver("DRAW")
+                    return
                 }
-                legalMoves = legal.split(' ')
-                addMoveToSet(json.bestmove, legalMoves, getFenFromPosition())
                 setEnableButton(true)
             })
         } })
@@ -317,11 +339,15 @@ function doSimpleMove(squareFrom, squareTo) {
 
 function finishMove(move) {
     addMoveToPage(move, !whiteToMove)
-    $.get('/getLegalMoves/' + encodeURIComponent(getFenFromPosition()), function(legal) {
+    var fen = getFenFromPosition()
+    $.get('/getLegalMoves/' + encodeURIComponent(fen), function(legal) {
         legalMoves = legal.split(' ')
         addMoveToSet(move, legalMoves, getFenFromPosition())
         if (legal == "") {
             gameOver(whiteToMove ? 'BLACK_MATE' : 'WHITE_MATE')
+            return
+        } else if (parseInt(fen.split(' ')[4]) > 50) {
+            gameOver("DRAW")
             return
         }
         if (settings.whoPlay != 'human_human') {

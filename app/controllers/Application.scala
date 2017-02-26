@@ -1,5 +1,6 @@
 package controllers
 
+import controllers.Settings._
 import play.api._
 import play.api.libs.ws.{WSResponse, WSRequestHolder, WS}
 import play.api.mvc._
@@ -31,12 +32,18 @@ object Application extends Controller {
     Ok("Success")
   }
 
-  def newPosition(fen: String) = Action/*.async */{ request =>
-    val whiteIsUp = "whiteIsUp" -> "false"
-    var status: String = null
-    if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
-    else status = routes.Application.initEngine(1).toString
-    Ok(Json.toJson( Map("status" -> status, "legalMoves" -> Settings.getLegalMovesAsString(fen), whiteIsUp)))
+  def newPosition(fen: String) = Action { request =>
+    val legal = Settings.getLegalMovesAsString(fen)
+    legal match {
+      case Some(leg) => {
+        val whiteIsUp = "whiteIsUp" -> "false"
+        var status: String = null
+        if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
+        else status = routes.Application.initEngine(1).toString
+        Ok(Json.toJson( Map("status" -> status, "legalMoves" -> leg, whiteIsUp)))
+      }
+      case None => BadRequest(fen)
+    }
   }
 
   def deleteID = Action { request =>

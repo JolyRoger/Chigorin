@@ -11,16 +11,24 @@ object Settings extends Controller {
     	Ok("")
     }
 
-  def getLegalMovesAsString(fen: String) = {
-    val board = new ChessBoard()
-    board.setFen(fen)
-    board.setTheBoardUp
-    board.generateMoves
-    board.toString
+  def getLegalMovesAsString(fen: String): Option[String] = {
+    try {
+      val board = new ChessBoard()
+      board.setFen(fen)
+      board.setTheBoardUp
+      board.generateMoves
+      Some(board.toString)
+    } catch {
+      case e: Exception => None
+    }
   }
 
   def getLegalMoves(fen: String) = Action { request =>
-    Ok(getLegalMovesAsString(fen))
+    val legal = getLegalMovesAsString(fen)
+    legal match {
+      case Some(leg) => Ok(leg)
+      case None => BadRequest("Bad FEN")
+    }
   }
 
   def getLegalMovesOld(playWithFen: String) = Action { request =>
