@@ -11,7 +11,7 @@ object Settings extends Controller {
     	Ok("")
     }
 
-  def getLegalMovesAsString(fen: String): Option[String] = {
+  def getLegalMovesAsString(fen: String) = {
     try {
       val board = new ChessBoard()
       board.setFen(fen)
@@ -31,22 +31,11 @@ object Settings extends Controller {
     }
   }
 
-  def getLegalMovesOld(playWithFen: String) = Action { request =>
-	    request.body.asJson.map { json =>
-		  if (playWithFen == "false") {
-			GameEngine.setFromMoves(request.session, (json \ "history").as[String])
-		  } else {		// playWithFen == "true"
-        println("GLM: " + (json \ "fen").as[String])
-			GameEngine.setFromFen(request.session, (json \ "history").as[String], (json \ "fen").as[String])
-		  }
-		  
-		   Ok(Json.toJson( Map( "fen" -> GameEngine.getFen(request.session),
-				   				"legal" -> GameEngine.getLegalMoves(request.session, "") ) ) )
-						  
-//		  Ok(GameEngine.getLegalMoves(id))
-	    }.getOrElse(BadRequest("Need the JSON data"))
+  def newEngine(engine: String) = Action { request =>
+    GameEngine.changeEngine(request.session, engine)
+    Ok("new engine: " + engine)
   }
-  
+
   def setPonderTime(time: Int) = Action { request =>
       GameEngine.setPonderTime(request.session, time)
 	    Ok("setPonderTime success")

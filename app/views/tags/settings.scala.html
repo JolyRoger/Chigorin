@@ -19,18 +19,25 @@
 							<div class="dialog_body">
 								<div id="settingsL">
 									<label for="showmoves">Show available moves</label>
-									<input id="showmoves" type="checkbox" 
+									<input id="showmoves" type="checkbox"
 										onchange="showAvailableMoves(this)" checked/>
 									<br><hr>
 									<div id="players" onclick="setPlayers()">
-										Select players<br><br>	
+										Select players<br><br>
 										<label for="ai_ai">Mediocre vs. Mediocre</label>
-										<input id="ai_ai" type="radio" name="players" value="ai_ai"/><br> 
+										<input id="ai_ai" type="radio" name="players" value="ai_ai"/><br>
 										<label for="human_human">Human vs. Human</label>
-										<input id="human_human" type="radio" name="players" value="human_human"/><br> 
+										<input id="human_human" type="radio" name="players" value="human_human"/><br>
 										<label for="ai_human">Mediocre vs. Human</label>
-										<input id="ai_human" type="radio" name="players" value="ai_human" checked/><br> 
+										<input id="ai_human" type="radio" name="players" value="ai_human" checked/><br>
 									</div>
+									<br>
+                                    <div><span>Select engine</span>
+                                        <select id="select-engine" style="margin-top: 10px;" onchange="changeEngine()">
+                                            <option>Stockfish</option>
+                                            <option>Mediocre</option>
+                                        </select>
+                                    </div>
 								</div>
 								<div id="settingsR">
 									<label disabled="true" style="color: #a9a9a9;" for="showtimer">Show timer</label>

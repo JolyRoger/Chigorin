@@ -15,6 +15,7 @@ GET     /start                                                   controllers.App
 POST    /next/:playWithFen										 controllers.Application.next(playWithFen)
 GET     /rate   				                                 controllers.Application.rate
 GET     /settings  				                                 controllers.Settings.settings
+GET     /changeEngine/:engine                                    controllers.Settings.newEngine(engine)
 GET 	/getLegalMoves/:fen								         controllers.Settings.getLegalMoves(fen)
 GET     /setPonderTime/:time		                             controllers.Settings.setPonderTime(time: Int)
 

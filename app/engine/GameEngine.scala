@@ -29,6 +29,7 @@ object GameEngine {
         val engine = new EngineInstance()
         idMap += session -> engine
         engine.process(Play.application.getFile(STOCKFISH_PATH).getAbsolutePath, System.getProperty("os.name").contains("Linux"))
+//        engine.stockfishProcess()
         engine.write(UCI)
         engine.read(UCIOK).get
         engine.write(ISREADY)
@@ -37,6 +38,7 @@ object GameEngine {
 	}
 
 	def deleteID(id: Session) = {
+    idMap(id).close()
     idMap -= id
     "Success"
 	}
@@ -69,13 +71,14 @@ object GameEngine {
     idMap(id).read("bestmove").get
 	}
 
+	def changeEngine(id: Session, engine: String) {
+    idMap(id).changeEngine(engine)
+  }
+
 	def setPonderTime(id: Session, time: Int): Unit = {
     idMap(id).setPonderTime(time * 1000)
 	}
 
-	def getLegalMoves(id: Session, fen: String) = {
-    idMap(id).getLegalMoves(fen)
-  }
 	def getFen(id: Session) = {
     "Success"
   }

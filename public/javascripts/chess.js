@@ -690,7 +690,7 @@ function start() {
 }
 
 function isFen(cb) {
-	isFen = cb.checked 
+	isFen = cb.checked
 }
 
 function showAvailableMoves(input) {
@@ -700,8 +700,15 @@ function showAvailableMoves(input) {
 }
 
 function setPlayers(input) {
-	if ($(':radio#ai_ai').attr('checked')) { settings.whoPlay = 'ai_ai' } else  
+	if ($(':radio#ai_ai').attr('checked')) { settings.whoPlay = 'ai_ai' } else
 	if ($(':radio#human_human').attr('checked')) { settings.whoPlay = 'human_human' } else settings.whoPlay = 'ai_human'
+}
+
+function changeEngine() {
+    var newEngine = $('#select-engine').val()
+    $.get('/changeEngine/' + newEngine, function(data) {
+        console.info('returned: ' + data)
+    })
 }
 
 function setPonderTime() {

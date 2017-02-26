@@ -1,6 +1,7 @@
 package engine;
 
 import engine.chessman.com.example.johnmasiello.chessapp.ChessBoard;
+import play.Play;
 
 import java.io.*;
 import java.util.concurrent.Executors;
@@ -8,18 +9,27 @@ import java.util.concurrent.Future;
 
 public class EngineInstance {
 
+//    private final static String STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
+
     private BufferedReader reader;
     private BufferedWriter writer;
     private int ponderTime = 0;
     private String fen;
     private ChessBoard board;
+    private Process process = null;
+    private String currentEngine = "Stockfish";
+
+//    public void stockfishProcess() {
+//        process(Play.application().getFile(STOCKFISH_PATH).getAbsolutePath(), System.getProperty("os.name").contains("Linux"));
+//    }
 
     public void process(String pathTo, boolean withWine) {
         ProcessBuilder builder = null;
-        Process process = null;
 
         if (withWine)  builder = new ProcessBuilder("wine", pathTo);
         else builder = new ProcessBuilder(pathTo);
+
+        if (process != null) close();
 
         try {
             process = builder.start();
@@ -49,7 +59,7 @@ public class EngineInstance {
                 String line = null;
                 while (((line = reader.readLine()) != null && !line.contains(condition))) {
 //                    line = reader.readLine();
-//                    System.out.println("\tStdout: " + line);
+//                    System.out.println("\t" + line);
                 }
                 return line;
             } catch (IOException e) {
@@ -59,9 +69,8 @@ public class EngineInstance {
     }
 
     public void close() {
-        System.out.println("close");
-        write("quit");
         try {
+            write("quit");
             reader.close();
             writer.close();
         } catch (IOException e) {
@@ -69,10 +78,13 @@ public class EngineInstance {
         }
     }
 
-    public String getLegalMoves(String fen) {
-        return "e2e3 e2e4";
+    public void changeEngine(String engine) {
+        System.out.println("current: " + currentEngine);
+        if (currentEngine.equals(engine)) return;
+        currentEngine = engine;
+        close();
+        System.out.println("EngineInstance::engine: " + engine);
     }
-
 
     public void setPonderTime(int ponderTime) {
         this.ponderTime = ponderTime;

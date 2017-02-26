@@ -50,7 +50,7 @@
 
 	  /* daniil monakhov custom */
 	  
-		.dialog_body { height: 230px; }
+		/*.dialog_body { height: 230px; }*/
 		.dialog_body #players { align: center; }
 	    .dialog_body #settingsL { width: 40%; float: left; }
 	    .dialog_body #settingsR { width: 40%; float: right; }
