@@ -1,8 +1,6 @@
 package engine
 
 import play.api.mvc.Session
-import play.Play
-
 
 object GameEngine {
 
@@ -26,20 +24,21 @@ object GameEngine {
   def createID(session: Session) = {
     idMap.get(session) match {
       case None =>
-        val engine = new EngineInstance()
+        val engine = new EngineInstance("Stockfish")
         idMap += session -> engine
-        engine.process(Play.application.getFile(STOCKFISH_PATH).getAbsolutePath, System.getProperty("os.name").contains("Linux"))
-//        engine.stockfishProcess()
         engine.write(UCI)
         engine.read(UCIOK).get
         engine.write(ISREADY)
         engine.read(READYOK).get
+      case Some(_) =>
     }
 	}
 
 	def deleteID(id: Session) = {
-    idMap(id).close()
-    idMap -= id
+    if (idMap.contains(id)) {
+      idMap(id).close()
+      idMap -= id
+    }
     "Success"
 	}
 
@@ -67,7 +66,7 @@ object GameEngine {
 	}
 
 	def go(id: Session) = {
-    idMap(id).write(GO_MOVETIME + " " + idMap(id).getPonderTime)
+    idMap(id).write(GO_MOVETIME + idMap(id).getPonderTime)
     idMap(id).read("bestmove").get
 	}
 
@@ -93,10 +92,6 @@ object GameEngine {
 
   def exist(session: Session) = {
     idMap(session) != null
-  }
-
-	def print {
-    "Success"
   }
 
   implicit def string2Int(s: String): Int = augmentString(s).toInt

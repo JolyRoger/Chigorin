@@ -171,7 +171,7 @@ function init() {
 		}
 
         $.get('/initEngine/' + settings.howLongThink, function() {
-            $('#welcome').html('<span>Lucky game, player!</span>')
+            //$('#welcome').html('<span>Lucky game, player!</span>')
 			newPosition()
 		})
     })
@@ -708,6 +708,7 @@ function changeEngine() {
     var newEngine = $('#select-engine').val()
     $.get('/changeEngine/' + newEngine, function(data) {
         console.info('returned: ' + data)
+        $('#welcome').html('<span>' + data + '</span>')
     })
 }
 

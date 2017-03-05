@@ -1,35 +1,34 @@
 package engine;
 
-import engine.chessman.com.example.johnmasiello.chessapp.ChessBoard;
-import play.Play;
-
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class EngineInstance {
 
-//    private final static String STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
+    private final static String STOCKFISH_PATH = "public/engines/stockfish_8_x64";
+    private final static String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
+    private final static String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
 
     private BufferedReader reader;
     private BufferedWriter writer;
     private int ponderTime = 0;
-    private String fen;
-    private ChessBoard board;
     private Process process = null;
     private String currentEngine = "Stockfish";
+    private Map<String, String[]> engineMap = new HashMap<>(2);
 
-//    public void stockfishProcess() {
-//        process(Play.application().getFile(STOCKFISH_PATH).getAbsolutePath(), System.getProperty("os.name").contains("Linux"));
-//    }
 
-    public void process(String pathTo, boolean withWine) {
-        ProcessBuilder builder = null;
+    public EngineInstance(String engine) {
+        engineMap.put("Mediocre", new String[] {"java", "-jar", MEDIOCRE_PATH});
+        engineMap.put("Stockfish", new String[] {STOCKFISH_PATH});
+        engineMap.put("Stockfish Modern", new String[] {STOCKFISH_MODERN_PATH});
+        process(engineMap.get(engine));
+    }
 
-        if (withWine)  builder = new ProcessBuilder("wine", pathTo);
-        else builder = new ProcessBuilder(pathTo);
-
-        if (process != null) close();
+    public void process(String... pathTo) {
+        ProcessBuilder builder = new ProcessBuilder(pathTo);
 
         try {
             process = builder.start();
@@ -37,20 +36,15 @@ public class EngineInstance {
             InputStream stdout = process.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stdout));
             writer = new BufferedWriter(new OutputStreamWriter(stdin));
-            board = new ChessBoard();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void write(String command) {
-        try {
-            writer.write(command.trim());
-            writer.newLine();
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void write(String command) throws IOException {
+        writer.write(command.trim());
+        writer.newLine();
+        writer.flush();
     }
 
     public Future<String> read(String condition) {
@@ -74,16 +68,15 @@ public class EngineInstance {
             reader.close();
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Stream is already closed");
         }
     }
 
     public void changeEngine(String engine) {
-        System.out.println("current: " + currentEngine);
         if (currentEngine.equals(engine)) return;
         currentEngine = engine;
         close();
-        System.out.println("EngineInstance::engine: " + engine);
+        process(engineMap.get(engine));
     }
 
     public void setPonderTime(int ponderTime) {

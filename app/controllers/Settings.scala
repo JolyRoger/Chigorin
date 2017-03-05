@@ -3,7 +3,6 @@ package controllers
 import engine.chessman.com.example.johnmasiello.chessapp.ChessBoard
 import play.api.mvc._
 import engine.GameEngine
-import play.api.libs.json.Json
 
 object Settings extends Controller { 
   implicit def string2Int(s: String): Int = augmentString(s).toInt
@@ -33,7 +32,7 @@ object Settings extends Controller {
 
   def newEngine(engine: String) = Action { request =>
     GameEngine.changeEngine(request.session, engine)
-    Ok("new engine: " + engine)
+    Ok(engine)
   }
 
   def setPonderTime(time: Int) = Action { request =>

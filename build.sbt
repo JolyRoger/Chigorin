@@ -10,6 +10,8 @@ libraryDependencies += "org.yaml" % "snakeyaml" % "1.15"
 
 libraryDependencies += "com.github.scala-incubator.io" % "scala-io-file_2.10" % "0.4.3"
 
+libraryDependencies += "org.scalatest" % "scalatest_2.10" % "3.2.0-SNAP4"
+
 libraryDependencies ++= Seq(jdbc, anorm, cache, ws)
 
 includeFilter in (Assets, LessKeys.less) := "*.less"

@@ -1,8 +1,6 @@
 package controllers
 
-import controllers.Settings._
 import play.api._
-import play.api.libs.ws.{WSResponse, WSRequestHolder, WS}
 import play.api.mvc._
 import play.api.libs.json._
 import play.api.Play.current
