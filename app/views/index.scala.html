@@ -20,19 +20,9 @@
 		<script type="text/javascript">init()</script>
 	</div>
 
-
-	<div id="notation"> </div>
-	<div id="btn-group" class="btn-group">
-        <div style="height: 100%;">
-            <button name="newgame" value="new" class="btn handlebtn" onclick="newPosition()">New game</button>
-            <button name="moveback" value="moveback" class="btn handlebtn" onclick="doMoveBack()">Move back</button>
-            <button name="turnsides" value="turnsides" class="btn handlebtn" onclick="turnSide()">Turn sides</button>
-            <button name="showfen" value="showfen" class="btn handlebtn" onclick="showFen()">Show FEN Block</button>
-            <button name="loadfen" value="loadfen" class="btn handlebtn" onclick="readLoadFen()">Load FEN</button>
-        </div>
-        <div style="margin-top: -50px;">
-            <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="updatePosition()">MOVE</button>
-        </div>
+    <div id="moves-group">
+    	<div id="notation"> </div>
+    	<div id="btn-group" class="btn-group"></div>
     </div>
 
     <div id="fencontainer">
@@ -46,7 +36,7 @@
         </div>
     </div>
 
-	<img src="@routes.Assets.at("images/loading.gif")">
+	@*<img src="@routes.Assets.at("images/loading.gif")">*@
 	
 	<div id="winpanel"></div>
 	<div id="wintitlepanel">
@@ -54,5 +44,4 @@
 	</div>
 	@settings("aaa")
     @about("bbb")
-	<output></output>
 }

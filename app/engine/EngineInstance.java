@@ -3,6 +3,7 @@ package engine;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -14,7 +15,7 @@ public class EngineInstance {
 
     private BufferedReader reader;
     private BufferedWriter writer;
-    private int ponderTime = 0;
+    private int ponderTime = 1000;
     private Process process = null;
     private String currentEngine = "Stockfish";
     private Map<String, String[]> engineMap = new HashMap<>(2);
@@ -27,6 +28,13 @@ public class EngineInstance {
         process(engineMap.get(engine));
     }
 
+    private void initCommand() throws ExecutionException, InterruptedException, IOException {
+        write("uci ");
+        read("uciok").get();
+        write("isready");
+        read("readyok").get();
+    }
+
     public void process(String... pathTo) {
         ProcessBuilder builder = new ProcessBuilder(pathTo);
 
@@ -36,12 +44,14 @@ public class EngineInstance {
             InputStream stdout = process.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stdout));
             writer = new BufferedWriter(new OutputStreamWriter(stdin));
-        } catch (IOException e) {
+            initCommand();
+        } catch (IOException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void write(String command) throws IOException {
+        System.out.println(command);
         writer.write(command.trim());
         writer.newLine();
         writer.flush();
@@ -53,8 +63,9 @@ public class EngineInstance {
                 String line = null;
                 while (((line = reader.readLine()) != null && !line.contains(condition))) {
 //                    line = reader.readLine();
-//                    System.out.println("\t" + line);
+                    System.out.println("\t" + line);
                 }
+                System.out.println("\t" + (line == null ? "" : line));
                 return line;
             } catch (IOException e) {
                 return null;

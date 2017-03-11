@@ -45,20 +45,6 @@ span.jslink {
     color: #0c0;
 }
 
-#footer {
-    padding: 10px;
-    font-size: 70%;
-    border-top: 1px dotted #ccc;
-    text-align: center;
-}
-
-/** Header **/
-
-#header {
-    height: 200px;
-    position: relative;
-    background: #000 url(../images/chess_200.jpg) center no-repeat;
-}
 
 #header h1 {
     margin: 0;
@@ -132,9 +118,7 @@ div.extra{float:left;width:15%;margin-left:-15%; background:#FF8539; font-size: 
 
 
 #header #options {
-    position: absolute;
     right: 10px;
-    top: 13px;
     font-size: 80%;
     color: #eee;
 }

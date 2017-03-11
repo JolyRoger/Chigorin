@@ -1,11 +1,8 @@
 
-var mouseX, mouseY
 $(function() {
-    $(document).mousemove(function(e) {
-        mouseX = e.pageX; mouseY = e.pageY
-    })
     fbPopup('-settings')
     fbPopup('-about')
+    $('#moves-group').width($('#content').width() - $('.board').width())
 })
 
 function Transform(fin, step, obj) {

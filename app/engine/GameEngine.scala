@@ -7,12 +7,8 @@ object GameEngine {
   val ENGINES = "/home/torquemada/Softdev/workspace/Chess/public/engines/"
   val OWN_BOOK_PATH = "public/books/performance.bin"
   val STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
-  val UCI = "uci "
-  val UCIOK = "uciok"
-  val ISREADY = "isready"
-  val READYOK = "readyok"
 	val UCINEWGAME = "ucinewgame"
-	val GO_INFINITE = "go infinite "
+	val GO_INFINITE = "go infinite"
 	val POSITION_STARTPOS = "position startpos"
 	val MOVES = " moves "
 	val POSITION_FEN = "position fen "
@@ -21,15 +17,11 @@ object GameEngine {
 	val STOP = "stop"
   var idMap = emptyMap
 
-  def createID(session: Session) = {
-    idMap.get(session) match {
+  def createID(id: Session) = {
+    idMap.get(id) match {
       case None =>
         val engine = new EngineInstance("Stockfish")
-        idMap += session -> engine
-        engine.write(UCI)
-        engine.read(UCIOK).get
-        engine.write(ISREADY)
-        engine.read(READYOK).get
+        idMap += id -> engine
       case Some(_) =>
     }
 	}
@@ -66,7 +58,9 @@ object GameEngine {
 	}
 
 	def go(id: Session) = {
-    idMap(id).write(GO_MOVETIME + idMap(id).getPonderTime)
+    val ponderTime = idMap(id).getPonderTime
+    if (ponderTime <= 0) idMap(id).write(GO_INFINITE)
+    else idMap(id).write(GO_MOVETIME + ponderTime)
     idMap(id).read("bestmove").get
 	}
 

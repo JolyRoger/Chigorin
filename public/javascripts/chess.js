@@ -360,29 +360,6 @@ function finishMove(move) {
 
 }
 
-function doMoveBack() {
-	if (thinking) return
-    removeGrayMoves()
-    Moves.length = movesHistory.trim().split(' ').length
-	if (Moves[Moves.length - 1] === undefined) return
-	var lastMove = movesHistory.substring(movesHistory.lastIndexOf(' '), movesHistory.length).trim()
-	movesHistory = movesHistory.substring(0, movesHistory.lastIndexOf(' '))
-
-	sweepBoard()
-	fen = currentFen = Moves[Moves.length - 1].fen
-    legalMoves = currentLegalMoves = Moves[Moves.length - 1].legal
-	setPositionFromFen(fen)
-
-    $('#movebtn').removeAttr('disabled')
-	delete Moves[Moves.length - 1]
-	$('#notation span').last().remove()
-	if ($('#notation > div').last().children().length == 0)
-		$('#notation > div').last().remove()
-	
-	Moves.length = Moves.length - 1
-    sweepPanels()
-}
-
 function getLegalMoves(ver, hor) {
     var legal = [], i=0
 
@@ -707,7 +684,6 @@ function setPlayers(input) {
 function changeEngine() {
     var newEngine = $('#select-engine').val()
     $.get('/changeEngine/' + newEngine, function(data) {
-        console.info('returned: ' + data)
         $('#welcome').html('<span>' + data + '</span>')
     })
 }
@@ -718,9 +694,10 @@ function setPonderTime() {
 	if ($(':radio#time5').attr('checked')) { settings.howLongThink = 5 } else 
 	if ($(':radio#time10').attr('checked')) { settings.howLongThink = 10 } else {
 		settings.howLongThink = -1
+        //$('#movebtn').html('STOP')
 		console.log('moveDisablable = false')
 		moveDisablable = false 
-	} 
+	}
 	$.get('/setPonderTime/' + settings.howLongThink)
 }
 
@@ -758,14 +735,6 @@ function print(move) {
 	console.log('Legal: ' + legalMoves)
     console.log(JSON.stringify(Moves))
 	console.log('####################################')
-}
-
-function getFEN() {
-
-}
-
-function loadFromFEN() {
-
 }
 
 

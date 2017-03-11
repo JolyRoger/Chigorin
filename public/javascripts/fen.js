@@ -85,7 +85,7 @@ function readLoadFen() {
         showCopyPaste($('#fenstringcopy').is(':visible'))
     } else {
         fenstr.show()
-        $('button[name="showfen"]').html('Hide FEN Block')
+        $('button[name="showfen"]').html('Hide FEN')
         showCopyPaste(true)
     }
 }
@@ -94,7 +94,7 @@ function showCopyPaste(enable) {
     if (enable) {
         $('.fen-copy-element').hide()
         $('.fen-paste-element').show()
-        $('button[name="loadfen"]').html('Read Board FEN')
+        $('button[name="loadfen"]').html('Read FEN')
         $('#fenstringpaste').focus()
     } else {
         $('.fen-paste-element').hide()
@@ -104,11 +104,11 @@ function showCopyPaste(enable) {
 }
 function showFenBlock(enable) {
     if (enable) {
-        $('button[name="showfen"]').html('Hide FEN Block')
+        $('button[name="showfen"]').html('Hide FEN')
         $('#fencontainer').show()
     } else {
         showCopyPaste(false)
-        $('button[name="showfen"]').html('Show FEN Block')
+        $('button[name="showfen"]').html('Show FEN')
         $('#fencontainer').hide()
     }
 }

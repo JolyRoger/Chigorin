@@ -22,7 +22,14 @@
     <body onunload="unload()">
      <div id="header">
      	<h1 id="welcome">Stockfish</h1>
-                <div id="options">
+         <div class="top-handles" style="left: 20%;">
+            <button name="newgame" value="new" class="btn handlebtn" onclick="newPosition()">New game</button>
+             <button name="turnsides" value="turnsides" class="btn handlebtn" onclick="turnSide()">Turn sides</button>
+             <button name="showfen" value="showfen" class="btn handlebtn" onclick="showFen()">Show FEN</button>
+             <button name="loadfen" value="loadfen" class="btn handlebtn" onclick="readLoadFen()">Load FEN</button>
+             <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="updatePosition()">MOVE</button>
+         </div>
+         <div id="options" class="top-handles">
 @*					|
 					<span class="jslink" onclick="print()">Print</span>&nbsp;
                     |
@@ -40,8 +47,7 @@
         <script type="text/javascript" charset="utf-8">
 </script>
    <div id="content">@content</div>
-    <div id="footer">The chess uses <a href="http://mediocrechess.sourceforge.net/">Mediocre</a> engine by
-      <a href="mailto:mediocrechess@@gmail.com">Jonatan Pettersson</a>. Design and web programming by
+   <div id="footer">Design and web programming by
       <a href="mailto:mjelnr@@gmail.com">Daniil Monakhov</a>.<br>Gens una sumus</div>
     </body>
 </html>
