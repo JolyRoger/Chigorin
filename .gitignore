@@ -1,0 +1,15 @@
+# Created by .ignore support plugin (hsz.mobi)
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+Будет удалено logs/
+Будет удалено mediocreDebug.log
+Будет удалено project/project/
+Будет удалено project/target/
+Будет удалено public/images/cancel.png
+Будет удалено public/images/check.png
+Будет удалено public/images/copy.png
+Будет удалено target/
+Будет удалено test/resources/
