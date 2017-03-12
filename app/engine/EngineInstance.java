@@ -10,6 +10,7 @@ import java.util.concurrent.Future;
 public class EngineInstance {
 
     private final static String STOCKFISH_PATH = "public/engines/stockfish_8_x64";
+    private final static String RYBKA_PATH = "public/engines/Rybka 4 x64.exe";
     private final static String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
     private final static String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
 
@@ -24,6 +25,8 @@ public class EngineInstance {
     public EngineInstance(String engine) {
         engineMap.put("Mediocre", new String[] {"java", "-jar", MEDIOCRE_PATH});
         engineMap.put("Stockfish", new String[] {STOCKFISH_PATH});
+        engineMap.put("Rybka", System.getProperty("os.name").contains("Linux") ? new String[] {"wine", RYBKA_PATH} :
+                new String[] {RYBKA_PATH});
         engineMap.put("Stockfish Modern", new String[] {STOCKFISH_MODERN_PATH});
         process(engineMap.get(engine));
     }

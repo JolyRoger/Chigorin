@@ -24,19 +24,19 @@
 									<br><hr>
 									<div id="players" onclick="setPlayers()">
 										Select players<br><br>
-										<label for="ai_ai">Mediocre vs. Mediocre</label>
+										<label for="ai_ai">Computer vs. Computer</label>
 										<input id="ai_ai" type="radio" name="players" value="ai_ai"/><br>
 										<label for="human_human">Human vs. Human</label>
 										<input id="human_human" type="radio" name="players" value="human_human"/><br>
-										<label for="ai_human">Mediocre vs. Human</label>
+										<label for="ai_human">Computer vs. Human</label>
 										<input id="ai_human" type="radio" name="players" value="ai_human" checked/><br>
 									</div>
 									<br>
                                     <div><span>Select engine</span>
                                         <select id="select-engine" style="margin-top: 10px;" onchange="changeEngine()">
                                             <option>Stockfish</option>
-                                            <option>Stockfish Modern</option>
                                             <option>Mediocre</option>
+                                            <option>Rybka</option>
                                         </select>
                                     </div>
 								</div>
