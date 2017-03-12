@@ -10,7 +10,7 @@ GET     /game                                                    controllers.App
 GET     /new/:fen					                             controllers.Application.newPosition(fen: String)
 POST    /update/				                                 controllers.Application.update(move = "")
 POST    /update/:move			                                 controllers.Application.update(move)
-POST    /stopPonder				                                 controllers.Application.stopPonder
+GET     /stopPonder				                                 controllers.Application.stopPonder
 GET     /start                                                   controllers.Application.start
 POST    /next/:playWithFen										 controllers.Application.next(playWithFen)
 GET     /rate   				                                 controllers.Application.rate

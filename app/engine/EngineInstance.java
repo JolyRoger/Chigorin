@@ -1,5 +1,8 @@
 package engine;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +16,8 @@ public class EngineInstance {
     private final static String RYBKA_PATH = "public/engines/Rybka 4 x64.exe";
     private final static String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
     private final static String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
+    private final static String ANALYSIS_MODE = "setoption name MultiPV value 3";
+    private final static String PLAY_MODE = "setoption name MultiPV value 1";
 
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -93,7 +98,8 @@ public class EngineInstance {
         process(engineMap.get(engine));
     }
 
-    public void setPonderTime(int ponderTime) {
+    public void setPonderTime(int ponderTime) throws IOException {
+        write(ponderTime <= 0 ? ANALYSIS_MODE : PLAY_MODE);
         this.ponderTime = ponderTime;
     }
 

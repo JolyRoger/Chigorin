@@ -15,6 +15,7 @@ object GameEngine {
 	val GO_MOVETIME = "go movetime "
 	val BEST_MOVE = "bestmove"
 	val STOP = "stop"
+
   var idMap = emptyMap
 
   def createID(id: Session) = {

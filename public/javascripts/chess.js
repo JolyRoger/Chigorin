@@ -267,17 +267,20 @@ function newMoveReceived(json) {
     }
 }
 
+function moveBtnClick() {
+	if (thinking) {
+        $.get('/stopPonder', function() {
+            thinking = false
+        })
+    } else updatePosition()
+
+}
+
 function updatePosition() {
 	if (thinking) return
-	thinking = true
+    thinking = true
 	sweepPanels()
 	setEnableButton(false)
-	if (moveDisablable) $('#movebtn').attr('disabled', 'true')
-	else {
-		$('#movebtn').click(function() {
-			$.post('/stopPonder', function() { console.log('stop ponder') })
-		})		
-	}
 
 	addMoveToPage($('<img>', {'id': 'thinking', 'src': '/assets/images/thinking.gif'}), whiteToMove)
     $.ajax({
@@ -695,7 +698,7 @@ function setPonderTime() {
 	if ($(':radio#time10').attr('checked')) { settings.howLongThink = 10 } else {
 		settings.howLongThink = -1
         //$('#movebtn').html('STOP')
-		console.log('moveDisablable = false')
+        //console.log('moveDisablable = false')
 		moveDisablable = false 
 	}
 	$.get('/setPonderTime/' + settings.howLongThink)
