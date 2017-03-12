@@ -711,6 +711,12 @@ function checkEnPassant(squareCandidate, pieceFrom) {
         pieceCandidate.isWhite != pieceFrom.isWhite
 }
 
+function analysis() {
+    $.getJSON("/analysis", function(result) {
+        console.log(result)
+    })
+}
+
 function doSmth() {
 //	Я «Пять недель на воздушном шаре» вообще всю жизнь с одиннадцатой главы всю жизнь читал.
     for (var i=0; i<Moves.length; i++) {

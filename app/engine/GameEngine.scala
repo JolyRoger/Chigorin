@@ -4,15 +4,15 @@ import play.api.mvc.Session
 
 object GameEngine {
 
+
+
   val ENGINES = "/home/torquemada/Softdev/workspace/Chess/public/engines/"
   val OWN_BOOK_PATH = "public/books/performance.bin"
   val STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
 	val UCINEWGAME = "ucinewgame"
-	val GO_INFINITE = "go infinite"
 	val POSITION_STARTPOS = "position startpos"
 	val MOVES = " moves "
 	val POSITION_FEN = "position fen "
-	val GO_MOVETIME = "go movetime "
 	val BEST_MOVE = "bestmove"
 	val STOP = "stop"
 
@@ -59,18 +59,19 @@ object GameEngine {
 	}
 
 	def go(id: Session) = {
-    val ponderTime = idMap(id).getPonderTime
-    if (ponderTime <= 0) idMap(id).write(GO_INFINITE)
-    else idMap(id).write(GO_MOVETIME + ponderTime)
-    idMap(id).read("bestmove").get
+    idMap(id).go("bestmove")
 	}
+
+  def getAnalysis(id: Session) = {
+    idMap(id).getAnalysis
+  }
 
 	def changeEngine(id: Session, engine: String) {
     idMap(id).changeEngine(engine)
   }
 
 	def setPonderTime(id: Session, time: Int): Unit = {
-    idMap(id).setPonderTime(time * 1000)
+    idMap(id).ponderTime(time)
 	}
 
 	def getFen(id: Session) = {

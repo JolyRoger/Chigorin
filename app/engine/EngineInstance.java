@@ -1,9 +1,11 @@
 package engine;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-
+import com.google.common.collect.Maps;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
 import java.io.*;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -16,16 +18,17 @@ public class EngineInstance {
     private final static String RYBKA_PATH = "public/engines/Rybka 4 x64.exe";
     private final static String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
     private final static String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
-    private final static String ANALYSIS_MODE = "setoption name MultiPV value 3";
-    private final static String PLAY_MODE = "setoption name MultiPV value 1";
+    private final static String GO_INFINITE = "go infinite";
+    private final static String GO_MOVETIME = "go movetime ";
 
+    private int ponderTime = 1000;
+    private boolean analysisMode;
     private BufferedReader reader;
     private BufferedWriter writer;
-    private int ponderTime = 1000;
     private Process process = null;
     private String currentEngine = "Stockfish";
     private Map<String, String[]> engineMap = new HashMap<>(2);
-
+    private InfoProcessor processor;
 
     public EngineInstance(String engine) {
         engineMap.put("Mediocre", new String[] {"java", "-jar", MEDIOCRE_PATH});
@@ -36,26 +39,22 @@ public class EngineInstance {
         process(engineMap.get(engine));
     }
 
-    private void initCommand() throws ExecutionException, InterruptedException, IOException {
+    private void initCommand() throws IOException, ExecutionException, InterruptedException {
         write("uci ");
         read("uciok").get();
         write("isready");
         read("readyok").get();
     }
 
+    @SneakyThrows
     public void process(String... pathTo) {
         ProcessBuilder builder = new ProcessBuilder(pathTo);
-
-        try {
-            process = builder.start();
-            OutputStream stdin = process.getOutputStream();
-            InputStream stdout = process.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(stdout));
-            writer = new BufferedWriter(new OutputStreamWriter(stdin));
-            initCommand();
-        } catch (IOException | ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        process = builder.start();
+        OutputStream stdin = process.getOutputStream();
+        InputStream stdout = process.getInputStream();
+        reader = new BufferedReader(new InputStreamReader(stdout));
+        writer = new BufferedWriter(new OutputStreamWriter(stdin));
+        initCommand();
     }
 
     public void write(String command) throws IOException {
@@ -67,43 +66,52 @@ public class EngineInstance {
 
     public Future<String> read(String condition) {
         return Executors.newCachedThreadPool().submit(() -> {
-            try {
                 String line = null;
                 while (((line = reader.readLine()) != null && !line.contains(condition))) {
+                    if (analysisMode) processLine(line);
 //                    line = reader.readLine();
                     System.out.println("\t" + line);
                 }
                 System.out.println("\t" + (line == null ? "" : line));
                 return line;
-            } catch (IOException e) {
-                return null;
-            }
         });
     }
 
-    public void close() {
-        try {
-            write("quit");
-            reader.close();
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Stream is already closed");
-        }
+    private void processLine(String line) {
+
     }
 
-    public void changeEngine(String engine) {
+    public void ponderTime(int time) throws IOException {
+        analysisMode = time <= 0;
+        ponderTime = time * 1000;
+        int mpvVal = analysisMode ? 3 : 1;
+        setOption("MultiPV", mpvVal + "");
+    }
+
+    public void close() throws IOException {
+        write("quit");
+        reader.close();
+        writer.close();
+    }
+
+    public void changeEngine(String engine) throws IOException {
         if (currentEngine.equals(engine)) return;
         currentEngine = engine;
         close();
         process(engineMap.get(engine));
     }
 
-    public void setPonderTime(int ponderTime) throws IOException {
-        write(ponderTime <= 0 ? ANALYSIS_MODE : PLAY_MODE);
-        this.ponderTime = ponderTime;
+    public String go(String conditionToAnswer) throws IOException, ExecutionException, InterruptedException {
+        if (analysisMode) write(GO_INFINITE);
+        else write(GO_MOVETIME + ponderTime);
+        return read(conditionToAnswer).get();
     }
 
-    public int getPonderTime() {
-        return ponderTime;
+    public void setOption(String name, String value) throws IOException {
+        write("setoption name " + name + " value " + value);
+    }
+
+    public Map<Integer, InfoStructure> getAnalysis() {
+        return processor.getStructureMap();
     }
 }
