@@ -2,12 +2,8 @@ package engine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Maps;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import java.io.*;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -121,11 +117,9 @@ public class EngineInstance {
         write("setoption name " + name + " value " + value);
     }
 
-//    public Map<Integer, InfoStructure> getAnalysis() throws JsonProcessingException {
     public String getAnalysis() throws JsonProcessingException {
         Map<Integer, InfoStructure> structureMap = processor.getStructureMap();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(structureMap);
-//        return structureMap;
     }
 }

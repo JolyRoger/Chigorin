@@ -1,7 +1,5 @@
 package controllers
 
-import collection.JavaConversions._
-import play.api.libs.json._
 import engine.chessman.com.example.johnmasiello.chessapp.ChessBoard
 import play.api.mvc._
 import engine.GameEngine
@@ -24,24 +22,12 @@ object Settings extends Controller {
     }
   }
 
+  // Добавить copy.pgn и cancel.pgn в репозиторий! Удалить лишние картинки.
   def analysis() = Action { request =>
-    val analRes = GameEngine.getAnalysis(request.session)
-    println(analRes)
-//    Ok(Json.toJson( Map.empty ++ analRes.toMap) )
-//    val out = scala.collection.mutable.Map.empty[String, String]
-//    analRes.forEach()
-//    analRes.toMap.foreach(variant => {
-//
-//      out += "pv" + variant._1 -> variant._1.toString
-//    })
-
-    Ok(Json.toJson( Map("multipv" -> "1", "cp" -> "0.5", "mate" -> "0", "best" ->
-      "d7d5 d2d4 c8f5 c2c4 e7e6 b1c3 b8c6 c1g5 f8e7 c4d5 e6d5 g5e7 g8e7 e2e3 e8g8 f1e2 c6a5 e1g1 c7c6 f3e5 f7f6 e5f3")))
+    Ok(GameEngine.getAnalysis(request.session))
   }
 
   def startAnalysis(fen: String) = Action { request =>
-//    val analysis = GameEngine.getAnalysis(request.session)
-    println("analysis::FEN:" + fen)
     GameEngine.startAnalysis(request.session)
     Ok
   }

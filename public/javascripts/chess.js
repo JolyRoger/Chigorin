@@ -714,15 +714,14 @@ function checkEnPassant(squareCandidate, pieceFrom) {
 function analysis() {
     thinking = true
 
-    //$.getJSON("/analysis", function(result) {
-    //    $('#analysis').html(result)
-    //    console.log(result)
-    //})
-
     $.get("/startAnalysis/" + encodeURIComponent(getFenFromPosition()), function(result) {
         setInterval($.getJSON, 1000, "/analysis", function(result) {
-            $('#analysis').html(result)
-            console.log(result)
+            $('#analysis').html("")
+            $.each(result, function(index, value) {
+                var html = $('#analysis').html() + '<br>'
+                $('#analysis').html(html + index + '. Score: ' + (parseInt(value.score) / 100) + '<br>' +
+                    value.pv)
+            });
         })
     })
 }

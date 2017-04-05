@@ -32,7 +32,8 @@ public class InfoProcessor {
                     String[] best = Arrays.copyOfRange(quants, i+1, quants.length);
                     info = structureMap.getOrDefault(multipv, new InfoStructure());
                     info.pv = Arrays.toString(best);
-                    info.score = score;
+                    info.scoreType = score;
+                    info.score = score.val;
                     structureMap.putIfAbsent(multipv, info);
                     break;
             }
@@ -41,7 +42,6 @@ public class InfoProcessor {
 
     private Score getScore(String type, String value) {
         Score out = null;
-        out.val = Integer.parseInt(value);
         switch(type) {
             case "mate":
                 out = Score.mate;
@@ -50,6 +50,7 @@ public class InfoProcessor {
                 out = Score.cp;
                 break;
         }
+        out.val = Integer.parseInt(value);
         return out;
     }
 }
