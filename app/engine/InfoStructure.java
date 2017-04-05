@@ -1,6 +1,6 @@
 package engine;
 
 public class InfoStructure {
-    String pv[];
-    Score score;
+    public String pv;
+    public Score score;
 }

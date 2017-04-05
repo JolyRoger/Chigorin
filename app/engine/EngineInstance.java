@@ -1,5 +1,7 @@
 package engine;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +38,7 @@ public class EngineInstance {
         engineMap.put("Rybka", System.getProperty("os.name").contains("Linux") ? new String[] {"wine", RYBKA_PATH} :
                 new String[] {RYBKA_PATH});
         engineMap.put("Stockfish Modern", new String[] {STOCKFISH_MODERN_PATH});
+        processor = new InfoProcessor();
         process(engineMap.get(engine));
     }
 
@@ -78,7 +81,7 @@ public class EngineInstance {
     }
 
     private void processLine(String line) {
-
+        processor.process(line);
     }
 
     public void ponderTime(int time) throws IOException {
@@ -107,11 +110,22 @@ public class EngineInstance {
         return read(conditionToAnswer).get();
     }
 
+    public void startAnalysis() throws IOException {
+        analysisMode = true;
+        setOption("MultiPV", 3 + "");
+        write(GO_INFINITE);
+        read("bestmove");
+    }
+
     public void setOption(String name, String value) throws IOException {
         write("setoption name " + name + " value " + value);
     }
 
-    public Map<Integer, InfoStructure> getAnalysis() {
-        return processor.getStructureMap();
+//    public Map<Integer, InfoStructure> getAnalysis() throws JsonProcessingException {
+    public String getAnalysis() throws JsonProcessingException {
+        Map<Integer, InfoStructure> structureMap = processor.getStructureMap();
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(structureMap);
+//        return structureMap;
     }
 }

@@ -14,7 +14,8 @@ libraryDependencies ++= Seq(jdbc, anorm, cache, ws)
 
 libraryDependencies += "org.projectlombok" % "lombok" % "1.16.14"
 
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.2"
+
 includeFilter in (Assets, LessKeys.less) := "*.less"
 
 excludeFilter in (Assets, LessKeys.less) := "_*.less"
-

@@ -712,8 +712,18 @@ function checkEnPassant(squareCandidate, pieceFrom) {
 }
 
 function analysis() {
-    $.getJSON("/analysis", function(result) {
-        console.log(result)
+    thinking = true
+
+    //$.getJSON("/analysis", function(result) {
+    //    $('#analysis').html(result)
+    //    console.log(result)
+    //})
+
+    $.get("/startAnalysis/" + encodeURIComponent(getFenFromPosition()), function(result) {
+        setInterval($.getJSON, 1000, "/analysis", function(result) {
+            $('#analysis').html(result)
+            console.log(result)
+        })
     })
 }
 

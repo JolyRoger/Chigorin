@@ -1,6 +1,6 @@
 package engine;
 
-enum Score {
-        mate, cp;
-        int val;
-    }
+public enum Score {
+    mate, cp;
+    public int val;
+}

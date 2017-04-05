@@ -4,8 +4,6 @@ import play.api.mvc.Session
 
 object GameEngine {
 
-
-
   val ENGINES = "/home/torquemada/Softdev/workspace/Chess/public/engines/"
   val OWN_BOOK_PATH = "public/books/performance.bin"
   val STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
@@ -57,6 +55,10 @@ object GameEngine {
       case None => println("there is no key " + id.hashCode() + " in the map!!!")
     }
 	}
+
+	def startAnalysis(id: Session) = {
+    idMap(id).startAnalysis
+  }
 
 	def go(id: Session) = {
     idMap(id).go("bestmove")
