@@ -6,6 +6,7 @@
 @promotedPiecePanelWidth:  		224px;
 @promotionHeight:	    		100px;
 @boardSize:	    				448px;
+@newBoardSize:	    			35%;
 @contentHeight:	    			500px;
 @contentPadding:	    		60px;
 @headerHeight:	    			200px;
@@ -44,8 +45,15 @@
 
 .board {
 	position: relative;
-	width: @boardSize;
+	width: @newBoardSize;
 	float: left;
+}
+
+#moves-group {
+  height: 425px;
+  float: right;
+  width: 100 - @newBoardSize
+//	height:@boardSize;
 }
 
 .promotion {
@@ -178,11 +186,6 @@ form#loadgame {
 	display: none;
 }
 
-#moves-group {
-  height: 425px;
-  float: right;
-//	height:@boardSize;
-}
 
 #notation {
 	width: 30%;
