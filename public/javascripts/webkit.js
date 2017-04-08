@@ -2,14 +2,12 @@
 $(function() {
     fbPopup('-settings')
     fbPopup('-about')
-//    $('#moves-group').width($('#content').width() - $('.board').width() - 5)
+    $('#moves-group').width($('#content').width() - $('.board').width())
 })
 
-/*
 $(window).resize(function(newSize) {
-    console.info(newSize)
+    $('#moves-group').width($('#content').width() - $('.board').width())
 })
-*/
 
 
 function Transform(fin, step, obj) {

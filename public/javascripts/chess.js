@@ -727,7 +727,7 @@ function analysis() {
 }
 
 function doSmth() {
-//	Я «Пять недель на воздушном шаре» вообще всю жизнь с одиннадцатой главы всю жизнь читал.
+//	Я «Пять недель на воздушном шаре» вообще всю жизнь с одиннадцатой главы читал.
     for (var i=0; i<Moves.length; i++) {
         console.info(Moves[i].note)
         console.info('oldfen: ' + Moves[i].oldfen)
