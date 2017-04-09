@@ -719,8 +719,8 @@ function analysis() {
             $('#analysis').html("")
             $.each(result, function(index, value) {
                 var html = $('#analysis').html() + '<br>'
-                $('#analysis').html(html + index + '. Score: ' + (parseInt(value.score) / 100) + '<br>' +
-                    value.pv)
+                $('#analysis').html(html + index + '. Score: ' + (parseInt(value.score) / 100) + ' mpv: ' + value.multipv + '<br>' +
+                    value.pv + '<br>')
             });
         })
     })

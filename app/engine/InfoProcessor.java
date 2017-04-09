@@ -1,12 +1,10 @@
 package engine;
 
 import lombok.Getter;
-
 import java.util.*;
 
 public class InfoProcessor {
 
-    @Getter
     private Map<Integer, InfoStructure> structureMap;
 
     public InfoProcessor() {
@@ -34,7 +32,8 @@ public class InfoProcessor {
                     info.pv = Arrays.toString(best);
                     info.scoreType = score;
                     info.score = score.val;
-                    structureMap.putIfAbsent(multipv, info);
+                    info.multipv = multipv;
+                    structureMap.put(multipv, info);
                     break;
             }
         }
@@ -52,5 +51,14 @@ public class InfoProcessor {
         }
         out.val = Integer.parseInt(value);
         return out;
+    }
+
+    public Set<InfoStructure> getStructure() {
+        Set<InfoStructure> info = new TreeSet<>((v1, v2) -> {
+            int res = v1.score - v2.score;
+            return res == 0 ? -1 : res;
+        });
+        info.addAll(structureMap.values());
+        return info;
     }
 }

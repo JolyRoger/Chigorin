@@ -4,4 +4,5 @@ public class InfoStructure {
     public String pv;
     public Score scoreType;
     public int score;
+    public int multipv;
 }

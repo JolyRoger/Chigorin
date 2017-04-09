@@ -6,6 +6,8 @@ import lombok.SneakyThrows;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -118,7 +120,7 @@ public class EngineInstance {
     }
 
     public String getAnalysis() throws JsonProcessingException {
-        Map<Integer, InfoStructure> structureMap = processor.getStructureMap();
+        Set<InfoStructure> structureMap = processor.getStructure();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(structureMap);
     }

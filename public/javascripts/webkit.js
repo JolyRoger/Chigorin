@@ -2,6 +2,8 @@
 $(function() {
     fbPopup('-settings')
     fbPopup('-about')
+    //console.log($('#content').width())
+    //console.log($('.board').width())
     $('#moves-group').width($('#content').width() - $('.board').width())
 })
 

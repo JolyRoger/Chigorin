@@ -1,4 +1,3 @@
-import controllers.Settings;
 import engine.EngineInstance;
 import engine.InfoProcessor;
 import engine.InfoStructure;
@@ -6,6 +5,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -37,7 +37,14 @@ public class EngineInstanceTest {
         for (String line : strarr) {
             proc.process(line);
         }
-        Map<Integer, InfoStructure> m = proc.getStructureMap();
-        assertTrue(m.size() == 3);
+        Set<InfoStructure> info = proc.getStructure();
+        for (InfoStructure infoStructure : info) {
+            System.out.print(infoStructure.multipv + " ");
+            System.out.print(infoStructure.scoreType + " ");
+            System.out.println(infoStructure.score + " ");
+            System.out.print(infoStructure.pv);
+            System.out.println();
+        }
+        assertTrue(info.size() == 3);
     }
 }
