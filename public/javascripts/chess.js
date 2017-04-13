@@ -719,8 +719,14 @@ function analysis() {
             $('#analysis').html("")
             $.each(result, function(index, value) {
                 var html = $('#analysis').html() + '<br>'
-                $('#analysis').html(html + index + '. Score: ' + (parseInt(value.score) / 100) + ' mpv: ' + value.multipv + '<br>' +
-                    value.pv + '<br>')
+                var score = 'Score: ' + (parseInt(value.score) / 100)
+                var mpv = ' mpv: ' + value.multipv + '<br>'
+                var pv = value.pv.slice(1, -1) + '<br>'
+
+                var best = pv.substring(0, pv.indexOf(' '))
+                var content = index + '. ' + score + mpv + pv
+
+                $('#analysis').html(html + content)
             });
         })
     })

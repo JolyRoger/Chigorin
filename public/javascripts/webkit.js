@@ -2,13 +2,17 @@
 $(function() {
     fbPopup('-settings')
     fbPopup('-about')
-    //console.log($('#content').width())
-    //console.log($('.board').width())
+//    console.log($('#content').width())
+//    console.log($('.board').width())
     $('#moves-group').width($('#content').width() - $('.board').width())
+    $('#analysis').width($('#moves-group').width() / 2 - 5)
+    $('#notation').width($('#moves-group').width() / 2 - 5)
 })
 
 $(window).resize(function(newSize) {
-    $('#moves-group').width($('#content').width() - $('.board').width())
+    $('#moves-group').width($('#content').width() - $('.board').width() - 5)
+    $('#analysis').width($('#moves-group').width() / 2 - 5)
+    $('#notation').width($('#moves-group').width() / 2 - 5)
 })
 
 
