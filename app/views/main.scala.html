@@ -6,6 +6,7 @@
         <title>@title</title>
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/chess.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/analysis.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/settings.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
@@ -28,7 +29,9 @@
              <button name="showfen" value="showfen" class="btn handlebtn" onclick="showFen()">Show FEN</button>
              <button name="loadfen" value="loadfen" class="btn handlebtn" onclick="readLoadFen()">Load FEN</button>
              <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="moveBtnClick()">MOVE</button>
-             <button id="analysisbtn" name="analysis" value="analysis" class="btn handlebtn" onclick="analysis()">Analysis</button>
+             <div class="a-button" onclick="startAnalysis()">
+                <img id="a-start" src="@routes.Assets.at("images/analoff.png")">
+            </div>
          </div>
          <div id="options" class="top-handles">
 @*					|

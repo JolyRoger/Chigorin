@@ -2,18 +2,27 @@
 $(function() {
     fbPopup('-settings')
     fbPopup('-about')
-//    console.log($('#content').width())
-//    console.log($('.board').width())
-    $('#moves-group').width($('#content').width() - $('.board').width())
-    $('#analysis').width($('#moves-group').width() / 2 - 5)
-    $('#notation').width($('#moves-group').width() / 2 - 5)
+    //console.log('content=' + $('#content').width() + ' :: board=' + $('.board').width())
+    //console.log('moves-group=' + $('#moves-group').width())
+    //$(window).resize(analSize)
+    $('#content').ready(function() {
+        $('.board').ready(analSize)
+    })
 })
 
-$(window).resize(function(newSize) {
-    $('#moves-group').width($('#content').width() - $('.board').width() - 5)
-    $('#analysis').width($('#moves-group').width() / 2 - 5)
-    $('#notation').width($('#moves-group').width() / 2 - 5)
-})
+function analSize() {
+    var mgSize = $('#content').width() - $('.board').width() -
+        parseInt($('.board').css('padding-left')) -
+        parseInt($('.board').css('padding-right')) -
+        $('#moves-group').width(mgSize)
+    $('#notation').width(mgSize / 3)
+    $('#analysis').width(mgSize - (mgSize/3) -
+        parseInt($('#analysis').css('padding-left')) -
+        parseInt($('#analysis').css('padding-right')) -
+        parseInt($('#notation').css('padding-right')) -
+        parseInt($('#notation').css('padding-left'))
+    )
+}
 
 
 function Transform(fin, step, obj) {

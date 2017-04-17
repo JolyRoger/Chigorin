@@ -23,13 +23,14 @@ public class EngineInstance {
     private final static String GO_MOVETIME = "go movetime ";
     private final static boolean IS_LINUX = System.getProperty("os.name").contains("Linux");
     private int ponderTime = 1000;
-    private boolean analysisMode;
+    public boolean analysisMode;
     private BufferedReader reader;
     private BufferedWriter writer;
     private Process process = null;
     private String currentEngine = "Stockfish";
     private Map<String, String[]> engineMap = new HashMap<>(2);
     private InfoProcessor processor;
+    private Future<String> bestmove;
 
     public EngineInstance(String engine) {
         engineMap.put("Mediocre", new String[] {"java", "-jar", MEDIOCRE_PATH});
@@ -83,10 +84,7 @@ public class EngineInstance {
     }
 
     public void ponderTime(int time) throws IOException {
-        analysisMode = time <= 0;
         ponderTime = time * 1000;
-        int mpvVal = analysisMode ? 3 : 1;
-        setOption("MultiPV", mpvVal + "");
     }
 
     public void close() throws IOException {
@@ -103,16 +101,21 @@ public class EngineInstance {
     }
 
     public String go(String conditionToAnswer) throws IOException, ExecutionException, InterruptedException {
-        if (analysisMode) write(GO_INFINITE);
-        else write(GO_MOVETIME + ponderTime);
+        write(ponderTime < 0 || analysisMode ? GO_INFINITE : GO_MOVETIME + ponderTime);
         return read(conditionToAnswer).get();
     }
 
-    public void startAnalysis() throws IOException {
+    public void startAnalysis() throws IOException, ExecutionException, InterruptedException {
         analysisMode = true;
         setOption("MultiPV", 3 + "");
         write(GO_INFINITE);
-        read("bestmove");
+        bestmove = read("bestmove");
+    }
+
+    public String stopAnalysis() throws IOException, ExecutionException, InterruptedException {
+        analysisMode = false;
+        setOption("MultiPV", 1 + "");
+        return bestmove.get();
     }
 
     public void setOption(String name, String value) throws IOException {

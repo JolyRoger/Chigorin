@@ -12,6 +12,7 @@ var movesHistory = ''
 var tmpMovesHistory
 var isFen = false
 var thinking = false		// true if server is thinking
+var analysis = false
 var playWithFen = false
 var START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 var whiteToMove = true
@@ -21,7 +22,11 @@ var enPassantSquare = '-'
 var halfmoveCounter = 0
 var fullmoveCounter = 1
 var charCodeOffset = 96;
-var settings = { showToMove: true, whoPlay: 'ai_human', showTimer: false, howLongThink: 1 }
+var settings = { showToMove: true, showTimer: false, howLongThink: 1 }
+
+$(function() {
+    setPlayers()
+})
 
 function Square(_ver, _hor) {
     var piece
@@ -272,12 +277,16 @@ function moveBtnClick() {
         $.get('/stopPonder', function() {
             thinking = false
         })
-    } else updatePosition()
+    } else if (analysis) {
+        stopAnalysis(true)
+    } else {
+        updatePosition()
+    }
 
 }
 
 function updatePosition() {
-	if (thinking) return
+	if (thinking || analysis) return
     thinking = true
 	sweepPanels()
 	setEnableButton(false)
@@ -711,25 +720,69 @@ function checkEnPassant(squareCandidate, pieceFrom) {
         pieceCandidate.isWhite != pieceFrom.isWhite
 }
 
-function analysis() {
-    thinking = true
+function stopAnalysis(doBestMove) {
+    $('#a-start').attr('src', '/assets/images/analoff.png')
+    $.get("/stopAnalysis", function(move) {
+        if (doBestMove) {
+            movesHistory = movesHistory + ' ' + move
+            doMove(move)
+            finishMove(move)
+            //addMoveToPage($('<img>', {'id': 'thinking'}), whiteToMove)
+            //newMoveReceived(best)
+        } else {
+            $('#analysis').html('')
+        }
+        analysis = false
+        console.log(move)
+    })
+}
+
+function startAnalysis() {
+    if (analysis) {
+        stopAnalysis()
+        return
+    }
+    analysis = true
+    $('#a-start').attr('src', '/assets/images/analon.png')
 
     $.get("/startAnalysis/" + encodeURIComponent(getFenFromPosition()), function(result) {
-        setInterval($.getJSON, 1000, "/analysis", function(result) {
+        var intervalId = setInterval($.getJSON, 1000, "/analysis", function(result) {
             $('#analysis').html("")
-            $.each(result, function(index, value) {
-                var html = $('#analysis').html() + '<br>'
-                var score = 'Score: ' + (parseInt(value.score) / 100)
-                var mpv = ' mpv: ' + value.multipv + '<br>'
-                var pv = value.pv.slice(1, -1) + '<br>'
-
-                var best = pv.substring(0, pv.indexOf(' '))
-                var content = index + '. ' + score + mpv + pv
-
-                $('#analysis').html(html + content)
-            });
+            if (!analysis) {
+              clearInterval(intervalId)
+            } else {
+                $.each(result, function(index, value) {
+                    var cmp = createAnal(index, value)
+                    $('#analysis').append(cmp.html() + '<br>')
+                });
+            }
         })
     })
+}
+
+function createAnal(index, value) {
+    var avariant = $('<span>').attr('id', 'a-variant' + index).addClass('a-variant')
+    var amoven = $('<span>').attr('id', 'a-moven' + index).addClass('a-moven')
+    var abest = $('<span>').attr('id', 'a-best' + index).addClass('a-best')
+    var acont = $('<span>').attr('id', 'a-cont' + index).addClass('a-cont')
+    var ascore = $('<span>').attr('id', 'a-score' + index).addClass('a-score')
+
+    var sc = parseInt(value.score) / 100
+    var pv = value.pv.slice(1, -1)
+    var best = pv.substring(0, pv.indexOf(','))
+    var continuation = pv.substring(pv.indexOf(',') + 1, pv.length)
+
+    amoven.html('Move №' + (index+1) + ':&nbsp;')
+    abest.html(pv.substring(0, pv.indexOf(',')) + '&emsp;')
+    ascore.html('Score: ' + (whiteToMove ? sc : -sc) + '<br>')
+    acont.html('Variant: ' + continuation + '<br>')
+
+    avariant.append(amoven)
+    avariant.append(abest)
+    avariant.append(ascore)
+    avariant.append(acont)
+
+    return avariant
 }
 
 function doSmth() {

@@ -4,6 +4,7 @@ import play.api.mvc.Session
 
 object GameEngine {
 
+
   val ENGINES = "/home/torquemada/Softdev/workspace/Chess/public/engines/"
   val OWN_BOOK_PATH = "public/books/performance.bin"
   val STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
@@ -56,8 +57,14 @@ object GameEngine {
     }
 	}
 
-	def startAnalysis(id: Session) = {
+	def startAnalysis(id: Session, fen: String) = {
+		send(id, POSITION_FEN + fen)
     idMap(id).startAnalysis
+  }
+
+  def stopAnalysis(id: Session) = {
+		send(id, STOP)
+    idMap(id).stopAnalysis
   }
 
 	def go(id: Session) = {

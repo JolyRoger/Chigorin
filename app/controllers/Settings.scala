@@ -1,8 +1,11 @@
 package controllers
 
 import engine.chessman.com.example.johnmasiello.chessapp.ChessBoard
+import play.api.libs.json.Json
 import play.api.mvc._
 import engine.GameEngine
+import play.api.libs.concurrent.Execution.Implicits._
+import scala.concurrent.Future
 
 object Settings extends Controller {
   implicit def string2Int(s: String): Int = augmentString(s).toInt
@@ -22,16 +25,24 @@ object Settings extends Controller {
     }
   }
 
-  // Добавить copy.pgn и cancel.pgn в репозиторий! Удалить лишние картинки.
-  def analysis() = Action { request =>
+  def analysis = Action { request =>
     Ok(GameEngine.getAnalysis(request.session))
   }
 
   def startAnalysis(fen: String) = Action { request =>
-    GameEngine.startAnalysis(request.session)
+    GameEngine.startAnalysis(request.session, fen)
     Ok
   }
 
+  def stopAnalysis = Action { request =>
+    Ok(GameEngine.stopAnalysis(request.session).split(" ")(1))
+/*
+    val res = GameEngine.stopAnalysis(request.session)
+    Ok(Json.toJson(Map("status" -> res,
+      "bestmove" -> res.split(" ")(1),
+      "gamover" -> GameEngine.isGamover(request.session))))
+*/
+  }
 
   def getLegalMoves(fen: String) = Action { request =>
     val legal = getLegalMovesAsString(fen)
@@ -50,4 +61,5 @@ object Settings extends Controller {
       GameEngine.setPonderTime(request.session, time)
 	    Ok("setPonderTime success")
   }
+
 }

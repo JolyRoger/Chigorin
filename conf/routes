@@ -15,6 +15,7 @@ GET     /start                                                   controllers.App
 POST    /next/:playWithFen										 controllers.Application.next(playWithFen)
 GET     /rate   				                                 controllers.Application.rate
 GET     /startAnalysis/:fen                                      controllers.Settings.startAnalysis(fen: String)
+GET     /stopAnalysis                                            controllers.Settings.stopAnalysis()
 GET     /analysis                                                controllers.Settings.analysis
 GET     /settings  				                                 controllers.Settings.settings
 GET     /changeEngine/:engine                                    controllers.Settings.newEngine(engine)
