@@ -28,6 +28,7 @@ public class EngineInstance {
     private BufferedWriter writer;
     private Process process = null;
     private String currentEngine = "Stockfish";
+    private String fen;
     private Map<String, String[]> engineMap = new HashMap<>(2);
     private InfoProcessor processor;
     private Future<String> bestmove;
@@ -72,7 +73,7 @@ public class EngineInstance {
                 while (((line = reader.readLine()) != null && !line.contains(condition))) {
                     if (analysisMode) processLine(line);
 //                    line = reader.readLine();
-                    System.out.println("\t" + line);
+//                    System.out.println("\t" + line);
                 }
                 System.out.println("\t" + (line == null ? "" : line));
                 return line;
@@ -93,11 +94,20 @@ public class EngineInstance {
         writer.close();
     }
 
-    public void changeEngine(String engine) throws IOException {
+    public void changeEngine(String engine) throws IOException, ExecutionException, InterruptedException {
         if (currentEngine.equals(engine)) return;
         currentEngine = engine;
+        boolean continueAnal = false;
+        if (analysisMode) {
+            stopAnalysis(false);
+            continueAnal = true;
+        }
         close();
         process(engineMap.get(engine));
+        if (continueAnal) {
+            startAnalysis(fen);
+            continueAnal = false;
+        }
     }
 
     public String go(String conditionToAnswer) throws IOException, ExecutionException, InterruptedException {
@@ -105,16 +115,21 @@ public class EngineInstance {
         return read(conditionToAnswer).get();
     }
 
-    public void startAnalysis() throws IOException, ExecutionException, InterruptedException {
+    public void startAnalysis(String fen) throws IOException, ExecutionException, InterruptedException {
+        write("position fen " + fen);
+        this.fen = fen;
         analysisMode = true;
         setOption("MultiPV", 3 + "");
         write(GO_INFINITE);
         bestmove = read("bestmove");
     }
 
-    public String stopAnalysis() throws IOException, ExecutionException, InterruptedException {
-        analysisMode = false;
-        setOption("MultiPV", 1 + "");
+    public String stopAnalysis(boolean doMove) throws IOException, ExecutionException, InterruptedException {
+        write("stop");
+        if (!doMove) {
+            analysisMode = false;
+            setOption("MultiPV", 1 + "");
+        }
         return bestmove.get();
     }
 

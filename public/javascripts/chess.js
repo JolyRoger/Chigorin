@@ -12,7 +12,6 @@ var movesHistory = ''
 var tmpMovesHistory
 var isFen = false
 var thinking = false		// true if server is thinking
-var analysis = false
 var playWithFen = false
 var START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 var whiteToMove = true
@@ -53,12 +52,8 @@ function Square(_ver, _hor) {
             }
         } else {
             if ($(this).hasClass('clickedTo')) {
-                var move = $('.clickedFrom').attr('id')+ver+hor
-                //addMoveToSet(move, legalMoves, getFenFromPosition())
-                movesHistory = movesHistory + ' ' + move
-// It means a promotion has been done by player. Move will be finished later in finishMove function.
-                if (doMove(move)) return
-                finishMove(move)
+                doFullMove($('.clickedFrom').attr('id')+ver+hor)    // FIXME
+                if (analysis) continueAnalysis(clearAndAnalyse)
             }
             sweepPanels()
         }
@@ -272,13 +267,17 @@ function newMoveReceived(json) {
     }
 }
 
-function moveBtnClick() {
+function moveBtnClick() {       // FIXME
 	if (thinking) {
         $.get('/stopPonder', function() {
             thinking = false
         })
     } else if (analysis) {
-        stopAnalysis(true)
+        continueAnalysis(function(move) {
+                doFullMove(move)
+                clearAndAnalyse()
+            }
+        )
     } else {
         updatePosition()
     }
@@ -313,6 +312,13 @@ function updatePosition() {
                 setEnableButton(true)
             })
         } })
+}
+
+function doFullMove(move) {
+    movesHistory = movesHistory + ' ' + move
+// It means a promotion has been done by player. Move will be finished later in finishMove function.
+    if (doMove(move)) return
+    finishMove(move)
 }
 
 function doMove(move) {
@@ -465,11 +471,13 @@ function moveDownShow() {
 	var $spanArray = $('div#notation').find('span').not('.toDelete')
 	spanIndex = $spanArray.index($spanArray.last()) - 1
 	if (spanIndex >= 0) $spanArray[spanIndex].click()
+    continueAnalysis(clearAndAnalyse)
 }
 
 function moveUpShow() {
 	var $spanArray = $('div#notation').find('span.toDelete')
 	if ($spanArray.length > 0) $spanArray[0].click()
+    continueAnalysis(clearAndAnalyse)
 }
 
 function removeGrayMoves() {
@@ -718,71 +726,6 @@ function checkEnPassant(squareCandidate, pieceFrom) {
     var pieceCandidate = squareCandidate.getPiece()
     return pieceCandidate != undefined && pieceCandidate.type == 'p' &&
         pieceCandidate.isWhite != pieceFrom.isWhite
-}
-
-function stopAnalysis(doBestMove) {
-    $('#a-start').attr('src', '/assets/images/analoff.png')
-    $.get("/stopAnalysis", function(move) {
-        if (doBestMove) {
-            movesHistory = movesHistory + ' ' + move
-            doMove(move)
-            finishMove(move)
-            //addMoveToPage($('<img>', {'id': 'thinking'}), whiteToMove)
-            //newMoveReceived(best)
-        } else {
-            $('#analysis').html('')
-        }
-        analysis = false
-        console.log(move)
-    })
-}
-
-function startAnalysis() {
-    if (analysis) {
-        stopAnalysis()
-        return
-    }
-    analysis = true
-    $('#a-start').attr('src', '/assets/images/analon.png')
-
-    $.get("/startAnalysis/" + encodeURIComponent(getFenFromPosition()), function(result) {
-        var intervalId = setInterval($.getJSON, 1000, "/analysis", function(result) {
-            $('#analysis').html("")
-            if (!analysis) {
-              clearInterval(intervalId)
-            } else {
-                $.each(result, function(index, value) {
-                    var cmp = createAnal(index, value)
-                    $('#analysis').append(cmp.html() + '<br>')
-                });
-            }
-        })
-    })
-}
-
-function createAnal(index, value) {
-    var avariant = $('<span>').attr('id', 'a-variant' + index).addClass('a-variant')
-    var amoven = $('<span>').attr('id', 'a-moven' + index).addClass('a-moven')
-    var abest = $('<span>').attr('id', 'a-best' + index).addClass('a-best')
-    var acont = $('<span>').attr('id', 'a-cont' + index).addClass('a-cont')
-    var ascore = $('<span>').attr('id', 'a-score' + index).addClass('a-score')
-
-    var sc = parseInt(value.score) / 100
-    var pv = value.pv.slice(1, -1)
-    var best = pv.substring(0, pv.indexOf(','))
-    var continuation = pv.substring(pv.indexOf(',') + 1, pv.length)
-
-    amoven.html('Move №' + (index+1) + ':&nbsp;')
-    abest.html(pv.substring(0, pv.indexOf(',')) + '&emsp;')
-    ascore.html('Score: ' + (whiteToMove ? sc : -sc) + '<br>')
-    acont.html('Variant: ' + continuation + '<br>')
-
-    avariant.append(amoven)
-    avariant.append(abest)
-    avariant.append(ascore)
-    avariant.append(acont)
-
-    return avariant
 }
 
 function doSmth() {

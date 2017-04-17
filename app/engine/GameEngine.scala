@@ -13,7 +13,6 @@ object GameEngine {
 	val MOVES = " moves "
 	val POSITION_FEN = "position fen "
 	val BEST_MOVE = "bestmove"
-	val STOP = "stop"
 
   var idMap = emptyMap
 
@@ -58,13 +57,11 @@ object GameEngine {
 	}
 
 	def startAnalysis(id: Session, fen: String) = {
-		send(id, POSITION_FEN + fen)
-    idMap(id).startAnalysis
+    idMap(id).startAnalysis(fen)
   }
 
-  def stopAnalysis(id: Session) = {
-		send(id, STOP)
-    idMap(id).stopAnalysis
+  def stopAnalysis(id: Session, doMove: Boolean) = {
+    idMap(id).stopAnalysis(doMove)
   }
 
 	def go(id: Session) = {

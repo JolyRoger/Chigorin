@@ -34,8 +34,8 @@ object Settings extends Controller {
     Ok
   }
 
-  def stopAnalysis = Action { request =>
-    Ok(GameEngine.stopAnalysis(request.session).split(" ")(1))
+  def stopAnalysis(doMove: Boolean) = Action { request =>
+    Ok(GameEngine.stopAnalysis(request.session, doMove).split(" ")(1))
 /*
     val res = GameEngine.stopAnalysis(request.session)
     Ok(Json.toJson(Map("status" -> res,
