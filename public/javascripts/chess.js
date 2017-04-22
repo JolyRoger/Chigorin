@@ -230,6 +230,7 @@ function newPosition(fen) {
                 $('#winpanel').css('display', 'none')
                 $('#wintitlepanel').css('display', 'none')
             }
+            if (analysis) continueAnalysis(clearAndAnalyse)
 	    },
         error: function(err) {
             var fenStringPaste = $('#fenstringpaste')
