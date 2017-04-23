@@ -1,8 +1,4 @@
-var board,
-    game = new Chess(),
-    statusEl = $('#status'),
-    fenEl = $('#fen'),
-    pgnEl = $('#pgn');
+var board, statusEl, fenEl, pgnEl, game = new Chess()
 
 function onChange(oldPos, newPos) {
     console.log("Position changed:");
@@ -10,8 +6,6 @@ function onChange(oldPos, newPos) {
     console.log("New position: " + ChessBoard.objToFen(newPos));
     console.log("--------------------")
 
-    $('#notation').html(game.pgn())
-    $('#fencontent').html(game.fen())
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
@@ -36,7 +30,8 @@ var onDrop = function(source, target) {
 
     // illegal move
     if (move === null) return 'snapback';
-
+    console.log('MOVE!')
+    getBestMoveFromServer()
     updateStatus();
 };
 
@@ -74,9 +69,11 @@ var updateStatus = function() {
         }
     }
 
+    var fen = game.fen()
     statusEl.html(status);
-    fenEl.html(game.fen());
-    pgnEl.html(game.pgn());
+    fenEl.html(fen);
+    pgnEl.html(game.pgn({ with_header: false, pgn_move_number: parseInt(fen.split(' ')[5]) }));
+    $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
 function unload() {
@@ -101,8 +98,11 @@ function init() {
             onSnapEnd: onSnapEnd
         }
         board = ChessBoard('board', cfg)
-        $('#fencontent').html(game.fen())
-        $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
-        updateStatus()
+        //statusEl = $('#analysis')
+        statusEl = $('#status')
+        fenEl = $('#fencontent')
+        pgnEl = $('#notation')
+
+        initEngineServer(updateStatus)
     })
 }

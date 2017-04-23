@@ -1230,16 +1230,25 @@ window['Chess'] = window['Chess'] || function(fen) {
       var max_width = (typeof options === 'object' &&
                        typeof options.max_width === 'number') ?
                        options.max_width : 0;
+      var with_header = (typeof options === 'object' &&
+                        typeof options.with_header === 'boolean') ?
+                        options.with_header : true;
+      var pgn_move_number = (typeof options === 'object' &&
+                            typeof options.pgn_move_number === 'number') ?
+                            options.pgn_move_number : 1;
+      var initialMoveNumber = pgn_move_number
       var result = [];
       var header_exists = false;
 
       /* add the PGN header headerrmation */
-      for (var i in header) {
-        /* TODO: order of enumerated properties in header object is not
-         * guaranteed, see ECMA-262 spec (section 12.6.4)
-         */
-        result.push('[' + i + ' \"' + header[i] + '\"]' + newline);
-        header_exists = true;
+      if (with_header) {
+          for (var i in header) {
+            /* TODO: order of enumerated properties in header object is not
+             * guaranteed, see ECMA-262 spec (section 12.6.4)
+             */
+            result.push('[' + i + ' \"' + header[i] + '\"]' + newline);
+            header_exists = true;
+          }
       }
 
       if (header_exists && history.length) {
@@ -1254,15 +1263,15 @@ window['Chess'] = window['Chess'] || function(fen) {
 
       var moves = [];
       var move_string = '';
-      var pgn_move_number = 1;
+      //var pgn_move_number = 1;
 
       /* build the list of moves.  a move_string looks like: "3. e3 e6" */
       while (reversed_history.length > 0) {
         var move = reversed_history.pop();
 
         /* if the position started with black to move, start PGN with 1. ... */
-        if (pgn_move_number === 1 && move.color === 'b') {
-          move_string = '1. ...';
+        if (pgn_move_number === initialMoveNumber && move.color === 'b') {
+          move_string = pgn_move_number + '. ...';
           pgn_move_number++;
         } else if (move.color === 'w') {
           /* store the previous generated move_string if we have one */
@@ -1287,7 +1296,7 @@ window['Chess'] = window['Chess'] || function(fen) {
         moves.push(header.Result);
       }
 
-      /* history should be back to what is was before we started generating PGN,
+      /* history should be back to what it was before we started generating PGN,
        * so join together moves
        */
       if (max_width === 0) {

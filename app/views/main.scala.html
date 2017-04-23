@@ -23,8 +23,9 @@
         <script type="text/javascript" src="@routes.Assets.at("javascripts/chessboard-0.3.0.js")" charset="UTF-8"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/chigorin.js")" charset="UTF-8"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/controllers.js")" charset="UTF-8"></script>
-        @*<script type="text/javascript" src="@routes.Assets.at("javascripts/analysis.js")" charset="UTF-8"></script>*@
-        @*<script type="text/javascript" src="@routes.Assets.at("javascripts/move.js")" charset="UTF-8"></script>*@
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/server.js")" charset="UTF-8"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/move.js")" charset="UTF-8"></script>
+        <script type="text/javascript" src="@routes.Assets.at("javascripts/analysis.js")" charset="UTF-8"></script>
         @*<script type="text/javascript" src="@routes.Assets.at("javascripts/fen.js")" charset="UTF-8"></script>*@
 </head>
      <body onunload="unload()">
@@ -45,9 +46,9 @@
 					<span class="jslink" onclick="print()">Print</span>&nbsp;
                     |
                     <a title="Go to the start page" href="/game">Main</a>
-                    |
-                    <span title="Dosmth" href="javascript:doSmth()">Do smth</span>
 *@
+                    |
+                    <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>
                     |
                     <span title="Settings" class="jslink" id="fb-trigger-settings">Settings</span>
                     |

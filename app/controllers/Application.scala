@@ -60,14 +60,13 @@ object Application extends Controller {
   def next(playWithFen: String) = Action.async { request => {
     request.body.asJson match {
       case Some(json) =>
-        val history = (json \ "history").as[String]
         val fen = (json \ "fen").as[String]
 
         val promiseOfString: Future[String] = Future {
           if (playWithFen == "false") {
             GameEngine.setFromMoves(request.session, (json \ "history").as[String])
           } else {
-            GameEngine.setFromFen(request.session, history, fen)
+            GameEngine.setFromFen(request.session, fen)
           }
           val gamover = GameEngine.isGamover(request.session)
           if (gamover != "PROCESS") {

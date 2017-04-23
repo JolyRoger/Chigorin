@@ -45,7 +45,7 @@ object GameEngine {
 	def setFromMoves(id: Session, position: String) {
 	  send(id, POSITION_STARTPOS + MOVES + position)
 	}
-	def setFromFen(id: Session, history: String, fen: String) {
+	def setFromFen(id: Session, fen: String) {
 		send(id, POSITION_FEN + fen)
 	}
 

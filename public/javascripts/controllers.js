@@ -11,6 +11,7 @@ function newPosition(fen) {
         game.load(fen)
         board.position(fen)
     }
+    newPositionServer(updateStatus)
 }
 
 function showFen() {
@@ -27,6 +28,11 @@ function readLoadFen() {
         showCopyPaste(true)
     }
 }
+
+function moveBtnClick() {
+    getBestMoveFromServer()
+}
+
 
 
 
