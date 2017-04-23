@@ -1,17 +1,20 @@
-var board
+var board,
+    game = new Chess(),
+    statusEl = $('#status'),
+    fenEl = $('#fen'),
+    pgnEl = $('#pgn');
 
 function onChange(oldPos, newPos) {
     console.log("Position changed:");
     console.log("Old position: " + ChessBoard.objToFen(oldPos));
     console.log("New position: " + ChessBoard.objToFen(newPos));
     console.log("--------------------")
+
+    $('#notation').html(game.pgn())
+    $('#fencontent').html(game.fen())
+    $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
-var board,
-    game = new Chess(),
-    statusEl = $('#status'),
-    fenEl = $('#fen'),
-    pgnEl = $('#pgn');
 
 // do not pick up pieces if the game is over
 // only pick up pieces for the side to move
@@ -86,6 +89,9 @@ function unload() {
 
 function init() {
     $(document).ready(function() {
+        $('#fencontainer').hide()
+        $('.fen-paste-element').hide()
+
         var cfg = {
             draggable: true,
             position: 'start',
@@ -93,8 +99,10 @@ function init() {
             onDragStart: onDragStart,
             onDrop: onDrop,
             onSnapEnd: onSnapEnd
-        };
+        }
         board = ChessBoard('board', cfg)
+        $('#fencontent').html(game.fen())
+        $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
         updateStatus()
     })
 }

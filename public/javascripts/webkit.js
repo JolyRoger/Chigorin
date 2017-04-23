@@ -5,23 +5,28 @@ $(function() {
     //console.log('content=' + $('#content').width() + ' :: board=' + $('.board').width())
     //console.log('moves-group=' + $('#moves-group').width())
     //$(window).resize(analSize)
-    $('#content').ready(function() {
-        $('.board').ready(analSize)
-    })
+    //$('#content').ready(function() {
+    //    $('.board').ready(analSize)
+    //})
 })
 
 function analSize() {
-    var mgSize = $('#content').width() - $('.board').width() -
-        parseInt($('.board').css('padding-left')) -
-        parseInt($('.board').css('padding-right')) -
-        $('#moves-group').width(mgSize)
-    $('#notation').width(mgSize / 3)
-    $('#analysis').width(mgSize - (mgSize/3) -
-        parseInt($('#analysis').css('padding-left')) -
-        parseInt($('#analysis').css('padding-right')) -
-        parseInt($('#notation').css('padding-right')) -
-        parseInt($('#notation').css('padding-left'))
-    )
+    //var mgSize = $('#content').width() - $('.board').width() -
+    //    parseInt($('.board').css('padding-left')) -
+    //    parseInt($('.board').css('padding-right')) -
+    //    $('#moves-group').width(mgSize)
+
+
+    var s = parseInt($('#content').width()) / 2
+    $('#analysis').css('padding-right', s)
+    console.log('aaa: ' + $('#content').width() + ' :: ' + $('#analysis').css('padding-right'))
+    //$('#notation').width(mgSize / 3)
+    //$('#analysis').width(mgSize - (mgSize/3) -
+    //    parseInt($('#analysis').css('padding-left')) -
+    //    parseInt($('#analysis').css('padding-right')) -
+    //    parseInt($('#notation').css('padding-right')) -
+    //    parseInt($('#notation').css('padding-left'))
+    //)
 }
 
 

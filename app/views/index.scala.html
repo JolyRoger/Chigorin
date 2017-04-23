@@ -2,10 +2,20 @@
 @main(title = "Chess") {
     <script type="text/javascript">init()</script>
     <div id="board"></div>
-    @*<div id="moves-group">*@
+    <div id="moves-group">
         <div id="notation"></div>
         <div id="analysis" class="analysis"></div>
-    @*</div>*@
+    </div>
+    <div id="fencontainer">
+        <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
+        <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here"/>
+        <div id="fencopybtn" class="fen-element fen-btn  fen-copy-element" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
+            <img src="@routes.Assets.at("images/copy.png")">
+        </div>
+        <div id="fenpastebtn" class="fen-element fen-btn fen-paste-element" onclick="loadFen()">Load
+            <img src="@routes.Assets.at("images/cancel.png")">
+        </div>
+    </div>
 @*
 	<div class="board">
 		<img src="@routes.Assets.at("images/empty_board448.png")">
@@ -23,16 +33,6 @@
 	</div>
 
 
-    <div id="fencontainer">
-        <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
-        <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here"/>
-        <div id="fencopybtn" class="fen-element fen-btn  fen-copy-element" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
-            <img src="@routes.Assets.at("images/copy.png")">
-        </div>
-        <div id="fenpastebtn" class="fen-element fen-btn fen-paste-element" onclick="loadFen()">Load
-            <img src="@routes.Assets.at("images/cancel.png")">
-        </div>
-    </div>
 *@
 
 	<div id="winpanel"></div>
