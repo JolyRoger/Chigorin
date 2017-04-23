@@ -42,9 +42,33 @@
     padding: 60px;
 }
 
+#board {
+  width: 400px;
+  display: inline-block;
+  vertical-align: top;
+}
+
 .board {
 	position: relative;
 	float: left;
+}
+
+#notation {
+  width: 270px;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  background: url(/assets/images/notation_background.jpg);
+  //position: relative;
+  font: 20pt Verdana;
+  color: #fff5ee;
+  //left: 40px;
+  border: solid gray;
+  overflow-y: scroll;
+  //padding: 10px;
+  //float: left;
+  //padding: @buttonPadding;
+  margin: 0 20px;
 }
 
 #moves-group {
@@ -183,21 +207,7 @@ form#loadgame {
 }
 
 
-#notation {
-	width: 30%;
-	height: 100%;
-	background: url(/assets/images/notation_background.jpg);
-	//position: relative;
-	font: 20pt Verdana;
-	color: #fff5ee;
-	left: 40px;
-	border: solid gray;
-	overflow-y: scroll;
-	//padding: 10px;
-	float: left;
-	padding: @buttonPadding;
-  margin: 0 20px;
-}
+
 
 button.handlebtn {
 	width: 100px;

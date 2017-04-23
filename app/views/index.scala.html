@@ -1,9 +1,12 @@
 @import tags._
 @main(title = "Chess") {
-	<form id="loadgame" accept="application/octet-stream">
-		<input id="gamefile" type="file" size="45" name="gamefile" class="input">
-	</form>
-
+    <script type="text/javascript">init()</script>
+    <div id="board"></div>
+    @*<div id="moves-group">*@
+        <div id="notation"></div>
+        <div id="analysis" class="analysis"></div>
+    @*</div>*@
+@*
 	<div class="board">
 		<img src="@routes.Assets.at("images/empty_board448.png")">
 		<div class="promotion">
@@ -17,13 +20,8 @@
             <button id="movedown" name="movedown" value="movedown" class="btn handlebtn" onclick="moveDownShow()">&lt;&lt;</button>
             <button id="moveup" name="moveup" value="moveup" class="btn handlebtn" onclick="moveUpShow()">&gt;&gt;</button>
         </div>
-		<script type="text/javascript">init()</script>
 	</div>
 
-    <div id="moves-group">
-    	<div id="notation"> </div>
-    	<div id="analysis" class="analysis"/>
-    </div>
 
     <div id="fencontainer">
         <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
@@ -35,6 +33,7 @@
             <img src="@routes.Assets.at("images/cancel.png")">
         </div>
     </div>
+*@
 
 	<div id="winpanel"></div>
 	<div id="wintitlepanel">
