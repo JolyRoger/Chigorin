@@ -30,7 +30,14 @@ function readLoadFen() {
 }
 
 function moveBtnClick() {
-    getBestMoveFromServer()
+    if (analysis) {
+        continueAnalysis(true, function(move) {
+            doMove(move)
+            clearAndAnalyse()
+        })
+    } else {
+        getBestMoveFromServer()
+    }
 }
 
 

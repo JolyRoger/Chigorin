@@ -3,10 +3,17 @@ var intervalId
 
 function doSmth() {
     console.log('do smth')
-    game.load('5nk1/2p5/1p3R2/2b1NNp1/p3Pp2/2P2P2/6r1/3K4 b - - 10 15')
+    //game.load('5nk1/2p5/1p3R2/2b1NNp1/p3Pp2/2P2P2/6r1/3K4 b - - 10 15')
+    game.load('r1bqk2r/ppp2ppp/1bnp1n2/4p3/4P3/1BNP1N2/PPP2PPP/R1BQK2R w KQkq - 2 7')
 
     //var str = "g1f3, e7e6, d2d4, d7d5, c2c4, g8f6, b1c3, f8b4, e2e3, c7c5, f1e2, e8g8, e1g1, b8c6, d4c5, b4c5, d1d3, d5c4, d3c4, c5b6, f1d1, d8e7, c1d2, f8d8"
-    var str = "g8h7, f6f7, h7h8"
+    //var str = "g8h7, f6f7, h7h8"
+    var str = "0-0"
+    var move = { from: 'e1', to: 'g1', promotion: 'q'}
+    console.log('Move: ' + move.from + ' - ' + move.to + ', ' + move.promotion)
+    game.move(move)
+    board.position(game.fen())
+    updateStatus()
     var arr = str.split(',')
     console.log('transformed: ' + transform(arr))
 }
@@ -28,8 +35,8 @@ function transform(pv) {
     return varArr.pgn( { with_header: false, pgn_move_number: parseInt(fen.split(' ')[5]) } )
 }
 
-function continueAnalysis(f) {
-    $.get("/stopAnalysis/" + true, f)
+function continueAnalysis(doMove, f) {
+    $.get("/stopAnalysis/" + doMove, f)
 }
 
 function clearAndAnalyse() {
@@ -69,7 +76,7 @@ function createAnal(index, value) {
 
 function startAnalysis() {
     if (analysis) {
-        $.get("/stopAnalysis/" + false, function() {
+        continueAnalysis(false, function() {
             $('#analysis').html('')
             $('#a-start').attr('src', '/assets/images/analoff.png')
             analysis = false
