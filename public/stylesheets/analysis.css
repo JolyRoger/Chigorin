@@ -1,15 +1,38 @@
 #analysis {
-    width: 40%;
-    /*height: 100%;*/
+    width: 35%;
     border: solid gray;
     position: absolute;
     top: 60px;
     right: 60px;
     bottom: 80px;
+    padding: 10px;
 }
 
 .a-button {
     display: inline-block;
     width: 100px;
     cursor: pointer;
+}
+
+.a-moven {
+    color: #291268;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.a-cont-title {
+    color: #291268;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.a-score-title {
+    color: #291268;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.a-score {
+    font-weight:bold
+}
+
+.a-best {
+    font-weight:bold
 }

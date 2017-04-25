@@ -76,7 +76,8 @@ var updateStatus = function() {
     var fen = game.fen()
     statusEl.html(status);
     fenEl.html(fen);
-    pgnEl.html(game.pgn({ with_header: false, pgn_move_number: parseInt(fen.split(' ')[5]) }));
+    pgnEl.html(game.pgn({ with_header: false }));
+        //pgn_move_number: parseInt(fen.split(' ')[5]) }));
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 

@@ -1271,6 +1271,8 @@ window['Chess'] = window['Chess'] || function(fen) {
 
         /* if the position started with black to move, start PGN with 1. ... */
         if (pgn_move_number === initialMoveNumber && move.color === 'b') {
+        //if (pgn_move_number === 1 && move.color === 'b') {
+        //  move_string = '1. ...';
           move_string = pgn_move_number + '. ...';
           pgn_move_number++;
         } else if (move.color === 'w') {
