@@ -5,10 +5,24 @@ function doSmth() {
     console.log('do smth')
     var pgn1 = '7. Re1+ Be7 8. Nbd2 Nf6 9. h3 O-O 10. Nb3 Bd6 11. Nbxd4 Re8 12. Rxe8+ Qxe8 13. Be3 Bd7'
     var pgn2 = '7. ... Be7 8. Nbd2 Nf6 9. h3 O-O 10. Nb3 Bd6 11. Nbxd4'
-    console.log(pgn1.match(/[a-zA-Z][^\s\.]+/))
-    console.log(pgn2.match(/[a-zA-Z][^\s\.]+/))
+
+    //console.log(pgn1.match(/[a-zA-Z][^\s\.]+/g))
+    //console.log(pgn2.match(/[a-zA-Z][^\s\.]+/g))
+
+    console.log(addClickToMove2(pgn2))
+
+    //console.log(pgn2.match(/[a-zA-Z][^\s\.]+/))
     //game.load('5nk1/2p5/1p3R2/2b1NNp1/p3Pp2/2P2P2/6r1/3K4 b - - 10 15')
     //game.load('r1bqk2r/ppp2ppp/1bnp1n2/4p3/4P3/1BNP1N2/PPP2PPP/R1BQK2R w KQkq - 2 7')
+
+    function nonEmpty(value) {
+        //return /[A-Za-z/-]/.test(value) // length > 0
+        return value.length > 0
+    }
+
+//    console.log(pgn2.split(/\d+\./))
+//    console.info(pgn1.split(' ').filter(nonEmpty))
+    //console.log(pgn2.split(/\d+\.|\.+| /)/*.filter(nonEmpty)*/)
 
     //var str = "g1f3, e7e6, d2d4, d7d5, c2c4, g8f6, b1c3, f8b4, e2e3, c7c5, f1e2, e8g8, e1g1, b8c6, d4c5, b4c5, d1d3, d5c4, d3c4, c5b6, f1d1, d8e7, c1d2, f8d8"
     //var str = "g8h7, f6f7, h7h8"
