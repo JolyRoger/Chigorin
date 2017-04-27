@@ -76,32 +76,11 @@ var updateStatus = function() {
         }
     }
 
-    var fen = game.fen()
-    var pgn = game.pgn({ with_header: false })
-    fenPgn[pgn] = oldFen
-    oldFen = fen
     statusEl.html(status);
-    fenEl.html(fen);
-    pgnEl.html(addClickToMove2(pgn));
+    fenEl.html(game.fen());
+    pgnEl.html(clickToMove(game.pgn({ with_header: false })));
+    $('#notation').children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
-}
-
-function addClickToMove2(pgn) {
-    var i = 0
-    return pgn.replace(/[a-zA-Z][^\s\.]+/g,function (moveStr) {
-        return '<span value="' + (i++) + '" class="clicked-move" onclick="clickMove(this)">' + moveStr + '</span>'
-    })
-}
-
-function clickMove(element) {
-    console.info($(element).attr('value') + " :: " + element.innerText)
-    game.load(startFen)
-    var moveNumber = parseInt($(element).attr('value'))
-    $('#notation').children().each(function(index) {
-        var curN = parseInt($(this).attr('value'))
-        if (curN <= moveNumber) game.move($(this).text())
-    })
-    board.position(game.fen())
 }
 
 function unload() {

@@ -9,7 +9,7 @@ function doSmth() {
     //console.log(pgn1.match(/[a-zA-Z][^\s\.]+/g))
     //console.log(pgn2.match(/[a-zA-Z][^\s\.]+/g))
 
-    console.log(addClickToMove2(pgn2))
+    console.log(clickToMove(pgn2))
 
     //console.log(pgn2.match(/[a-zA-Z][^\s\.]+/))
     //game.load('5nk1/2p5/1p3R2/2b1NNp1/p3Pp2/2P2P2/6r1/3K4 b - - 10 15')
