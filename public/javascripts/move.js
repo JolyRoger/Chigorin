@@ -8,48 +8,29 @@ function doMove(move) {
     updateStatus()
 }
 
-function moveDownShow() {
-    //var lastChildValue = parseInt($('#notation').children('.last-move').attr('value'))
-    //var prev = $('#notation').find('.clicked-move')[lastChildValue-1]
-    //if (prev) prev.onclick(this)
-    //var moveArr = $('#notation').children('.clicked-move')
+function moveShow(calculateMove, indexExitCriteria) {
+    var allMovesLength = $('#notation').children().size()
     var valueIndex = parseInt($('#notation').children('.clicked-move.last-move').attr('value'))
     var prevMove
 
     do {
-        prevMove = $('#notation').children('.clicked-move[value="' + (--valueIndex) + '"]')
-    } while(!/[a-zA-Z][^\s\.]+/g.test(prevMove.text().trim()) && valueIndex > 0)
+        valueIndex = calculateMove(valueIndex)
+        prevMove = $('#notation').children('.clicked-move[value="' + valueIndex + '"]')
+    } while(!/[a-zA-Z][^\s\.]+/g.test(prevMove.text().trim()) && indexExitCriteria(valueIndex, allMovesLength))
 
-    prevMove[0].onclick(this)
+    prevMove && prevMove.length > 0 && prevMove[0].onclick(this)
+}
 
-    //var prev = $('#notation').children('.last-move').prev('.clicked-move')
-    //if (prev) prev[0].onclick(this)
-//	var $spanArray = $('div#notation').find('span').not('.toDelete')
-//	spanIndex = $spanArray.index($spanArray.last()) - 1
-//	if (spanIndex >= 0) $spanArray[spanIndex].click()
-//    continueAnalysis(clearAndAnalyse)
+function moveDownShow() {
+    moveShow(
+        function(valueIndex) { return valueIndex - 1 },
+        function(valueIndex, movesLength) { return valueIndex > 0 })
 }
 
 function moveUpShow() {
-    //var lastChildValue = parseInt($('#notation').children('.last-move').attr('value'))
-    //var next = $('#notation').find('span.clicked-move[value=' + + ']')
-
-    //var next = $('#notation').children('.last-move').next('.clicked-move')
-    //if (next) next[0].onclick(this)
-    var allMovesLength = $('#notation').children('.clicked-move').size()
-    var valueIndex = parseInt($('#notation').children('.clicked-move.last-move').attr('value'))
-    var prevMove
-
-    do {
-        prevMove = $('#notation').children('.clicked-move[value="' + (++valueIndex) + '"]')
-    } while(!/[a-zA-Z][^\s\.]+/g.test(prevMove.text().trim()) && valueIndex < allMovesLength-1)
-
-    prevMove[0].onclick(this)
-
-
-//	var $spanArray = $('div#notation').find('span.toDelete')
-//	if ($spanArray.length > 0) $spanArray[0].click()
-//    continueAnalysis(clearAndAnalyse)
+    moveShow(
+        function(valueIndex) { return valueIndex + 1 },
+        function(valueIndex, movesLength) { return valueIndex < movesLength-1 })
 }
 
 function clickToMove(pgn) {
@@ -59,17 +40,9 @@ function clickToMove(pgn) {
         if (/\.+/.test(element)) pgnArr[i] = '<span value="' + i + '">' + element + '&nbsp;</span>'
         else if (/[a-zA-Z][^\s\.]+/g.test(element))
             pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="clickMove(this)">' + element + ' </span>'
-        //console.log(element + ' :: ' + i + ' ::' + arr)
     })
     var out = pgnArr.join('')
-
-    //console.info(out)
     return out
-    //var pgnHtml =  pgn.replace(/[a-zA-Z][^\s\.]+/g, function (moveStr) {
-    //    return '<span value="' + (i++) + '" class="clicked-move" onclick="clickMove(this)">' + moveStr + '</span>'
-    //})
-    //
-    //return pgnHtml
 }
 
 function clickMove(element) {
