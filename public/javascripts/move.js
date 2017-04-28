@@ -34,29 +34,27 @@ function moveUpShow() {
 }
 
 function clickToMove(pgn) {
-    var i = 0
     var pgnArr =  pgn.split(/\s+/g)
     pgnArr.forEach(function(element, i, arr) {
         if (/\.+/.test(element)) pgnArr[i] = '<span value="' + i + '">' + element + '&nbsp;</span>'
         else if (/[a-zA-Z][^\s\.]+/g.test(element))
             pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="clickMove(this)">' + element + ' </span>'
     })
-    var out = pgnArr.join('')
-    return out
+    return pgnArr.join('')
 }
 
 function clickMove(element) {
     game.load(startFen)
     $('.last-move').removeClass('last-move')
     $(element).addClass('last-move')
-    var movesToGray = $('#notation').children().each(function(index) {
+    $('#notation').children().each(function() {
         var lastChildIndex = parseInt($('#notation').children('.last-move').attr('value'))
         if (parseInt($(this).attr('value')) > lastChildIndex) $(this).addClass('gray-move')
         else $(this).removeClass('gray-move')
     })
 
     var moveNumber = parseInt($(element).attr('value'))
-    $('#notation').children('.clicked-move').each(function(index) {
+    $('#notation').children('.clicked-move').each(function() {
         var curN = parseInt($(this).attr('value'))
         if (curN <= moveNumber) game.move($(this).text().trim())
     })

@@ -31,17 +31,11 @@ object Application extends Controller {
   }
 
   def newPosition(fen: String) = Action { request =>
-    val legal = Settings.getLegalMovesAsString(fen)
-    legal match {
-      case Some(leg) => {
-        val whiteIsUp = "whiteIsUp" -> "false"
-        var status: String = null
-        if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
-        else status = routes.Application.initEngine(1).toString
-        Ok(Json.toJson( Map("status" -> status, "legalMoves" -> leg, whiteIsUp)))
-      }
-      case None => BadRequest(fen)
-    }
+      val whiteIsUp = "whiteIsUp" -> "false"
+      var status: String = null
+      if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
+      else status = routes.Application.initEngine(3).toString
+      Ok(Json.toJson( Map("status" -> status, whiteIsUp)))
   }
 
   def deleteID = Action { request =>

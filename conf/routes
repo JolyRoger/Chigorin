@@ -19,7 +19,6 @@ GET     /stopAnalysis/:doMove                                    controllers.Set
 GET     /analysis                                                controllers.Settings.analysis
 GET     /settings  				                                 controllers.Settings.settings
 GET     /changeEngine/:engine                                    controllers.Settings.newEngine(engine)
-GET 	/getLegalMoves/:fen								         controllers.Settings.getLegalMoves(fen)
 GET     /setPonderTime/:time		                             controllers.Settings.setPonderTime(time: Int)
 
 # Map static resources from the /public folder to the /assets URL path
