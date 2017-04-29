@@ -38,6 +38,13 @@ function readLoadFen() {
 }
 
 function changeEngine() {
+    var newEngine = $('#select-engine').val()
+    $.get('/changeEngine/' + newEngine, function(data) {
+        $('#welcome').html('<span>' + data + '</span>')
+    })
+}
+
+function setPlayers() {
 
 }
 

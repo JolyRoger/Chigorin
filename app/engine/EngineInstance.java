@@ -126,6 +126,7 @@ public class EngineInstance {
         write("stop");
         analysisMode = false;
         setOption("MultiPV", 1 + "");
+        processor = new InfoProcessor();
     }
 
     public String getBestMove() throws IOException, ExecutionException, InterruptedException {
