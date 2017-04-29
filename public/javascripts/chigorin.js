@@ -1,15 +1,11 @@
 var board, statusEl, fenEl, pgnEl, game = new Chess()
 var startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+var initialMoveNumber = 1
 
 function onChange(oldPos, newPos) {
-    //console.log("Position changed:");
-    //console.log("Old position: " + ChessBoard.objToFen(oldPos));
-    //console.log("New position: " + ChessBoard.objToFen(newPos));
-    //console.log("--------------------")
     if (analysis) continueAnalysis()
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
-
 
 // do not pick up pieces if the game is over
 // only pick up pieces for the side to move
@@ -31,8 +27,8 @@ var onDrop = function(source, target) {
 
     // illegal move
     if (move === null) return 'snapback';
-    if (!analysis) getBestMoveFromServer()
     updateStatus();
+    if (!analysis && getCheckedValue($('#players')) < 2) getBestMoveFromServer()
 };
 
 // update the board position after the piece snap
@@ -71,7 +67,7 @@ var updateStatus = function() {
 
     statusEl.html(status);
     fenEl.html(game.fen());
-    pgnEl.html(clickToMove(game.pgn({ with_header: false })));
+    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber })));
     $('#notation').children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
@@ -105,4 +101,10 @@ function init() {
 
         initEngineServer(updateStatus)
     })
+}
+
+function getCheckedValue(element) {
+    return parseInt(element.children('input').filter(function() {
+        return $(this).prop('checked')
+    }).attr('value'))
 }

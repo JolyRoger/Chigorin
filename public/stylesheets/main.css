@@ -10,6 +10,7 @@ body {
     font-size: 90%;
     color: rgb(54, 47, 45);
     background: #fff;
+    overflow-x: hidden;
     -webkit-border-radius: 8px;
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,.2);
     -moz-border-radius: 8px;

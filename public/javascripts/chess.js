@@ -159,6 +159,7 @@ window['Chess'] = window['Chess'] || function(fen) {
   var ep_square = EMPTY;
   var half_moves = 0;
   var move_number = 1;
+  var initial_move_number = 1
   var history = [];
   var header = {};
 
@@ -232,6 +233,7 @@ window['Chess'] = window['Chess'] || function(fen) {
     ep_square = (tokens[3] === '-') ? EMPTY : SQUARES[tokens[3]];
     half_moves = parseInt(tokens[4], 10);
     move_number = parseInt(tokens[5], 10);
+    initial_move_number = move_number
 
     update_setup(generate_fen());
 
@@ -1233,10 +1235,6 @@ window['Chess'] = window['Chess'] || function(fen) {
       var with_header = (typeof options === 'object' &&
                         typeof options.with_header === 'boolean') ?
                         options.with_header : true;
-      var pgn_move_number = (typeof options === 'object' &&
-                            typeof options.pgn_move_number === 'number') ?
-                            options.pgn_move_number : 1;
-      var initialMoveNumber = pgn_move_number
       var result = [];
       var header_exists = false;
 
@@ -1263,14 +1261,14 @@ window['Chess'] = window['Chess'] || function(fen) {
 
       var moves = [];
       var move_string = '';
-      //var pgn_move_number = 1;
+      var pgn_move_number = initial_move_number;
 
       /* build the list of moves.  a move_string looks like: "3. e3 e6" */
       while (reversed_history.length > 0) {
         var move = reversed_history.pop();
 
         /* if the position started with black to move, start PGN with 1. ... */
-        if (pgn_move_number === initialMoveNumber && move.color === 'b') {
+        if (pgn_move_number === initial_move_number && move.color === 'b') {
         //if (pgn_move_number === 1 && move.color === 'b') {
         //  move_string = '1. ...';
           move_string = pgn_move_number + '. ...';

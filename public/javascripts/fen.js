@@ -125,7 +125,5 @@ function copyFen() {
 }
 
 function loadFen() {
-    var str = $('#fenstringpaste').val()
-    var newstr = str.replace(/\s{2,}/g, ' ')
-    newPosition(newstr.trim())
+    newPosition($('#fenstringpaste').val().replace(/\s{2,}/g, ' ').trim())
 }

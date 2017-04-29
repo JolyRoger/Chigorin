@@ -18,18 +18,18 @@
 						<div class="dialog_content">
 							<div class="dialog_body">
 								<div id="settingsL">
-									<label for="showmoves">Show available moves</label>
-									<input id="showmoves" type="checkbox"
-										onchange="showAvailableMoves(this)" checked/>
+									<label disabled="true" style="color: #a9a9a9;" for="showmoves">Show available moves</label>
+									<input disabled="true" id="showmoves" type="checkbox"
+										onchange="showAvailableMoves(this)"/>
 									<br><hr>
-									<div id="players" onclick="setPlayers()">
+									<div id="players">
 										Select players<br><br>
 										<label for="ai_ai">Computer vs. Computer</label>
-										<input id="ai_ai" type="radio" name="players" value="ai_ai"/><br>
-										<label for="human_human">Human vs. Human</label>
-										<input id="human_human" type="radio" name="players" value="human_human" checked/><br>
+										<input id="ai_ai" type="radio" name="players" value="0"/><br>
 										<label for="ai_human">Computer vs. Human</label>
-										<input id="ai_human" type="radio" name="players" value="ai_human"/><br>
+										<input id="ai_human" type="radio" name="players" value="1" checked/><br>
+										<label for="human_human">Human vs. Human</label>
+										<input id="human_human" type="radio" name="players" value="2"/><br>
 									</div>
 									<br>
                                     <div><span>Select engine</span>
@@ -45,6 +45,10 @@
 									<input disabled="true" id="showtimer" type="checkbox"/>
 									<br><hr>
 									Think time<br><br>
+                                    <p>
+                                        <label for="spinner">Select a value:</label>
+                                        <input id="spinner" name="value">
+                                    </p>
 									<div id="ponderTime">
 										<label for="time1">&nbsp;1 sec.</label> 
 										<input id="time1" type="radio" name="pondertime" value="1" checked/><br>
@@ -52,8 +56,8 @@
 										<input id="time5" type="radio" name="pondertime" value="5"/><br>
 										<label for="time10">&nbsp;10 sec.</label> 
 										<input id="time10" type="radio" name="pondertime" value="10"/><br>
-										<label for="timeinfinite">&nbsp;Infinite</label>
-										<input id="timeinfinite" type="radio" name="pondertime" value="infinite"/><br>
+										<label disabled="true" style="color: #a9a9a9;" for="timeinfinite">&nbsp;Infinite</label>
+										<input disabled="true" id="timeinfinite" type="radio" name="pondertime" value="-1"/><br>
 																				 
 									</div>
 								</div>

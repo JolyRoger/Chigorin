@@ -1,14 +1,10 @@
 function getBestMoveFromServer() {
-    var time = parseInt($('#ponderTime').children('input').filter(function() {
-        return $(this).prop('checked')
-    }).attr('value'))
-
     $.ajax({
         url: '/next/',
         data: JSON.stringify(
             { fen: analysis ? '' : game.fen(),
               analysis: analysis,
-              time: analysis ? '' : time }),
+              time: analysis ? '' : getCheckedValue($('#ponderTime')) }),
         type: 'POST',
         contentType: 'application/json',
         success: function (move) {

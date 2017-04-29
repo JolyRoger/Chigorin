@@ -44,10 +44,6 @@ function changeEngine() {
     })
 }
 
-function setPlayers() {
-
-}
-
 function moveBtnClick() {
     getBestMoveFromServer()
 }
