@@ -1,17 +1,25 @@
 function turnSide() {
     board.flip()
-    //newPosition('5nk1/2p5/1p3R2/2b1NNp1/p3Pp2/2P2P2/6r1/3K4 w - - 0 1')
 }
 
 function newPosition(fen) {
     if (fen == undefined) {
+        startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
         game.reset()
         board.start()
+        updateStatus()
     } else {
-        game.load(fen)
-        board.position(fen)
+        var validateResult = game.validate_fen(fen)
+        if (validateResult.valid) {
+            startFen = fen
+            game.load(fen)
+            board.position(fen)
+            newPositionServer(updateStatus)
+        } else {
+            $('#fenstringpaste').val(validateResult.error)
+            console.log($('#fenstringpaste').val() + ' — ' + validateResult.error)
+        }
     }
-    newPositionServer(updateStatus)
 }
 
 function showFen() {
@@ -29,15 +37,12 @@ function readLoadFen() {
     }
 }
 
+function changeEngine() {
+
+}
+
 function moveBtnClick() {
-    if (analysis) {
-        continueAnalysis(true, function(move) {
-            doMove(move)
-            clearAndAnalyse()
-        })
-    } else {
-        getBestMoveFromServer()
-    }
+    getBestMoveFromServer()
 }
 
 

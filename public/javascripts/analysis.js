@@ -22,8 +22,12 @@ function transform(pv) {
     return varArr.pgn( { with_header: false, pgn_move_number: parseInt(fen.split(' ')[5]) } )
 }
 
-function continueAnalysis(doMove, f) {
-    $.get("/stopAnalysis/" + doMove, f)
+function stopAnalysis(f) {
+    $.get("/stopAnalysis/false", f)
+}
+
+function continueAnalysis() {
+    $.get("/stopAnalysis/true", clearAndAnalyse)
 }
 
 function clearAndAnalyse() {
@@ -64,7 +68,7 @@ function createAnal(index, value) {
 
 function startAnalysis() {
     if (analysis) {
-        continueAnalysis(false, function() {
+        stopAnalysis(function() {
             $('#analysis').html('')
             $('#a-start').attr('src', '/assets/images/analoff.png')
             analysis = false

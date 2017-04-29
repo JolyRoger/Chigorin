@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -69,14 +68,14 @@ public class EngineInstance {
 
     public Future<String> read(String condition) {
         return Executors.newCachedThreadPool().submit(() -> {
-                String line = null;
-                while (((line = reader.readLine()) != null && !line.contains(condition))) {
-                    if (analysisMode) processLine(line);
+            String line = null;
+            while (((line = reader.readLine()) != null && !line.contains(condition))) {
+                if (analysisMode) processLine(line);
 //                    line = reader.readLine();
 //                    System.out.println("\t" + line);
-                }
-                System.out.println("\t" + (line == null ? "" : line));
-                return line;
+            }
+            System.out.println("\t" + (line == null ? "" : line));
+            return line;
         });
     }
 
@@ -99,14 +98,13 @@ public class EngineInstance {
         currentEngine = engine;
         boolean continueAnal = false;
         if (analysisMode) {
-            stopAnalysis(false);
+            stopAnalysis();
             continueAnal = true;
         }
         close();
         process(engineMap.get(engine));
         if (continueAnal) {
             startAnalysis(fen);
-            continueAnal = false;
         }
     }
 
@@ -124,12 +122,14 @@ public class EngineInstance {
         bestmove = read("bestmove");
     }
 
-    public String stopAnalysis(boolean doMove) throws IOException, ExecutionException, InterruptedException {
+    public void stopAnalysis() throws IOException {
         write("stop");
-        if (!doMove) {
-            analysisMode = false;
-            setOption("MultiPV", 1 + "");
-        }
+        analysisMode = false;
+        setOption("MultiPV", 1 + "");
+    }
+
+    public String getBestMove() throws IOException, ExecutionException, InterruptedException {
+        write("stop");
         return bestmove.get();
     }
 

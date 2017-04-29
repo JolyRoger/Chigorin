@@ -12,11 +12,12 @@ POST    /update/				                                 controllers.Application.upd
 POST    /update/:move			                                 controllers.Application.update(move)
 GET     /stopPonder				                                 controllers.Application.stopPonder
 GET     /start                                                   controllers.Application.start
-POST    /next/:playWithFen										 controllers.Application.next(playWithFen)
+POST    /next/          										 controllers.Application.next
 GET     /rate   				                                 controllers.Application.rate
-GET     /startAnalysis/:fen                                      controllers.Settings.startAnalysis(fen: String)
-GET     /stopAnalysis/:doMove                                    controllers.Settings.stopAnalysis(doMove: Boolean)
-GET     /analysis                                                controllers.Settings.analysis
+GET     /startAnalysis/:fen                                      controllers.Analysis.startAnalysis(fen: String)
+GET     /stopAnalysis/:doMove                                    controllers.Analysis.stopAnalysis(doMove: Boolean)
+GET     /analysis                                                controllers.Analysis.analysis
+GET     /getBestMove                                             controllers.Analysis.getBestMove
 GET     /settings  				                                 controllers.Settings.settings
 GET     /changeEngine/:engine                                    controllers.Settings.newEngine(engine)
 GET     /setPonderTime/:time		                             controllers.Settings.setPonderTime(time: Int)

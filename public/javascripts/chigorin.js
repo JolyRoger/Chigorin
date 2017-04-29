@@ -1,6 +1,4 @@
 var board, statusEl, fenEl, pgnEl, game = new Chess()
-var fenPgn = {}
-var oldFen
 var startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 
 function onChange(oldPos, newPos) {
@@ -8,7 +6,7 @@ function onChange(oldPos, newPos) {
     //console.log("Old position: " + ChessBoard.objToFen(oldPos));
     //console.log("New position: " + ChessBoard.objToFen(newPos));
     //console.log("--------------------")
-
+    if (analysis) continueAnalysis()
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
@@ -33,12 +31,7 @@ var onDrop = function(source, target) {
 
     // illegal move
     if (move === null) return 'snapback';
-    console.log('MOVE!')
-    if (analysis) {
-        continueAnalysis(true, clearAndAnalyse)
-    } else {
-        getBestMoveFromServer()
-    }
+    if (!analysis) getBestMoveFromServer()
     updateStatus();
 };
 

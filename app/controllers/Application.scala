@@ -10,14 +10,14 @@ import play.api.libs.concurrent.Execution.Implicits._
 import engine.GameEngine
 
 object Application extends Controller {
-  
+
   implicit def string2Int(s: String): Int = augmentString(s).toInt
 
   def path = if (Play.isProd) "target/"+ new File("target").listFiles.filter(_.getName.startsWith("scala"))(0).getName +"/classes/"
   else { "" }
-  
+
   def index = Action {
-	  Redirect(routes.Application.game)
+    Redirect(routes.Application.game)
   }
 
   def game = Action {
@@ -31,11 +31,11 @@ object Application extends Controller {
   }
 
   def newPosition(fen: String) = Action { request =>
-      val whiteIsUp = "whiteIsUp" -> "false"
-      var status: String = null
-      if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
-      else status = routes.Application.initEngine(3).toString
-      Ok(Json.toJson( Map("status" -> status, whiteIsUp)))
+    val whiteIsUp = "whiteIsUp" -> "false"
+    var status: String = null
+    if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
+    else status = routes.Application.initEngine(3).toString
+    Ok(Json.toJson( Map("status" -> status, whiteIsUp)))
   }
 
   def deleteID = Action { request =>
@@ -51,56 +51,50 @@ object Application extends Controller {
     promiseOfString.map( i => Ok("Got result: " + i))
   }
 
-  def next(playWithFen: String) = Action.async { request => {
+  def next = Action.async { request => {
     request.body.asJson match {
       case Some(json) =>
-        val fen = (json \ "fen").as[String]
+        val analysis = (json \ "analysis").as[Boolean]
 
         val promiseOfString: Future[String] = Future {
-          if (playWithFen == "false") {
-            GameEngine.setFromMoves(request.session, (json \ "history").as[String])
+          if (analysis) {
+            GameEngine.getBestMove(request.session)
           } else {
+            val fen = (json \ "fen").as[String]
+            val time = (json \ "time").as[Int]
+            GameEngine.setPonderTime(request.session, time)
             GameEngine.setFromFen(request.session, fen)
-          }
-          val gamover = GameEngine.isGamover(request.session)
-          if (gamover != "PROCESS") {
-            gamover
-          } else {
             GameEngine.go(request.session)
           }
         }
         promiseOfString.map(res =>
-          Ok(Json.toJson(Map("status" -> res,
-            "newfen" -> GameEngine.getFen(request.session),
-            "bestmove" -> res.split(" ")(1),
-            "gamover" -> GameEngine.isGamover(request.session))))
+          Ok(res.split(" ")(1))
         )
       case None => Future(BadRequest("Unknown JSON"))
-    }
-  }  }
+    } } }
 
   def rate = Action {
     for {
       files <- Option(new File("public/saves").listFiles)
       file <- files if file.getName.startsWith("20_")
     } {
-    	file.delete
+      file.delete
     }
-    Ok("")
+    Ok
   }
 
   def update(move: String) = Action { request =>
-    {
-      request.body.asJson.map { json =>
-        (json \ "name").asOpt[String].map { name =>
-          Ok("Hello " + name)
-        }.getOrElse {
-          BadRequest("Missing parameter [name]")
-        }
+  {
+    request.body.asJson.map { json =>
+      (json \ "name").asOpt[String].map { name =>
+        Ok("Hello " + name)
       }.getOrElse {
-        BadRequest("Expecting Json data")
+        BadRequest("Missing parameter [name]")
       }
+    }.getOrElse {
+      BadRequest("Expecting Json data")
     }
+  }
   }
 
   def stopPonder = Action { request =>
