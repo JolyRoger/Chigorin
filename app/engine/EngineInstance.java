@@ -22,6 +22,7 @@ public class EngineInstance {
     private final static String GO_MOVETIME = "go movetime ";
     private final static boolean IS_LINUX = System.getProperty("os.name").contains("Linux");
     private int ponderTime = 1000;
+    private int analysisLines = 1;
     public boolean analysisMode;
     private BufferedReader reader;
     private BufferedWriter writer;
@@ -83,6 +84,11 @@ public class EngineInstance {
         processor.process(line);
     }
 
+    public void analysisLines(int lines) throws IOException {
+        if (analysisMode) setOption("MultiPV", lines + "");
+        analysisLines = lines;
+    }
+
     public void ponderTime(int time) throws IOException {
         ponderTime = time * 1000;
     }
@@ -117,7 +123,7 @@ public class EngineInstance {
         write("position fen " + fen);
         this.fen = fen;
         analysisMode = true;
-        setOption("MultiPV", 3 + "");
+        setOption("MultiPV", analysisLines + "");
         write(GO_INFINITE);
         bestmove = read("bestmove");
     }
@@ -126,7 +132,7 @@ public class EngineInstance {
         write("stop");
         analysisMode = false;
         setOption("MultiPV", 1 + "");
-        processor = new InfoProcessor();
+        processor.clearMap();
     }
 
     public String getBestMove() throws IOException, ExecutionException, InterruptedException {
@@ -136,6 +142,7 @@ public class EngineInstance {
 
     public void setOption(String name, String value) throws IOException {
         write("setoption name " + name + " value " + value);
+        processor.clearMap();
     }
 
     public String getAnalysis() throws JsonProcessingException {

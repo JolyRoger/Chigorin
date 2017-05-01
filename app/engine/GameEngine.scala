@@ -54,6 +54,7 @@ object GameEngine {
   def getAnalysis(id: Session) = idMap(id).getAnalysis
   def changeEngine(id: Session, engine: String) = idMap(id).changeEngine(engine)
   def setPonderTime(id: Session, time: Int) = idMap(id).ponderTime(time)
+  def setAnalysisLines(id: Session, lines: Int) = idMap(id).analysisLines(lines)
   def getFen(id: Session) = "Success"
   def isGamover(id: Session) = "PROCESS"
   def emptyMap = Map.empty[Session, EngineInstance]

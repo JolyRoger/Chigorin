@@ -17,7 +17,12 @@ object Settings extends Controller {
   }
 
   def setPonderTime(time: Int) = Action { request =>
-      GameEngine.setPonderTime(request.session, time)
-	    Ok("setPonderTime success")
+    GameEngine.setPonderTime(request.session, time)
+    Ok("setPonderTime success")
+  }
+
+  def setAnalysisLines(lines: Int) = Action { request =>
+    GameEngine.setAnalysisLines(request.session, lines)
+    Ok("setAnalysisLines success")
   }
 }

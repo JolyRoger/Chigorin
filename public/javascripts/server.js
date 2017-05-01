@@ -4,7 +4,7 @@ function getBestMoveFromServer() {
         data: JSON.stringify(
             { fen: analysis ? '' : game.fen(),
               analysis: analysis,
-              time: analysis ? '' : getCheckedValue($('#ponderTime')) }),
+              time: analysis ? '' : parseInt($('input#pondering-time').val()) }),
         type: 'POST',
         contentType: 'application/json',
         success: function (move) {
@@ -23,7 +23,9 @@ function newPositionServer(success) {
 }
 
 function initEngineServer(success) {
-    $.get('/initEngine/' + 3, success)
+    var time = parseInt($('input#pondering-time').val())
+    var lines = parseInt($('input#analysis-lines').val())
+    $.get('/initEngine/' + time + '/' + lines, success)
 }
 
 function startAnalysisServer(success) {

@@ -49,7 +49,7 @@
 	    .image	{ width:200px; float:left; margin-right:10px; }
 
 	  /* daniil monakhov custom */
-	  
+
 		/*.dialog_body { height: 230px; }*/
 		.dialog_body #players { align: center; }
 	    .dialog_body #settingsL { width: 40%; float: left; }
@@ -57,4 +57,7 @@
 	    .dialog_body label { width: 80%; float: right; }
 	    .dialog_body input[type=radio] { height: 18px; }
 	    .dialog_buttons { clear: both; position: relative; }
-	    
+
+        #select-engine { margin-top: 10px; background: white; }
+        .spinner-label { width: 50%; float: left; text-align: inherit; padding: 5px 0; }
+        .spinner-input { float: right; width: 40%;}

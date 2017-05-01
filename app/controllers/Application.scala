@@ -24,9 +24,10 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
-  def initEngine(time: Int) = Action { request =>
+  def initEngine(time: Int, lines: Int) = Action { request =>
     GameEngine.createID(request.session)
     GameEngine.setPonderTime(request.session, time)
+    GameEngine.setAnalysisLines(request.session, lines)
     Ok("Success")
   }
 
@@ -34,7 +35,7 @@ object Application extends Controller {
     val whiteIsUp = "whiteIsUp" -> "false"
     var status: String = null
     if (GameEngine.exist(request.session)) status = GameEngine.newGame(request.session)
-    else status = routes.Application.initEngine(3).toString
+    else status = routes.Application.initEngine(3,3).toString
     Ok(Json.toJson( Map("status" -> status, whiteIsUp)))
   }
 

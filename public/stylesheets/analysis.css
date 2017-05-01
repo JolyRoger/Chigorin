@@ -6,6 +6,7 @@
     right: 60px;
     bottom: 80px;
     padding: 10px;
+    overflow-y: scroll;
 }
 
 .a-button {

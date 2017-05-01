@@ -38,10 +38,13 @@ function readLoadFen() {
 }
 
 function changeEngine() {
-    var newEngine = $('#select-engine').val()
-    $.get('/changeEngine/' + newEngine, function(data) {
+    $.get('/changeEngine/' + $('#select-engine').val(), function(data) {
         $('#welcome').html('<span>' + data + '</span>')
     })
+}
+
+function setAnalysisLines() {
+    if (analysis) $.get('/setAnalysisLines/' + parseInt($('input#analysis-lines').val()))
 }
 
 function moveBtnClick() {

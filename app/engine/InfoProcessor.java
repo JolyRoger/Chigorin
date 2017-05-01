@@ -61,4 +61,8 @@ public class InfoProcessor {
         info.addAll(structureMap.values());
         return info;
     }
+
+    public void clearMap() {
+        structureMap.clear();
+    }
 }
