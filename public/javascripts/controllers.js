@@ -2,6 +2,19 @@ function turnSide() {
     board.flip()
 }
 
+function newPositionFromPGN(pgn) {
+    startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+    game.reset()
+    pgn.split(/\d+\.|\s+/).forEach(function(move) {
+        if (move.length > 0) {
+            var moveRes = game.move(move)
+            if (moveRes === null) return 'snapback';
+        }
+    })
+    board.position(game.fen())
+    updateStatus()
+}
+
 function newPosition(fen) {
     if (fen == undefined) {
         startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
@@ -22,21 +35,6 @@ function newPosition(fen) {
     }
 }
 
-function showFen() {
-    showFenBlock(! $('#fencontainer').is(':visible'))
-}
-
-function readLoadFen() {
-    var fenstr = $('#fencontainer')
-    if (fenstr.is(':visible')) {
-        showCopyPaste($('#fenstringcopy').is(':visible'))
-    } else {
-        fenstr.show()
-        $('button[name="showfen"]').html('Hide FEN')
-        showCopyPaste(true)
-    }
-}
-
 function changeEngine() {
     $.get('/changeEngine/' + $('#select-engine').val(), function(data) {
         $('#welcome').html('<span>' + data + '</span>')
@@ -51,47 +49,52 @@ function moveBtnClick() {
     getBestMoveFromServer()
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function showFenBlock(enable) {
-    if (enable) {
-        $('button[name="showfen"]').html('Hide FEN')
-        $('#fencontainer').show()
-    } else {
-        showCopyPaste(false)
-        $('button[name="showfen"]').html('Show FEN')
-        $('#fencontainer').hide()
-    }
+function showLoadPgnBlock() {
+    //$('#notation-paste-container').show()
+    $('#notation-paste-container').css('display', 'flex')
+    pgnEl.hide()
+}
+function showLoadFenBlock() {
+    $('#fencontainer').show()
+    $('.fen-copy-element').hide()
+    $('#fenstringpaste').show()
+    $('#fenstringpaste').focus()
+    //$('button[name="showfen"]').html('Hide FEN')
+}
+function showReadFenBlock() {
+    $('#fencontainer').show()
+    $('.fen-paste-element').hide()
+    $('#fenstringcopy').show()
+    $('#fenstringcopy').focus()
+    //$('button[name="showfen"]').html('Hide FEN')
+}
+function hideFenBlock() {
+    $('#fencontainer').hide()
+    $('#notation-paste-container').hide()
+}
+function hidePgnBlock() {
+    $('#notation-paste-container').val('')
+    $('#notation-paste-container').hide()
+    pgnEl.show()
 }
 
-function showCopyPaste(enable) {
-    if (enable) {
-        $('.fen-copy-element').hide()
-        $('.fen-paste-element').show()
-        $('button[name="loadfen"]').html('Read FEN')
-        $('#fenstringpaste').focus()
-    } else {
-        $('.fen-paste-element').hide()
-        $('.fen-copy-element').show()
-        $('button[name="loadfen"]').html('Load FEN')
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function copyFen() {
     var clipboard = new Clipboard('#fencopybtn')
@@ -108,4 +111,10 @@ function loadFen() {
     var str = $('#fenstringpaste').val()
     var newstr = str.replace(/\s{2,}/g, ' ')
     newPosition(newstr.trim())
+    //else newPositionFromPGN(newstr.trim())
+}
+function loadPgn() {
+    console.log('load PGN')
+    newPositionFromPGN($('#notation-paste').val())
+    hidePgnBlock()
 }

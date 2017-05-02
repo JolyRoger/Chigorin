@@ -10,16 +10,25 @@ function doMove(move) {
 }
 
 function moveShow(calculateMove, indexExitCriteria) {
-    var allMovesLength = $('#notation').children().size()
-    var valueIndex = parseInt($('#notation').children('.clicked-move.last-move').attr('value'))
+    var allMovesLength = pgnEl.children().size()
+    var valueIndex = parseInt(pgnEl.children('.clicked-move.last-move').attr('value')) || 0
     var prevMove
 
     do {
         valueIndex = calculateMove(valueIndex)
-        prevMove = $('#notation').children('.clicked-move[value="' + valueIndex + '"]')
+        prevMove = pgnEl.children('.clicked-move[value="' + valueIndex + '"]')
     } while(!/[a-zA-Z][^\s\.]+/g.test(prevMove.text().trim()) && indexExitCriteria(valueIndex, allMovesLength))
 
     prevMove && prevMove.length > 0 && prevMove[0].onclick(this)
+}
+
+function moveBeginShow() {
+    game.load(startFen)
+    pgnEl.children().each(function() {
+        $(this).addClass('gray-move')
+    })
+    $('.last-move').removeClass('last-move')
+    board.position(game.fen())
 }
 
 function moveDownShow() {
@@ -32,6 +41,10 @@ function moveUpShow() {
     moveShow(
         function(valueIndex) { return valueIndex + 1 },
         function(valueIndex, movesLength) { return valueIndex < movesLength-1 })
+}
+
+function moveEndShow() {
+    pgnEl.children('.clicked-move').last()[0].onclick()
 }
 
 function clickToMove(pgn) {
@@ -48,14 +61,14 @@ function clickMove(element) {
     game.load(startFen)
     $('.last-move').removeClass('last-move')
     $(element).addClass('last-move')
-    $('#notation').children().each(function() {
-        var lastChildIndex = parseInt($('#notation').children('.last-move').attr('value'))
+    pgnEl.children().each(function() {
+        var lastChildIndex = parseInt(pgnEl.children('.last-move').attr('value'))
         if (parseInt($(this).attr('value')) > lastChildIndex) $(this).addClass('gray-move')
         else $(this).removeClass('gray-move')
     })
 
     var moveNumber = parseInt($(element).attr('value'))
-    $('#notation').children('.clicked-move').each(function() {
+    pgnEl.children('.clicked-move').each(function() {
         var curN = parseInt($(this).attr('value'))
         if (curN <= moveNumber) game.move($(this).text().trim())
     })

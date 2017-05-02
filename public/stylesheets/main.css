@@ -107,7 +107,9 @@ div.content{margin: 0 25%}
 div.navigation{float:left;width:20%;margin-left:-100%;background:#B9CAFF;
 	font-size: 18px;
 }
-
+.inline {
+    display: inline-block;
+}
 div.extra{float:left;width:15%;margin-left:-15%; background:#FF8539; font-size: 18px;}
 
 .repname {

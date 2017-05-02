@@ -29,20 +29,24 @@
      <div id="header">
      	<h1 id="welcome">Stockfish</h1>
          <div class="top-handles" style="left: 20%;">
-            <button name="newgame" value="new" class="btn handlebtn" onclick="newPosition()">New game</button>
-             <button name="turnsides" value="turnsides" class="btn handlebtn" onclick="turnSide()">Turn sides</button>
-             <button name="showfen" value="showfen" class="btn handlebtn" onclick="showFen()">Show FEN</button>
-             <button name="loadfen" value="loadfen" class="btn handlebtn" onclick="readLoadFen()">Load FEN</button>
-             <button id="movebtn" name="move" value="move" class="btn handlebtn" onclick="moveBtnClick()">MOVE</button>
-             <div class="a-button" onclick="startAnalysis()">
-                <img id="a-start" src="@routes.Assets.at("images/analoff.png")">
-            </div>
+             <div class="btn-group inline"><button name="newgame" value="new" class="btn handlebtn btn-info" onclick="newPosition()">New game</button></div>
+             <div class="btn-group inline">
+                        <button name="loadfen" value="loadfen" class="btn btn-success handlebtn dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">FEN/PGN<span class="caret"></span></button>
+                         <ul class="dropdown-menu">
+                             <li><a href="javascript:showLoadPgnBlock()">Load your PGN</a></li>
+                             <li><a href="javascript:showLoadFenBlock()">Load your FEN</a></li>
+                             <li><a href="javascript:showReadFenBlock()">Show FEN</a></li>
+                             <li role="separator" class="divider"></li>
+                             <li><a href="javascript:hideFenBlock()">Hide read/load block</a></li>
+                         </ul>
+             </div>
+             <div class="btn-group inline"><button id="movebtn" name="move" value="move" class="btn handlebtn btn-warning" onclick="moveBtnClick()">MOVE</button></div>
+             <div class="btn-group inline"><div class="a-button" onclick="startAnalysis()"> <img id="a-start" src="@routes.Assets.at("images/analoff.png")"></div></div>
          </div>
          <div id="options" class="top-handles">
-@*
-                    |
-                    <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>
-*@
+                    @*|
+                    <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>*@
                     |
                     <span title="Settings" class="jslink" id="fb-trigger-settings">Settings</span>
                     |

@@ -1,9 +1,9 @@
 #analysis {
-    width: 35%;
     border: solid gray;
     position: absolute;
     top: 60px;
     right: 60px;
+    left: 866px;
     bottom: 80px;
     padding: 10px;
     overflow-y: scroll;
@@ -11,6 +11,8 @@
 
 .a-button {
     display: inline-block;
+    position: absolute;
+    top: -28px;
     width: 100px;
     cursor: pointer;
 }

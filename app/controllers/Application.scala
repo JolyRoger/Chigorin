@@ -40,10 +40,6 @@ object Application extends Controller {
   }
 
   def deleteID = Action { request =>
-    for {
-      files <- Option(new File(path + "public/saves").listFiles)
-      file <- files if file.getName.startsWith((request.session.hashCode + "_").toString)
-    } file.delete()
     Ok(GameEngine.deleteID(request.session))
   }
 

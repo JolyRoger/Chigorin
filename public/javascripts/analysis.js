@@ -3,8 +3,9 @@ var intervalId
 
 function doSmth() {
     console.log('do smth')
-    //var pgn1 = '7. Re1+ Be7 8. Nbd2 Nf6 9. h3 O-O 10. Nb3 Bd6 11. Nbxd4 Re8 12. Rxe8+ Qxe8 13. Be3 Bd7'
-    //var pgn2 = '7. ... Be7 8. Nbd2 Nf6 9. h3 O-O 10. Nb3 Bd6 11. Nbxd4'
+    var pgn1 = '7.Re1+ Be7 8. Nbd2 Nf6 9. h3 O-O 10. Nb3 Bd6 11.Nbxd4 Re8 12. Rxe8+ Qxe8 13. Be3 Bd7'
+    var pgn2 = '7. ... Be7 8. Nbd2 Nf6 9.h3 O-O 10. Nb3 Bd6 11. Nbxd4'
+    console.log(pgn1.split(/\d+\.|\s+/))
 }
 
 function transform(pv) {

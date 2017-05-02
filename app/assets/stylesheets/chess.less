@@ -44,21 +44,44 @@
 }
 
 #board-container {
-  width: 400px;
+  //width: 400px;
   display: inline-block;
   vertical-align: top;
 }
 
 #notation {
   background: url(/assets/images/notation_background.jpg);
+  position: relative;
   width: 100%;
-  height: 96%;
+  height: 100%;
   font: 16pt Verdana;
   color: #fff5ee;
   border: solid gray;
   overflow-y: scroll;
-  padding: @buttonPadding;
+  overflow-x: hidden;
   margin: 0 20px;
+}
+
+#notation-show {
+  margin: 10px;
+}
+
+#notation-paste-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  flex-direction: column;
+  display: none;
+}
+
+#notation-paste {
+  width: 100%;
+  height: 100%;
+  background: url(/assets/images/notation_background.jpg);
+  border: none;
+  overflow: hidden;
+  color: white;
 }
 
 .clicked-move {
@@ -211,15 +234,36 @@ button.handlebtn {
 	width: 100px;
 }
 
+button#movebegin {
+  float: left;
+  width: 23%;
+  font-size: 150%;
+}
+
+
 button#movedown {
-    float: left;
-    width: 50%;
+  float: left;
+  width: 23%;
+  font-size: 150%;
+}
+
+button#turnsides {
+  float: left;
+  width: 8%;
+  font-size: 150%;
 }
 
 button#moveup {
-    float: right;
-    width: 50%;
+  width: 23%;
+  font-size: 150%;
 }
+
+button#movend {
+  float: right;
+  width: 23%;
+  font-size: 150%;
+}
+/*
 #movebtn {
   background: cyan;
 }
@@ -227,6 +271,7 @@ button#moveup {
   background-position: 0 -15px;
   background-color: #07f7f7;
 }
+*/
 
 .semiMoveElement {
   cursor: pointer;
@@ -235,34 +280,41 @@ button#moveup {
 
 .fen-content-element {
   position: relative;
-  padding: 10px;
-  margin: 10px;
+  font-size: small;
+  padding: 5px;
 }
 
 #fenstringpaste {
   width: 100%;
-  position: absolute;
-  padding: 12px 0;
+  //position: absolute;
+  //padding: 12px 0;
   font: 14pt Arial;
   color: black;
-  //padding-left: 15px;
+  font-size: small;
+  margin-bottom: 0;
 }
 
 .fen-string-element {
-  position: absolute;
+  //position: absolute;
   font: 14pt Arial;
   background: #f9f9f9;
   color: black;
   border: 1px solid black;
-  padding: 10px 0;
   width: 100%;
   left: -1px;
+}
+
+#fenstringcopy:hover {
+
+}
+
+#fencopybtn {
+  display: none;
 }
 
 #fencontainer {
   position: relative;
   margin-top: 20px;
-  //top: @contentHeight;
 }
 .fen-btn {
   border: ridge gray;

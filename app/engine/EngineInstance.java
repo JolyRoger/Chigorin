@@ -51,6 +51,10 @@ public class EngineInstance {
 
     @SneakyThrows
     public void process(String... pathTo) {
+        System.out.println(new File(".").getAbsolutePath());
+        for (String s : pathTo) {
+            System.out.println("pathTo: " + s);
+        }
         ProcessBuilder builder = new ProcessBuilder(pathTo);
         process = builder.start();
         OutputStream stdin = process.getOutputStream();
@@ -115,6 +119,7 @@ public class EngineInstance {
     }
 
     public String go(String conditionToAnswer) throws IOException, ExecutionException, InterruptedException {
+
         write(ponderTime < 0 || analysisMode ? GO_INFINITE : GO_MOVETIME + ponderTime);
         return read(conditionToAnswer).get();
     }

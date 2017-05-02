@@ -2,6 +2,21 @@
 $(function() {
     fbPopup('-settings')
     fbPopup('-about')
+
+    $('#fenstringcopy').hover(function() {
+        $('#fencopybtn').show()
+    }, function() {
+        setTimeout(function() {
+            $('#fencopybtn').hide()
+        }, 3000)
+    })
+    $('#fenstringpaste').hover(function() {
+        $('#fenpastebtn').show()
+    }, function() {
+        setTimeout(function() {
+            $('#fenpastebtn').hide()
+        }, 3000)
+    })
     //console.log('content=' + $('#content').width() + ' :: board=' + $('.board').width())
     //console.log('moves-group=' + $('#moves-group').width())
     //$(window).resize(analSize)
@@ -20,12 +35,12 @@ function analSize() {
     var s = parseInt($('#content').width()) / 2
     $('#analysis').css('padding-right', s)
     console.log('aaa: ' + $('#content').width() + ' :: ' + $('#analysis').css('padding-right'))
-    //$('#notation').width(mgSize / 3)
+    //pgnEl.width(mgSize / 3)
     //$('#analysis').width(mgSize - (mgSize/3) -
     //    parseInt($('#analysis').css('padding-left')) -
     //    parseInt($('#analysis').css('padding-right')) -
-    //    parseInt($('#notation').css('padding-right')) -
-    //    parseInt($('#notation').css('padding-left'))
+    //    parseInt(pgnEl.css('padding-right')) -
+    //    parseInt(pgnEl.css('padding-left'))
     //)
 }
 

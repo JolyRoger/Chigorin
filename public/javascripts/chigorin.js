@@ -68,7 +68,7 @@ var updateStatus = function() {
     statusEl.html(status);
     fenEl.html(game.fen());
     pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber })));
-    $('#notation').children().last().addClass('last-move')
+    pgnEl.children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
 
@@ -85,6 +85,20 @@ function init() {
         $('#fencontainer').hide()
         $('.fen-paste-element').hide()
 
+        fbPopup('-settings')
+        fbPopup('-about')
+
+        $('#fenstringcopy').hover($('#fencopybtn').show, function() {
+            setTimeout(function() {
+                $('#fencopybtn').hide()
+            }, 3000)
+        })
+        $('#fenstringpaste').hover($('#fenpastebtn').show, function() {
+            setTimeout(function() {
+                $('#fenpastebtn').hide()
+            }, 3000)
+        })
+
         var cfg = {
             draggable: true,
             position: 'start',
@@ -97,7 +111,7 @@ function init() {
         //statusEl = $('#analysis')
         statusEl = $('#status')
         fenEl = $('#fencontent')
-        pgnEl = $('#notation')
+        pgnEl = $('#notation-show')
 
         initEngineServer(updateStatus)
     })
