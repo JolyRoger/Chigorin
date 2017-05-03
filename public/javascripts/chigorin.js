@@ -83,21 +83,21 @@ function unload() {
 function init() {
     $(document).ready(function() {
         $('#fencontainer').hide()
-        $('.fen-paste-element').hide()
+        //$('.fen-paste-element').hide()
 
         fbPopup('-settings')
         fbPopup('-about')
 
-        $('#fenstringcopy').hover($('#fencopybtn').show, function() {
+/*        $('#fenstringcopy').hover($('#fencopybtn').show, function() {
             setTimeout(function() {
-                $('#fencopybtn').hide()
+                //$('#fencopybtn').hide()
             }, 3000)
         })
         $('#fenstringpaste').hover($('#fenpastebtn').show, function() {
             setTimeout(function() {
-                $('#fenpastebtn').hide()
+                //$('#fenpastebtn').hide()
             }, 3000)
-        })
+        })*/
 
         var cfg = {
             draggable: true,

@@ -57,20 +57,16 @@ function showLoadPgnBlock() {
 function showLoadFenBlock() {
     $('#fencontainer').show()
     $('.fen-copy-element').hide()
-    $('#fenstringpaste').show()
+    $('.fen-paste-element').show()
     $('#fenstringpaste').focus()
-    //$('button[name="showfen"]').html('Hide FEN')
 }
 function showReadFenBlock() {
     $('#fencontainer').show()
     $('.fen-paste-element').hide()
-    $('#fenstringcopy').show()
-    $('#fenstringcopy').focus()
-    //$('button[name="showfen"]').html('Hide FEN')
+    $('.fen-copy-element').show()
 }
 function hideFenBlock() {
     $('#fencontainer').hide()
-    $('#notation-paste-container').hide()
 }
 function hidePgnBlock() {
     $('#notation-paste-container').val('')

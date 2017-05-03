@@ -3,8 +3,10 @@ $(function() {
     fbPopup('-settings')
     fbPopup('-about')
 
+/*
     $('#fenstringcopy').hover(function() {
         $('#fencopybtn').show()
+        $('#fencopybtn').css('display', 'inline-block')
     }, function() {
         setTimeout(function() {
             $('#fencopybtn').hide()
@@ -12,11 +14,14 @@ $(function() {
     })
     $('#fenstringpaste').hover(function() {
         $('#fenpastebtn').show()
+        $('#fenpastebtn').css('display', 'inline-block')
     }, function() {
         setTimeout(function() {
             $('#fenpastebtn').hide()
         }, 3000)
     })
+*/
+
     //console.log('content=' + $('#content').width() + ' :: board=' + $('.board').width())
     //console.log('moves-group=' + $('#moves-group').width())
     //$(window).resize(analSize)

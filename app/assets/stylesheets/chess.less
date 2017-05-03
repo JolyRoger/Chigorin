@@ -15,6 +15,7 @@
 @fenHeight:	    		        28px;
 @squareTargetSize:				@boardSize / @boardPower;
 @border:						2px;
+@notationFontSize:              16pt;
 @factor:						@squareTargetSize / @pieceOriginalSize * @pieceOriginalSize;
 
 
@@ -44,7 +45,6 @@
 }
 
 #board-container {
-  //width: 400px;
   display: inline-block;
   vertical-align: top;
 }
@@ -54,7 +54,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  font: 16pt Verdana;
+  font: @notationFontSize Verdana;
   color: #fff5ee;
   border: solid gray;
   overflow-y: scroll;
@@ -263,19 +263,15 @@ button#movend {
   width: 23%;
   font-size: 150%;
 }
-/*
-#movebtn {
-  background: cyan;
-}
-#movebtn:hover {
-  background-position: 0 -15px;
-  background-color: #07f7f7;
-}
-*/
 
 .semiMoveElement {
   cursor: pointer;
   padding: 10px;
+}
+
+#thinking {
+  height: @notationFontSize;
+  width: auto;
 }
 
 .fen-content-element {
@@ -286,8 +282,6 @@ button#movend {
 
 #fenstringpaste {
   width: 100%;
-  //position: absolute;
-  //padding: 12px 0;
   font: 14pt Arial;
   color: black;
   font-size: small;
@@ -295,17 +289,12 @@ button#movend {
 }
 
 .fen-string-element {
-  //position: absolute;
   font: 14pt Arial;
   background: #f9f9f9;
   color: black;
   border: 1px solid black;
   width: 100%;
   left: -1px;
-}
-
-#fenstringcopy:hover {
-
 }
 
 #fencopybtn {
@@ -317,20 +306,7 @@ button#movend {
   margin-top: 20px;
 }
 .fen-btn {
-  border: ridge gray;
-  cursor: pointer;
-  font-size: small;
-  position: absolute;
-  display: block;
-  margin: auto;
-  padding: 0 10px;
-  right: 0;
-  user-select: none;
-  -moz-user-select: none;
-}
-.fen-btn:active {
-  border: solid black;
-  color: black;
+  width: 80px;
 }
 
 .top-handles {

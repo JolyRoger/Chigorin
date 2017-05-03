@@ -13,10 +13,15 @@
         <div id="fencontainer">
             <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
             <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here" value=""/>
-            <button id="fencopybtn" class="fen-element fen-btn fen-copy-element btn btn-danger" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
-                <img src="@routes.Assets.at("images/copy.png")"></button>
-            <button id="fenpastebtn" class="fen-element fen-btn fen-paste-element btn btn-danger" onclick="loadFen()">Load
-                <img src="@routes.Assets.at("images/cancel.png")"></button>
+
+
+            <div class="btn-group btn-group-xs" style="float: right;" role="group" aria-label="...">
+                <button id="fencopybtn" class="fen-element fen-btn fen-copy-element btn btn-primary" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
+                    <img src="@routes.Assets.at("images/copy.png")"></button>
+                <button id="fenpastebtn" class="fen-element fen-btn fen-paste-element btn btn-primary" onclick="loadFen()">Load
+                    <img src="@routes.Assets.at("images/cancel.png")"></button>
+                <button id="fenhidebtn" class="fen-element fen-btn btn btn-primary" onclick="hideFenBlock()">Hide</button>
+            </div>
         </div>
     </div>
     <div id="moves-group">

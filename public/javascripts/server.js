@@ -1,4 +1,5 @@
 function getBestMoveFromServer() {
+    showThinking()
     $.ajax({
         url: '/next/',
         data: JSON.stringify(
@@ -11,6 +12,10 @@ function getBestMoveFromServer() {
             doMove(move)
         }
     })
+}
+function showThinking(show) {
+    if (analysis || $('#thinking').length) return
+    $('#notation-show').append('<img id="thinking" src="/assets/images/thinking.gif">')
 }
 
 function newPositionServer(success) {
