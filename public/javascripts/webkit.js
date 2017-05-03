@@ -2,53 +2,7 @@
 $(function() {
     fbPopup('-settings')
     fbPopup('-about')
-
-/*
-    $('#fenstringcopy').hover(function() {
-        $('#fencopybtn').show()
-        $('#fencopybtn').css('display', 'inline-block')
-    }, function() {
-        setTimeout(function() {
-            $('#fencopybtn').hide()
-        }, 3000)
-    })
-    $('#fenstringpaste').hover(function() {
-        $('#fenpastebtn').show()
-        $('#fenpastebtn').css('display', 'inline-block')
-    }, function() {
-        setTimeout(function() {
-            $('#fenpastebtn').hide()
-        }, 3000)
-    })
-*/
-
-    //console.log('content=' + $('#content').width() + ' :: board=' + $('.board').width())
-    //console.log('moves-group=' + $('#moves-group').width())
-    //$(window).resize(analSize)
-    //$('#content').ready(function() {
-    //    $('.board').ready(analSize)
-    //})
 })
-
-function analSize() {
-    //var mgSize = $('#content').width() - $('.board').width() -
-    //    parseInt($('.board').css('padding-left')) -
-    //    parseInt($('.board').css('padding-right')) -
-    //    $('#moves-group').width(mgSize)
-
-
-    var s = parseInt($('#content').width()) / 2
-    $('#analysis').css('padding-right', s)
-    console.log('aaa: ' + $('#content').width() + ' :: ' + $('#analysis').css('padding-right'))
-    //pgnEl.width(mgSize / 3)
-    //$('#analysis').width(mgSize - (mgSize/3) -
-    //    parseInt($('#analysis').css('padding-left')) -
-    //    parseInt($('#analysis').css('padding-right')) -
-    //    parseInt(pgnEl.css('padding-right')) -
-    //    parseInt(pgnEl.css('padding-left'))
-    //)
-}
-
 
 function Transform(fin, step, obj) {
     var t,t2;

@@ -29,22 +29,25 @@
      <div id="header">
      	<h1 id="welcome">Stockfish</h1>
          <div class="top-handles" style="left: 20%;">
-             <div class="btn-group inline"><button name="newgame" value="new" class="btn handlebtn btn-info" onclick="newPosition()">New game</button></div>
-             <div class="btn-group inline">
-                        <button name="loadfen" value="loadfen" class="btn btn-success handlebtn dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">FEN/PGN<span class="caret"></span></button>
+             <div class="btn-group inline"><button name="newgame" value="new" class="btn handlebtn btn-info dropdown-toggle"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New game<span class="caret"></span></button>
                          <ul class="dropdown-menu">
-                             <li><a href="javascript:showLoadPgnBlock()">Load your PGN</a></li>
-                             <li><a href="javascript:showLoadFenBlock()">Load your FEN</a></li>
-                             <li><a href="javascript:showReadFenBlock()">Show FEN</a></li>
+                             <li><a href="javascript:newPosition()">Start position</a></li>
+                             <li><a href="javascript:showLoadPgnBlock()">From PGN</a></li>
+                             <li><a href="javascript:showLoadFenBlock()">From FEN</a></li>
+                             <li><a href="javascript:setPieces()">Set pieces</a></li>
                          </ul>
+             </div>
+                @*onclick="newPosition()">*@
+             <div class="btn-group inline">
+                 <button name="loadfen" value="loadfen" class="btn btn-success handlebtn" onclick="showReadFenBlock()">Show FEN</button>
              </div>
              <div class="btn-group inline"><button id="movebtn" name="move" value="move" class="btn handlebtn btn-warning" onclick="moveBtnClick()">MOVE</button></div>
              <div class="btn-group inline"><div class="a-button" onclick="startAnalysis()"> <img id="a-start" src="@routes.Assets.at("images/analoff.png")"></div></div>
          </div>
          <div id="options" class="top-handles">
-                    @*|
-                    <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>*@
+                    |
+                    <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>
                     |
                     <span title="Settings" class="jslink" id="fb-trigger-settings">Settings</span>
                     |

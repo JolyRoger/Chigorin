@@ -36,13 +36,21 @@ function newPosition(fen) {
 }
 
 function changeEngine() {
-    $.get('/changeEngine/' + $('#select-engine').val(), function(data) {
-        $('#welcome').html('<span>' + data + '</span>')
-    })
+    changeEngineServer()
 }
 
 function setAnalysisLines() {
-    if (analysis) $.get('/setAnalysisLines/' + parseInt($('input#analysis-lines').val()))
+    if (analysis) setAnalysisLinesServer()
+}
+
+function setPieces() {
+/*    var board = ChessBoard('board', {
+        dropOffBoard: 'trash',
+        sparePieces: true
+    });
+    var offset = $('#board').width() / 8
+    $('#board-container').css('bottom', offset + 'px')
+    $('#showMoves').hide()*/
 }
 
 function moveBtnClick() {

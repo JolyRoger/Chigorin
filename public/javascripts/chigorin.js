@@ -83,21 +83,6 @@ function unload() {
 function init() {
     $(document).ready(function() {
         $('#fencontainer').hide()
-        //$('.fen-paste-element').hide()
-
-        fbPopup('-settings')
-        fbPopup('-about')
-
-/*        $('#fenstringcopy').hover($('#fencopybtn').show, function() {
-            setTimeout(function() {
-                //$('#fencopybtn').hide()
-            }, 3000)
-        })
-        $('#fenstringpaste').hover($('#fenpastebtn').show, function() {
-            setTimeout(function() {
-                //$('#fenpastebtn').hide()
-            }, 3000)
-        })*/
 
         var cfg = {
             draggable: true,

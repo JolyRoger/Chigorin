@@ -13,10 +13,6 @@ function getBestMoveFromServer() {
         }
     })
 }
-function showThinking(show) {
-    if (analysis || $('#thinking').length) return
-    $('#notation-show').append('<img id="thinking" src="/assets/images/thinking.gif">')
-}
 
 function newPositionServer(success) {
     $.ajax({
@@ -38,4 +34,14 @@ function startAnalysisServer(success) {
 }
 function analysisServer(success) {
     $.getJSON('/analysis', success)
+}
+
+function setAnalysisLinesServer() {
+    $.get('/setAnalysisLines/' + parseInt($('input#analysis-lines').val()))
+}
+
+function changeEngineServer() {
+    $.get('/changeEngine/' + $('#select-engine').val(), function(data) {
+        $('#welcome').html('<span>' + data + '</span>')
+    })
 }

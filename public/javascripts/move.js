@@ -74,3 +74,8 @@ function clickMove(element) {
     })
     board.position(game.fen())
 }
+
+function showThinking(show) {
+    if (analysis || $('#thinking').length) return
+    $('#notation-show').append('<img id="thinking" src="/assets/images/thinking.gif">')
+}
