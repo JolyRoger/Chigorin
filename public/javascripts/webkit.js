@@ -1,7 +1,8 @@
 
 $(function() {
-    fbPopup('-settings')
-    fbPopup('-about')
+    fbPopup('-Settings')
+    fbPopup('-About')
+    fbPopup('-Position')
 })
 
 function Transform(fin, step, obj) {

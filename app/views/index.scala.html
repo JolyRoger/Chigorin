@@ -1,7 +1,16 @@
 @import tags._
+@import play.api.libs.json.Json
+
 @main(title = "Chess") {
     <script type="text/javascript">init()</script>
     <div id="board-container">
+        <button id="pos-ok-btn" class="btn btn-primary set-board-btn" onclick="positionOk()">
+            <img src="@routes.Assets.at("images/pos-ok.png")">
+        </button>
+        <button id="pos-settings-btn" class="btn btn-primary set-board-btn" onclick="positionSettings()">
+            <img src="@routes.Assets.at("images/pos-set.png")">
+        </button>
+
         <div id="board"></div>
         <div id="showMoves">
             <button id="movebegin" name="movebegin" value="movebegin" class="btn handlebtn" onclick="moveBeginShow()">&#8676;</button>
@@ -23,6 +32,9 @@
                 <button id="fenhidebtn" class="fen-element fen-btn btn btn-primary" onclick="hideFenBlock()">Hide</button>
             </div>
         </div>
+         @about(Map("buttonName" -> "Ok", "title" -> "Position", "height" -> "400px;")) {
+            @position()
+         }
     </div>
     <div id="moves-group">
         <div id="notation">
@@ -56,6 +68,8 @@
 	<div id="wintitlepanel">
 		<span id="wintitle">Unknown</span>
 	</div>
-	@settings("aaa")
-    @about("bbb")
+	@settings("Settings")
+    @about(Map("buttonName" -> "Close", "title" -> "About", "height" -> "400px;")) {
+        <h2>Under construction</h2>
+    }
 }

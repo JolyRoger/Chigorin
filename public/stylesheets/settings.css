@@ -40,10 +40,10 @@
 	 
 	  /* david walsh custom */
 	 
-	    #fb-modal-settins	{ display:none; }
-        #fb-modal-about	    { display:none; }
-	    #fb-close-settings	{ cursor:pointer; }
-        #fb-close-about 	{ cursor:pointer; }
+	    #fb-modal-Settings	{ display:none; }
+        #fb-modal-About	    { display:none; }
+	    #fb-close-Settings	{ cursor:pointer; }
+        #fb-close-About 	{ cursor:pointer; }
 	    .info		{ width:280px; float:left; font-size:11px; color:#666; }
 	    .info b	{ color:#000; }
 	    .image	{ width:200px; float:left; margin-right:10px; }

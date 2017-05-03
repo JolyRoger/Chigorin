@@ -1,0 +1,8 @@
+<h1>There will be position settings</h1>
+@*
+@(jsValue: JsValue)
+
+<p1>@{(jsValue \ "status").as[String]}</p1>
+<br>
+<p2>@{(jsValue \ "fen").as[String]}</p2>
+*@

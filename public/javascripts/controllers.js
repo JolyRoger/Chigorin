@@ -44,13 +44,16 @@ function setAnalysisLines() {
 }
 
 function setPieces() {
-/*    var board = ChessBoard('board', {
+    var board = ChessBoard('board', {
         dropOffBoard: 'trash',
         sparePieces: true
     });
     var offset = $('#board').width() / 8
     $('#board-container').css('bottom', offset + 'px')
-    $('#showMoves').hide()*/
+    $('#showMoves').hide()
+    console.log($('.board-b72b1').width())
+    $('#pos-settings-btn').css('left')
+    //$('#fb-trigger-Position').click()
 }
 
 function moveBtnClick() {
@@ -80,6 +83,14 @@ function hidePgnBlock() {
     $('#notation-paste-container').val('')
     $('#notation-paste-container').hide()
     pgnEl.show()
+}
+
+function positionOk() {
+    alert('position OK')
+
+}
+function positionSettings() {
+    alert('position settings')
 }
 
 

@@ -44,6 +44,15 @@
     position: relative;
 }
 
+#fb-modal-Position {
+  position: absolute;
+  top: -@squareTargetSize;
+  left: @boardSize;
+}
+#fb-close-Position {
+  width: 100px;
+}
+
 #board {
   width: @boardSize;
 }
@@ -52,6 +61,14 @@
   display: inline-block;
   position: relative;
   vertical-align: top;
+}
+.set-board-btn {
+  width: @squareTargetSize;
+  height: @squareTargetSize;
+  position: absolute;
+}
+#pos-settings-btn {
+  left: @boardSize - @squareTargetSize - 4;
 }
 
 #notation {

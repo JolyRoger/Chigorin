@@ -38,7 +38,6 @@
                              <li><a href="javascript:setPieces()">Set pieces</a></li>
                          </ul>
              </div>
-                @*onclick="newPosition()">*@
              <div class="btn-group inline">
                  <button name="loadfen" value="loadfen" class="btn btn-success handlebtn" onclick="showReadFenBlock()">Show FEN</button>
              </div>
@@ -46,12 +45,16 @@
              <div class="btn-group inline"><div class="a-button" onclick="startAnalysis()"> <img id="a-start" src="@routes.Assets.at("images/analoff.png")"></div></div>
          </div>
          <div id="options" class="top-handles">
+@*
                     |
                     <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>
                     |
-                    <span title="Settings" class="jslink" id="fb-trigger-settings">Settings</span>
+                    <span title="Position" class="jslink" id="fb-trigger-Position">Position</span>
+*@
                     |
-                    <span title="About" class="jslink" id="fb-trigger-about">About</span>
+                    <span title="Settings" class="jslink" id="fb-trigger-Settings">Settings</span>
+                    |
+                    <span title="About" class="jslink" id="fb-trigger-About">About</span>
                 </div>
         </div>
         

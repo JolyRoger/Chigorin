@@ -1,7 +1,9 @@
-@(value: String)
-<div class="generic_dialog" id="fb-modal-about">
+@import play.api.libs.json.JsValue
+
+@(settings: Map[String, String])(content: Html)
+<div class="generic_dialog" id="fb-modal-@settings("title")">
 	<div class="generic_dialog_popup" style="top: 70px; ">
-		<table class="pop_dialog_table" id="pop_dialog_table"
+		<table class="pop_dialog_table" id="pop_dialog_table-@settings("title")"
                style="width: 532px;">
 			<tbody>
 				<tr>
@@ -13,17 +15,15 @@
 					<td class="pop_border pop_side" />
 					<td id="pop_content" class="pop_content">
 						<h2 class="dialog_title">
-							<span>About</span>
+							<span>@settings("title")</span>
 						</h2>
 						<div class="dialog_content">
-							<div class="dialog_body" style="height: 400px;">
-                                <div style="height: 100%; overflow-y: scroll;">
-                                    Under creation
-                                </div>
+							<div class="dialog_body" style="height: @settings("height")">
+                                    @content
 							</div>
                             <div class="dialog_buttons" style="margin: 10px;">
-                                <input type="button" value="Close" name="close"
-                                       class="inputsubmit" id="fb-close-about" />
+                                <input type="button" value="@settings("buttonName")" name="@settings("buttonName")"
+                                       class="inputsubmit" id="fb-close-@settings("title")" />
                             </div>
                         </div>
 					</td>
