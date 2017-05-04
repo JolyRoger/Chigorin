@@ -44,15 +44,15 @@ function setAnalysisLines() {
 }
 
 function setPieces() {
-    var board = ChessBoard('board', {
+    board = ChessBoard('board', {
         dropOffBoard: 'trash',
         sparePieces: true
     });
-    var offset = $('#board').width() / 8
-    $('#board-container').css('bottom', offset + 'px')
+    $('#board-container').addClass('shifted-up')
+    $('.set-board-btn').show()
     $('#showMoves').hide()
-    console.log($('.board-b72b1').width())
-    $('#pos-settings-btn').css('left')
+    //console.log($('.board-b72b1').width())
+    //$('#pos-settings-btn').css('left')
     //$('#fb-trigger-Position').click()
 }
 
@@ -86,8 +86,20 @@ function hidePgnBlock() {
 }
 
 function positionOk() {
-    alert('position OK')
-
+    startFen = board.fen() + ' w - - 0 1'
+    game.load(startFen)
+    var cfg = {
+        draggable: true,
+        position: startFen,
+        onChange: onChange,
+        onDragStart: onDragStart,
+        onDrop: onDrop,
+        onSnapEnd: onSnapEnd
+    }
+    $('#board-container').removeClass('shifted-up')
+    $('#showMoves').show()
+    $('.set-board-btn').hide()
+    board = new ChessBoard('board', cfg)
 }
 function positionSettings() {
     alert('position settings')

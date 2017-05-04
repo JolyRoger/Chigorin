@@ -4,10 +4,10 @@
 @main(title = "Chess") {
     <script type="text/javascript">init()</script>
     <div id="board-container">
-        <button id="pos-ok-btn" class="btn btn-primary set-board-btn" onclick="positionOk()">
+        <button id="pos-ok-btn" class="btn btn-primary set-board-btn" style="display: none;" onclick="positionOk()">
             <img src="@routes.Assets.at("images/pos-ok.png")">
         </button>
-        <button id="pos-settings-btn" class="btn btn-primary set-board-btn" onclick="positionSettings()">
+        <button id="pos-settings-btn" class="btn btn-primary set-board-btn" style="display: none;" onclick="positionSettings()">
             <img src="@routes.Assets.at("images/pos-set.png")">
         </button>
 
