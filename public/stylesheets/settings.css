@@ -37,13 +37,14 @@
 	    td.pop_content .dialog_buttons input { margin-left:5px; }
 	    td.pop_content .dialog_buttons_msg { float:left; padding:5px 0 0; }
 	    td.pop_content .dialog_footer { background:#F2F2F2 none repeat scroll 0 50%; }
-	 
+
 	  /* david walsh custom */
-	 
+
 	    #fb-modal-Settings	{ display:none; }
         #fb-modal-About	    { display:none; }
 	    #fb-close-Settings	{ cursor:pointer; }
         #fb-close-About 	{ cursor:pointer; }
+        #pop_dialog_table-Position { margin: inherit; }
 	    .info		{ width:280px; float:left; font-size:11px; color:#666; }
 	    .info b	{ color:#000; }
 	    .image	{ width:200px; float:left; margin-right:10px; }
@@ -61,3 +62,5 @@
         #select-engine { margin-top: 10px; background: white; }
         .spinner-label { width: 50%; float: left; text-align: inherit; padding: 5px 0; }
         .spinner-input { float: right; width: 40%;}
+
+

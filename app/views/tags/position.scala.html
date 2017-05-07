@@ -1,4 +1,79 @@
-<h1>There will be position settings</h1>
+<div id="set-pieces-board" style="width: 300px; float: left;"></div>
+
+<div id="set-pieces-settings" style="float: left; padding: 20px;">
+    <label for="white-to-move" style="width: inherit; float: left; margin-right: 45px;">White to move:&nbsp;</label>
+    <input id="white-to-move" type="checkbox" checked/>
+    <hr/>
+    <table style="width: 200px;">
+        <tbody>
+            <tr>
+                <td>Castling</td>
+                <td>0-0</td>
+                <td>0-0-0</td>
+            </tr>
+            <tr>
+                <td>White:</td>
+                <td>
+                    <input id="white-short-castling" type="checkbox"/>
+                </td>
+                <td>
+                    <input id="white-long-castling" type="checkbox"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Black:</td>
+                <td>
+                    <input id="black-short-castling" type="checkbox"/>
+                </td>
+                <td>
+                    <input id="black-long-castling" type="checkbox"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr/>
+
+    <div><span>En passant white:</span>
+        <select id="enpassant-white" style="width: 60px; background: white;">
+            <option>-</option>
+            <option>a3</option>
+            <option>b3</option>
+            <option>c3</option>
+            <option>d3</option>
+            <option>e3</option>
+            <option>f3</option>
+            <option>g3</option>
+            <option>h3</option>
+        </select>
+    </div>
+
+    <div><span>En passant black:</span>
+        <select id="enpassant-black" style="width: 60px; background: white;">
+            <option>-</option>
+            <option>a6</option>
+            <option>b6</option>
+            <option>c6</option>
+            <option>d6</option>
+            <option>e6</option>
+            <option>f6</option>
+            <option>g6</option>
+            <option>h6</option>
+        </select>
+    </div>
+    <hr/>
+    <div>
+        <label class="spinner-label" style="width: 70px; float: left;" for="half-moves-number">Half moves:</label>
+        <input id="half-moves-number" class="spinner-input" type="number" value="0" min="0" max="49"/>
+    </div>
+
+    <div>
+        <label class="spinner-label" style="width: 70px; float: left;" for="full-moves-number">Full moves:</label>
+        <input id="full-moves-number" class="spinner-input" type="number" value="1" min="1" max="200"/>
+    </div>
+
+
+
+</div>
 @*
 @(jsValue: JsValue)
 

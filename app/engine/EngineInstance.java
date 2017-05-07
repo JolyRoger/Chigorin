@@ -29,6 +29,7 @@ public class EngineInstance {
     private Process process = null;
     private String currentEngine = "Stockfish";
     private String fen;
+    private String[] pathTo;
     private Map<String, String[]> engineMap = new HashMap<>(2);
     private InfoProcessor processor;
     private Future<String> bestmove;
@@ -51,6 +52,7 @@ public class EngineInstance {
 
     @SneakyThrows
     public void process(String... pathTo) {
+        this.pathTo = pathTo;
         System.out.println(new File(".").getAbsolutePath());
         for (String s : pathTo) {
             System.out.println("pathTo: " + s);
@@ -64,11 +66,16 @@ public class EngineInstance {
         initCommand();
     }
 
-    public void write(String command) throws IOException {
+    public void write(String command) {
         System.out.println(command);
-        writer.write(command.trim());
-        writer.newLine();
-        writer.flush();
+        try {
+            writer.write(command.trim());
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            process(pathTo);
+            write(command);
+        }
     }
 
     public Future<String> read(String condition) {

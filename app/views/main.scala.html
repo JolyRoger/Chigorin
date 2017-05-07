@@ -5,13 +5,13 @@
 <head>
         <title>@title</title>
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/chess.css")">
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/analysis.css")">
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/settings.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/chessboard-0.3.0.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/analysis.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/settings.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/chess.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script type="text/javascript" src="@routes.Assets.at("javascripts/clipboard.min.js")" charset="UTF-8"></script>
         <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" charset="UTF-8"></script>
@@ -35,7 +35,7 @@
                              <li><a href="javascript:newPosition()">Start position</a></li>
                              <li><a href="javascript:showLoadPgnBlock()">From PGN</a></li>
                              <li><a href="javascript:showLoadFenBlock()">From FEN</a></li>
-                             <li><a href="javascript:setPieces()">Set pieces</a></li>
+                             <li><a id="fb-trigger-Position" href="javascript:setPieces()">Set pieces</a></li>
                          </ul>
              </div>
              <div class="btn-group inline">
@@ -50,8 +50,8 @@
                     <span title="Dosmth" onclick="javascript:doSmth()">Do smth</span>
                     |
                     <span title="Position" class="jslink" id="fb-trigger-Position">Position</span>
-*@
                     |
+*@
                     <span title="Settings" class="jslink" id="fb-trigger-Settings">Settings</span>
                     |
                     <span title="About" class="jslink" id="fb-trigger-About">About</span>

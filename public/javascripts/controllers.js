@@ -43,17 +43,34 @@ function setAnalysisLines() {
     if (analysis) setAnalysisLinesServer()
 }
 
+var piecesBoard
+
+function closePosition() {
+    $('#fb-modal-Position').fadeOut('slow')
+    piecesBoard.destroy()
+}
+
+function setPiecesOk() {
+    startFen = piecesBoard.fen() + ' w - - 0 1'
+    board.position(startFen, true)
+    game.load(startFen)
+    closePosition()
+    updateStatus()
+}
+
 function setPieces() {
-    board = ChessBoard('board', {
+    piecesBoard = ChessBoard('set-pieces-board', {
         dropOffBoard: 'trash',
         sparePieces: true
     });
-    $('#board-container').addClass('shifted-up')
-    $('.set-board-btn').show()
-    $('#showMoves').hide()
+    $('#fb-close-Position').click(close)
+    $('#fb-modal-Position').fadeIn('slow')
+    $('img').last().css('z-index', 102)
+    //$('#board-container').addClass('shifted-up')
+    //$('.set-board-btn').show()
+    //$('#showMoves').hide()
     //console.log($('.board-b72b1').width())
-    //$('#pos-settings-btn').css('left')
-    //$('#fb-trigger-Position').click()
+    $('#pos-settings-btn').css('left')
 }
 
 function moveBtnClick() {

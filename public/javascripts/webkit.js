@@ -112,10 +112,10 @@ function fbPopup(indx) {
         opacity:0,
         display:'block'
     })
-    $('#fb-close' + indx).click(function(e) { $(str).fadeOut('slow') })
+    //$('#fb-close' + indx).click(function(e) { $(str).fadeOut('slow') })
     $(document).keypress(function(e) { if (e.key == 'esc') $(str).fadeOut('slow') })
     $('#fb-trigger' + indx).click(function() { $(str).fadeTo('slow', 1.0) })
-    $(str).fadeOut('slow')
+    $(str).hide()
 }
 
 function print(value) {

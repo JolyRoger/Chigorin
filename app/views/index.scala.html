@@ -32,9 +32,11 @@
                 <button id="fenhidebtn" class="fen-element fen-btn btn btn-primary" onclick="hideFenBlock()">Hide</button>
             </div>
         </div>
-         @about(Map("buttonName" -> "Ok", "title" -> "Position", "height" -> "400px;")) {
-            @position()
+@*
+         about(Map("buttonName" -> "Ok", "title" -> "Position", "height" -> "400px;")) {
+            position()
          }
+*@
     </div>
     <div id="moves-group">
         <div id="notation">
@@ -69,7 +71,10 @@
 		<span id="wintitle">Unknown</span>
 	</div>
 	@settings("Settings")
-    @about(Map("buttonName" -> "Close", "title" -> "About", "height" -> "400px;")) {
+    @about(Map("okButton" -> "setPiecesOk()", "closeButton" -> "closePosition()", "title" -> "Position", "width" -> "600px;", "height" -> "400px;")) {
+        @position()
+    }
+    @about(Map("title" -> "About", "width" -> "532px;", "height" -> "400px;", "closeButton" -> "$('#fb-modal-About').fadeOut('slow')")) {
         <h2>Under construction</h2>
     }
 }
