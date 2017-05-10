@@ -53,10 +53,6 @@ public class EngineInstance {
     @SneakyThrows
     public void process(String... pathTo) {
         this.pathTo = pathTo;
-        System.out.println(new File(".").getAbsolutePath());
-        for (String s : pathTo) {
-            System.out.println("pathTo: " + s);
-        }
         ProcessBuilder builder = new ProcessBuilder(pathTo);
         process = builder.start();
         OutputStream stdin = process.getOutputStream();

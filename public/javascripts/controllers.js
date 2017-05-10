@@ -51,7 +51,18 @@ function closePosition() {
 }
 
 function setPiecesOk() {
-    startFen = piecesBoard.fen() + ' w - - 0 1'
+    var whiteToMove = $('#white-to-move').attr('checked') ? 'w' : 'b'
+    var whiteShortCastling = $('#white-short-castling').attr('checked') ? 'K' : ''
+    var whiteLongCastling = $('#white-long-castling').attr('checked') ? 'Q' : ''
+    var blackShortCastling = $('#black-short-castling').attr('checked') ? 'k' : ''
+    var blackLongCastling = $('#black-long-castling').attr('checked') ? 'q' : ''
+    var castling = whiteShortCastling + whiteLongCastling + blackShortCastling + blackLongCastling
+    if (castling.length == 0) castling = '-'
+    var enPassant = whiteToMove == 'b' ? $('#enpassant-white').val() : $('#enpassant-black').val()
+    var halfmoves = $('#half-moves-number').val()
+    var fullmoves = $('#full-moves-number').val()
+
+    startFen = piecesBoard.fen() + ' ' + whiteToMove + ' ' + castling + ' ' + enPassant + ' ' + halfmoves + ' ' + fullmoves
     board.position(startFen, true)
     game.load(startFen)
     closePosition()
