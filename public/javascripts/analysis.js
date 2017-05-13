@@ -45,7 +45,8 @@ function createAnal(index, value) {
     var ascoretitle = $('<span>').attr('id', 'a-score-title' + index).addClass('a-score-title')
     var ascore = $('<span>').attr('id', 'a-score' + index).addClass('a-score')
 
-    var sc = parseInt(value.score) / 100
+    var scoreTypeCp = value.scoreType == 'cp'
+    var sc = scoreTypeCp ? parseInt(value.score) / 100 : value.score
     var pv = value.pv.slice(1, -1)
     var newPv = transform(pv.split(','))
     var best = newPv.match(/[a-zA-Z][^\s\.]+/)
@@ -53,7 +54,7 @@ function createAnal(index, value) {
     amoven.html('Move №' + (index+1) + ':&nbsp;')
     abest.html(best + '&emsp;')
     ascoretitle.html('Score:&nbsp;')
-    ascore.html((game.turn() === 'b' ? -sc : sc) + '<br>')
+    ascore.html(scoreTypeCp ? (game.turn() === 'b' ? -sc : sc) + '<br>' : ('Mate in ' + Math.abs(sc) + '<br>'))
     aconttitle.html('Variant:&nbsp;')
     acont.html(newPv + '<br>')
 
