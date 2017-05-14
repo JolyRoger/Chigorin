@@ -28,7 +28,7 @@ var onDrop = function(source, target) {
     // illegal move
     if (move === null) return 'snapback';
     updateStatus();
-    if (!analysis && getCheckedValue($('#players')) < 2) getBestMoveFromServer()
+    if (!analysis && getCheckedValue($('#players')) < 2 && !game.in_checkmate()) getBestMoveFromServer()
 };
 
 // update the board position after the piece snap

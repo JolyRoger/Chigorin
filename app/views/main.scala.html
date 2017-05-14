@@ -42,7 +42,12 @@
                  <button name="loadfen" value="loadfen" class="btn btn-success handlebtn" onclick="showReadFenBlock()">Show FEN</button>
              </div>
              <div class="btn-group inline"><button id="movebtn" name="move" value="move" class="btn handlebtn btn-warning" onclick="moveBtnClick()">MOVE</button></div>
-             <div class="btn-group inline"><div class="a-button" onclick="startAnalysis()"> <img id="a-start" src="@routes.Assets.at("images/analoff.png")"></div></div>
+             <div class="btn-group inline">
+                 <span id="anal-title">Analysis:</span>
+                 <div class="a-button" onclick="startAnalysis()">
+                     <img id="a-start" src="@routes.Assets.at("images/analoff.png")">
+                 </div>
+             </div>
          </div>
          <div id="options" class="top-handles">
 @*

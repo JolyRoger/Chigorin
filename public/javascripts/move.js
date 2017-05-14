@@ -6,7 +6,7 @@ function doMove(move) {
     game.move(move)
     board.position(game.fen())
     updateStatus()
-    if (!analysis && getCheckedValue($('#players')) == 0) getBestMoveFromServer()
+    if (!analysis && getCheckedValue($('#players')) == 0 && !game.in_checkmate()) getBestMoveFromServer()
 }
 
 function moveShow(calculateMove, indexExitCriteria) {
