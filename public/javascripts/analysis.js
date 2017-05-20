@@ -67,11 +67,13 @@ function startAnalysis() {
         stopAnalysis(function() {
             $('#analysis').html('')
             $('#a-start').attr('src', '/assets/images/analoff.png')
+            $('.fix-analysis-btn').hide()
             analysis = false
         })
         return
     }
     analysis = true
+    $('.fix-analysis-btn').show()
     $('#a-start').attr('src', '/assets/images/analon.png')
     analysePosition()
 }
@@ -90,4 +92,8 @@ function analysePosition() {
             }
         })
     })
+}
+
+function fixAnalysis() {
+
 }

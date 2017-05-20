@@ -1,3 +1,9 @@
+.fix-analysis-btn {
+    position: relative;
+    left: 790px;
+    display: none;
+}
+
 #analysis {
     border: solid gray;
     position: absolute;
