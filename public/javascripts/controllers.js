@@ -1,3 +1,5 @@
+var notation = 0
+
 function turnSide() {
     board.flip()
 }
@@ -7,7 +9,7 @@ function newPositionFromPGN(pgn) {
     game.reset()
     pgn.split(/\d+\.|\s+/).forEach(function(move) {
         if (move.length > 0) {
-            var moveRes = game.move(move)
+            var moveRes = game.move(getNotationText(move, notation, 0))
             if (moveRes === null) return 'snapback';
         }
     })
@@ -133,8 +135,13 @@ function positionSettings() {
     alert('position settings')
 }
 
-function changeNotation(notation) {
-    console.log(notation)
+function changeNotation(_notation) {
+    console.log(notation + ' :: ' + $('input.select-notation-input:checked').val())
+    //changeNotationServer()
+    $('.clicked-move').each(function() {
+        $(this).html(getNotationText($(this).html(), notation, _notation))
+    })
+    notation = _notation
 }
 
 
@@ -171,7 +178,6 @@ function loadFen() {
     //else newPositionFromPGN(newstr.trim())
 }
 function loadPgn() {
-    console.log('load PGN')
     newPositionFromPGN($('#notation-paste').val())
     hidePgnBlock()
 }

@@ -45,3 +45,9 @@ function changeEngineServer() {
         $('#welcome').html('<span>' + data + '</span>')
     })
 }
+
+function changeNotationServer() {
+    //$.get('/changeNotation/' + $('input.select-notation-input:checked').val(), function(data) {
+    //
+    //})
+}

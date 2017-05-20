@@ -52,7 +52,8 @@ function clickToMove(pgn) {
     pgnArr.forEach(function(element, i, arr) {
         if (/\.+/.test(element)) pgnArr[i] = '<span value="' + i + '">' + element + '&nbsp;</span>'
         else if (/[a-zA-Z][^\s\.]+/g.test(element))
-            pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="clickMove(this)">' + element + ' </span>'
+            pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="clickMove(this)">' +
+                getNotationText(element, 0, notation) + ' </span>'
     })
     return pgnArr.join('')
 }
@@ -70,7 +71,7 @@ function clickMove(element) {
     var moveNumber = parseInt($(element).attr('value'))
     pgnEl.children('.clicked-move').each(function() {
         var curN = parseInt($(this).attr('value'))
-        if (curN <= moveNumber) game.move($(this).text().trim())
+        if (curN <= moveNumber) game.move(getNotationText($(this).text().trim(), notation, 0))
     })
     board.position(game.fen())
 }
