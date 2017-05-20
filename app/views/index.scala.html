@@ -6,25 +6,7 @@
 
     @board(null)
     @moves(null)
-@*
-	<div class="board">
-		<img src="@routes.Assets.at("images/empty_board448.png")">
-		<div class="promotion">
-			<img src="@routes.Assets.at("images/promotion.png")">
-			<div id="queen" class="promoted piece"></div>
-			<div id="rook" class="promoted piece"></div>
-			<div id="bishop" class="promoted piece"></div>
-			<div id="knight" class="promoted piece"></div>
-		</div>
-	</div>
 
-
-*@
-
-	<div id="winpanel"></div>
-	<div id="wintitlepanel">
-		<span id="wintitle">Unknown</span>
-	</div>
 	@settings("Settings")
     @about(Map("okButton" -> "setPiecesOk()", "closeButton" -> "closePosition()", "title" -> "Position", "width" -> "600px;", "height" -> "400px;")) {
         @position()

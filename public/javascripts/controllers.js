@@ -133,7 +133,9 @@ function positionSettings() {
     alert('position settings')
 }
 
-
+function changeNotation(notation) {
+    console.log(notation)
+}
 
 
 

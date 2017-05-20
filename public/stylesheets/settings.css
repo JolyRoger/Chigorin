@@ -63,4 +63,7 @@
         .spinner-label { width: 50%; float: left; text-align: inherit; padding: 5px 0; }
         .spinner-input { float: right; width: 40%;}
 
+        .select-notation-check-block { display: inline-block; padding: 15px; }
+        #select-notation { display: inline-block; }
+
 

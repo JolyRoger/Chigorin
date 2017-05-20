@@ -42,10 +42,29 @@
 								</div>
 								<div id="settingsR">
                                     <div id="settings-content">
-    									<label disabled="true" style="color: #a9a9a9;" for="showtimer">Show timer</label>
+
+
+                                        <label disabled="true" style="color: #a9a9a9;" for="showtimer">Show timer</label>
     									<input disabled="true" id="showtimer" type="checkbox"/>
     									<br><hr>
-                                    </div><br/><br/><br/><br/><br/><br/>
+                                    </div><br/><br/><br/><br/>
+                                        <div id="select-notation">
+                                            <div class="select-notation-check-block">
+                                                <label for="eng-notation" style="width: auto; margin: 2px;">Q</label>
+                                                <input id="eng-notation" class="select-notation-input" type="radio" name="select-notation" value="0"
+                                                    onchange="changeNotation(0)" checked/>
+                                            </div>
+                                            <div class="select-notation-check-block">
+                                                <label for="rus-notation" style="width: auto; margin: 2px;">Ф</label>
+                                                <input id="rus-notation" class="select-notation-input" type="radio" name="select-notation" value="1"
+                                                    onchange="changeNotation(1)" />
+                                            </div>
+                                            <div class="select-notation-check-block">
+                                                <label for="img-notation" style="width: auto; margin: 2px;">&#9813;</label>
+                                                <input id="img-notation" class="select-notation-input" type="radio" name="select-notation" value="2"
+                                                    onchange="changeNotation(2)"/>
+                                            </div>
+                                        </div>
                                     <div id="settings-footer">
                                         <div class="spinner-container">
                                             <label class="spinner-label" style="width: 50%; float: left;" for="pondering-time">Pondering time:</label>
@@ -56,24 +75,9 @@
                                             <input id="analysis-lines" class="spinner-input" type="number" onchange="setAnalysisLines()" value="3" min="1" max="7"/>
                                         </div>
                                     </div>
-@*
-                                    Think time<br><br>
-									<div id="ponderTime">
-										<label for="time1">&nbsp;1 sec.</label> 
-										<input id="time1" type="radio" name="pondertime" value="1" checked/><br>
-										<label for="time5">&nbsp;5 sec.</label> 
-										<input id="time5" type="radio" name="pondertime" value="5"/><br>
-										<label for="time10">&nbsp;10 sec.</label> 
-										<input id="time10" type="radio" name="pondertime" value="10"/><br>
-										<label disabled="true" style="color: #a9a9a9;" for="timeinfinite">&nbsp;Infinite</label>
-										<input disabled="true" id="timeinfinite" type="radio" name="pondertime" value="-1"/><br>
-									</div>
-*@
 								</div>
 
 								<div class="dialog_buttons">
-@*									<input type="button" value="Save" name="save"
-										class="inputsubmit" id="fb-save-settings" />	*@
 									<input type="button" value="Close" name="close"
 										class="inputsubmit" id="fb-close-Settings" onclick="$('#fb-modal-Settings').fadeOut('slow')"/>
 								</div>
