@@ -1,0 +1,11 @@
+@(content: Html)
+<body onunload="unload()">
+    <div id="header">
+        <h1 id="welcome">Stockfish</h1>
+        @tophandles(null)
+    </div>
+
+    <div id="content">@content</div>
+    <div id="footer">Design and web programming by
+        <a href="mailto:mjelnr@@gmail.com">Daniil Monakhov</a>.<br>Gens una sumus</div>
+</body>

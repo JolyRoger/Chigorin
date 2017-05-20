@@ -1,0 +1,14 @@
+@(empty: Any)
+<div id="moves-group">
+    <div id="notation">
+        <div id="notation-show"></div>
+        <div id="notation-paste-container">
+            <textarea id="notation-paste" placeholder="paste pgn string here"></textarea>
+            <div id=""notation-footer>
+                <button class="btn handlebtn" onclick="loadPgn()">Load</button>
+                <button class="btn handlebtn" style="float: right;" onclick="hidePgnBlock()">Hide</button>
+            </div>
+        </div>
+    </div>
+    <div id="analysis" class="analysis"></div>
+</div>

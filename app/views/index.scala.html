@@ -1,56 +1,11 @@
 @import tags._
 @import play.api.libs.json.Json
 
-@main(title = "Chess") {
+@main(title = "Chigorin") {
     <script type="text/javascript">init()</script>
-    <div id="board-container">
-        <button id="pos-ok-btn" class="btn btn-primary set-board-btn" style="display: none;" onclick="positionOk()">
-            <img src="@routes.Assets.at("images/pos-ok.png")">
-        </button>
-        <button id="pos-settings-btn" class="btn btn-primary set-board-btn" style="display: none;" onclick="positionSettings()">
-            <img src="@routes.Assets.at("images/pos-set.png")">
-        </button>
 
-        <div id="board"></div>
-        <div id="showMoves">
-            <button id="movebegin" name="movebegin" value="movebegin" class="btn handlebtn" onclick="moveBeginShow()">&#8676;</button>
-            <button id="movedown" name="movedown" value="movedown" class="btn handlebtn" onclick="moveDownShow()">&#9756;</button>
-            <button id="turnsides" class="btn handlebtn" onclick="turnSide()">&#8635;</button>
-            <button id="moveup" name="moveup" value="moveup" class="btn handlebtn" onclick="moveUpShow()">&#9758;</button>
-            <button id="movend" name="movend" value="movend" class="btn handlebtn" onclick="moveEndShow()">&#8677;</button>
-        </div>
-        <div id="fencontainer">
-            <div id="fenstringcopy" class="fen-element fen-string-element fen-copy-element"><span id="fencontent" class="fen-content-element">FEN string here</span></div>
-            <input type="text" id="fenstringpaste" class="fen-element fen-string-element fen-paste-element" placeholder="paste fen string here" value=""/>
-
-
-            <div class="btn-group btn-group-xs" style="float: right;" role="group" aria-label="...">
-                <button id="fencopybtn" class="fen-element fen-btn fen-copy-element btn btn-primary" data-clipboard-action="copy" data-clipboard-target="#fencontent" onclick="copyFen()">Copy
-                    <img src="@routes.Assets.at("images/copy.png")"></button>
-                <button id="fenpastebtn" class="fen-element fen-btn fen-paste-element btn btn-primary" onclick="loadFen()">Load
-                    <img src="@routes.Assets.at("images/cancel.png")"></button>
-                <button id="fenhidebtn" class="fen-element fen-btn btn btn-primary" onclick="hideFenBlock()">Hide</button>
-            </div>
-        </div>
-@*
-         about(Map("buttonName" -> "Ok", "title" -> "Position", "height" -> "400px;")) {
-            position()
-         }
-*@
-    </div>
-    <div id="moves-group">
-        <div id="notation">
-            <div id="notation-show"></div>
-            <div id="notation-paste-container">
-                <textarea id="notation-paste" placeholder="paste pgn string here"></textarea>
-                <div id=""notation-footer>
-                    <button class="btn handlebtn" onclick="loadPgn()">Load</button>
-                    <button class="btn handlebtn" style="float: right;" onclick="hidePgnBlock()">Hide</button>
-                </div>
-            </div>
-        </div>
-        <div id="analysis" class="analysis"></div>
-    </div>
+    @board(null)
+    @moves(null)
 @*
 	<div class="board">
 		<img src="@routes.Assets.at("images/empty_board448.png")">
