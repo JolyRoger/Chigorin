@@ -1,6 +1,6 @@
 var analysis = false
+var fix = false
 var intervalId
-
 
 function transform(pv) {
 
@@ -68,7 +68,7 @@ function startAnalysis() {
             $('#analysis').html('')
             $('#a-start').attr('src', '/assets/images/analoff.png')
             $('.fix-analysis-btn').hide()
-            analysis = false
+            fix = analysis = false
         })
         return
     }
@@ -81,19 +81,30 @@ function startAnalysis() {
 function analysePosition() {
     startAnalysisServer(function() {
         intervalId = setInterval(analysisServer, 1000, function(result) {
-            $('#analysis').html("")
+            if (!fix) $('#analysis').html("")
             if (!analysis) {
                 clearInterval(intervalId)
             } else {
-                $.each(result, function(index, value) {
-                    var cmp = createAnal(index, value)
-                    $('#analysis').append(cmp.html() + '<br>')
-                });
+                if (!fix)
+                    $.each(result, function(index, value) {
+                        var anal = createAnal(index, value)
+                        $('#analysis').append(anal.html() + '<br>')
+                    });
             }
         })
     })
 }
 
 function fixAnalysis() {
+    fix = !fix
+    $('.fix-analysis-btn').html(fix ? 'Unfix' : 'Fix')
 
+    $('.a-best').each(function() {
+        //var clickVariant = clickToMove($(this).html())
+        $(this).html(clickToMove($(this).html(), 'analMove(this)'))
+    })
+}
+
+function analMove(element) {
+    console.log(element)
 }

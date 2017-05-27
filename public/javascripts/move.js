@@ -47,12 +47,12 @@ function moveEndShow() {
     pgnEl.children('.clicked-move').last()[0].onclick()
 }
 
-function clickToMove(pgn) {
+function clickToMove(pgn, clickFunction) {
     var pgnArr =  pgn.split(/\s+/g)
     pgnArr.forEach(function(element, i, arr) {
         if (/\.+/.test(element)) pgnArr[i] = '<span value="' + i + '">' + element + '&nbsp;</span>'
         else if (/[a-zA-Z][^\s\.]+/g.test(element))
-            pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="clickMove(this)">' +
+            pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="' + clickFunction + '">' +
                 getNotationText(element, 0, notation) + ' </span>'
     })
     return pgnArr.join('')
