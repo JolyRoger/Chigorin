@@ -67,7 +67,7 @@ var updateStatus = function() {
 
     statusEl.html(status);
     fenEl.html(game.fen());
-    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this)'));
+    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen)', ' '));
     pgnEl.children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
@@ -100,10 +100,4 @@ function init() {
 
         initEngineServer(updateStatus)
     })
-}
-
-function getCheckedValue(element) {
-    return parseInt(element.children('input').filter(function() {
-        return $(this).prop('checked')
-    }).attr('value'))
 }

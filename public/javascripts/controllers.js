@@ -4,15 +4,20 @@ function turnSide() {
     board.flip()
 }
 
-function newPositionFromPGN(pgn) {
-    startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-    game.reset()
+function enterPgn(pgn) {
     pgn.split(/\d+\.|\s+/).forEach(function(move) {
         if (move.length > 0) {
             var moveRes = game.move(getNotationText(move, notation, 0))
             if (moveRes === null) return 'snapback';
         }
     })
+}
+
+function newPositionFromPGN(pgn) {
+    startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+    game.reset()
+    //enterPgn(pgn)
+    game.load_pgn(convertPgn(pgn, notation, 0))
     board.position(game.fen())
     updateStatus()
 }

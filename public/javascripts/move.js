@@ -1,9 +1,8 @@
 function doMove(move) {
     var from = move[0] + move[1]
     var to = move[2] + move[3]
-    var move = { from: from, to: to,
-        promotion: move[4] == undefined ? 'q' : move[4] }
-    game.move(move)
+    game.move({ from: from, to: to,
+        promotion: move[4] == undefined ? 'q' : move[4] })
     board.position(game.fen())
     updateStatus()
     if (!analysis && getCheckedValue($('#players')) == 0 && !game.in_checkmate()) getBestMoveFromServer()
@@ -47,31 +46,31 @@ function moveEndShow() {
     pgnEl.children('.clicked-move').last()[0].onclick()
 }
 
-function clickToMove(pgn, clickFunction) {
+function clickToMove(pgn, clickFunction, space) {
     var pgnArr =  pgn.split(/\s+/g)
     pgnArr.forEach(function(element, i, arr) {
         if (/\.+/.test(element)) pgnArr[i] = '<span value="' + i + '">' + element + '&nbsp;</span>'
         else if (/[a-zA-Z][^\s\.]+/g.test(element))
             pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="' + clickFunction + '">' +
-                getNotationText(element, 0, notation) + ' </span>'
+                getNotationText(element, 0, notation) + (space == undefined ? '' : space) + '</span>'
     })
     return pgnArr.join('')
 }
 
-function clickMove(element) {
+function clickMove(element, $target, startFen) {
     game.load(startFen)
-    $('.last-move').removeClass('last-move')
+    $target.children('.last-move').removeClass('last-move')
     $(element).addClass('last-move')
-    pgnEl.children().each(function() {
-        var lastChildIndex = parseInt(pgnEl.children('.last-move').attr('value'))
+    var lastChildIndex = parseInt($(element).attr('value'))
+    $target.children().each(function() {
         if (parseInt($(this).attr('value')) > lastChildIndex) $(this).addClass('gray-move')
         else $(this).removeClass('gray-move')
     })
 
-    var moveNumber = parseInt($(element).attr('value'))
-    pgnEl.children('.clicked-move').each(function() {
+    //game.load_pgn(convertPgn(getPgnFromNotation($target), notation, 0))
+    $target.children('.clicked-move').each(function() {
         var curN = parseInt($(this).attr('value'))
-        if (curN <= moveNumber) game.move(getNotationText($(this).text().trim(), notation, 0))
+        if (curN <= lastChildIndex) game.move(getNotationText($(this).text().trim(), notation, 0))
     })
     board.position(game.fen())
 }
