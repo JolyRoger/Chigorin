@@ -27,7 +27,8 @@ function moveBeginShow() {
         $(this).addClass('gray-move')
     })
     $('.last-move').removeClass('last-move')
-    board.position(game.fen())
+    board.position(startFen)
+    fenEl.html(startFen)
 }
 
 function moveDownShow() {
@@ -73,6 +74,7 @@ function clickMove(element, $target, startFen) {
         if (curN <= lastChildIndex) game.move(getNotationText($(this).text().trim(), notation, 0))
     })
     board.position(game.fen())
+    fenEl.html(getFenFromNotation())
 }
 
 function showThinking(show) {

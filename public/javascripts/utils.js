@@ -22,9 +22,11 @@ function getNotationText(text, from, to) {
 }
 
 function convertPgn(pgn, from, to) {
+    var _from = from == undefined ? notation : from
+    var _to = to == undefined ? 0 : to
     var elements = pgn.split(/\s/)
     for (var i=0; i<elements.length; i++) {
-        elements[i] = getNotationText(elements[i], from, to)
+        elements[i] = getNotationText(elements[i], _from, _to)
     }
     return elements.join(' ')
 }
@@ -35,10 +37,24 @@ function getCheckedValue(element) {
     }).attr('value'))
 }
 
+function pgnToFen(pgn) {
+    if (!pgn) return startFen
+    var chess = new Chess()
+    chess.load_pgn(convertPgn(pgn))
+    var fen = chess.fen()
+    chess = null
+    return fen
+}
+
+function getFenFromNotation(element) {
+    return pgnToFen(getPgnFromNotation(element))
+}
+
 function getPgnFromNotation(element) {
+    var _element = element == undefined ? pgnEl : element
     var out = ''
-    var movesElements = element.children()
-    var lastMove = parseInt(element.children('.last-move').attr('value'))
+    var movesElements = _element.children()
+    var lastMove = parseInt(_element.children('.last-move').attr('value'))
     movesElements.each(function() {
         if (parseInt($(this).attr('value')) <= lastMove)
             out += $(this).html().replace('&nbsp;', ' ')
@@ -48,7 +64,8 @@ function getPgnFromNotation(element) {
 
 function doSmth() {
     console.log('do smth')
+    var bb = getFenFromNotation(pgnEl)
     //console.info(getNotationText('1. e4 e5 2. Кf3 Кf6 3. Кxe5 d6 4. Кf3 Кxe4 5. d4 d5 6. Сd3 Сe7', 1, 0))        // en
-    console.info(convertPgn('1. e4 e5 2. Кf3 Кf6 3. Кxe5 d6 4. Кf3 Кxe4 5. d4 d5 6. Сd3 Сe7', 1, 0))        // ru
+    //console.info(convertPgn('1. e4 e5 2. Кf3 Кf6 3. Кxe5 d6 4. Кf3 Кxe4 5. d4 d5 6. Сd3 Сe7', 1, 0))        // ru
     //clickMove(this, $('#a-cont' 2))
 }
