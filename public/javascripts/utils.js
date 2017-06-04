@@ -2,7 +2,9 @@ function normalize(text) {
     return text.replace(/[хХ]/, 'x').replace(/[оО0]/g, 'O').replace(/[!\?]/g, '')
 }
 
-function getNotationText(text, from, to) {
+function getNotationText(text, _from, _to) {
+    var from = _from == undefined ? notation : _from
+    var to = _to == undefined ? 0 : _to
     var out = normalize(text)
     if (from == to) return out
 

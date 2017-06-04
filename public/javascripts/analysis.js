@@ -98,40 +98,42 @@ function analysePosition() {
 }
 
 function fixAnalysis() {
-    fix = !fix
-    fix ? fixAnal() : unfix()
+    fix ? unfixAndSetPosition() : fixAnal()
 }
 
 function fixAnal() {
+    fix = true
     $('.fix-analysis-btn').html('Unfix')
     $('.a-best').each(function() {
         $(this).html(clickToMove($(this).html(), 'analMove(this)', '&emsp;'))
     })
     $('.a-cont').each(function() {
         //var clickVariant = clickToMove($(this).html())
-        $(this).html(clickToMove($(this).html(), 'analVariantMove(this, ' + $(this).attr('value') + ')', '&emsp;'))
+        $(this).html(clickToMove($(this).html(), 'analVariantMove(this, ' + $(this).attr('value') + ')', ' '))
+        //$(this).after('<div>CONTENT</div>')
         //$(this).html(clickToMove($(this).html(), 'clickMove(this, $(\'#a-cont\' ' + $(this).attr('value') + '))', '&emsp;'))
         //$(this).html(clickToMove($(this).html(), 'analVariantMove', '&emsp;'))
     })
 
 }
+function unfixAndSetPosition() {
+    unfix()
+    game.load_pgn(convertPgn(getPgnFromNotation()))
+    board.position(game.fen())
+}
+
 function unfix() {
+    fix = false
     $('.fix-analysis-btn').html('Fix')
 }
 
 function analMove(element) {
-    game.move($(element).html().trim())
+    game.load_pgn(convertPgn(getPgnFromNotation()))
+    game.move(getNotationText($(element).html().trim()))
     board.position(game.fen())
 }
 
 function analVariantMove(element, contIndex) {
-    //var $cont = $('#a-cont' + contIndex)
-    //clickMove(element, $cont,
-        //getPgnFromNotation(pgnEl)
-        //game.fen())
-    //var varArr = variant.split('...')
-    //var fullVariant = convertPgn(getPgnFromNotation($('#notation-show')) + (varArr.length > 1 ? varArr[1] : varArr[0]), notation, 0)
-    //game.load_pgn(fullVariant)
-    //console.log(game.fen())
-    //board.position(game.fen())
+    var $cont = $('#a-cont' + contIndex)
+    clickMove(element, $cont, getFenFromNotation())
 }

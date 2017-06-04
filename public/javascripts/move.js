@@ -68,12 +68,16 @@ function clickMove(element, $target, startFen) {
         else $(this).removeClass('gray-move')
     })
 
-    //game.load_pgn(convertPgn(getPgnFromNotation($target), notation, 0))
+    //game.load_pgn(convertPgn(getPgnFromNotation($target)))
+    //game.load_pgn(convertPgn(getPgnFromNotation()))
+    //board.position(game.fen())
+
     $target.children('.clicked-move').each(function() {
         var curN = parseInt($(this).attr('value'))
         if (curN <= lastChildIndex) game.move(getNotationText($(this).text().trim(), notation, 0))
     })
     board.position(game.fen())
+    //unfix()
     fenEl.html(getFenFromNotation())
 }
 

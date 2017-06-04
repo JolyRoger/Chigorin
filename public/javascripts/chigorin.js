@@ -67,7 +67,7 @@ var updateStatus = function() {
 
     statusEl.html(status);
     fenEl.html(game.fen());
-    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen)', ' '));
+    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen); unfix();', ' '));
     pgnEl.children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }
