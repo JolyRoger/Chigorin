@@ -108,11 +108,7 @@ function fixAnal() {
         $(this).html(clickToMove($(this).html(), 'analMove(this)', '&emsp;'))
     })
     $('.a-cont').each(function() {
-        //var clickVariant = clickToMove($(this).html())
         $(this).html(clickToMove($(this).html(), 'analVariantMove(this, ' + $(this).attr('value') + ')', ' '))
-        //$(this).after('<div>CONTENT</div>')
-        //$(this).html(clickToMove($(this).html(), 'clickMove(this, $(\'#a-cont\' ' + $(this).attr('value') + '))', '&emsp;'))
-        //$(this).html(clickToMove($(this).html(), 'analVariantMove', '&emsp;'))
     })
 
 }
@@ -134,6 +130,7 @@ function analMove(element) {
 }
 
 function analVariantMove(element, contIndex) {
+    $('#analysis').find('.clicked-move').removeClass('gray-move')
     var $cont = $('#a-cont' + contIndex)
     clickMove(element, $cont, getFenFromNotation())
 }
