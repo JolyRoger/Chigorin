@@ -38,6 +38,7 @@ function createAnal(index, value) {
     var acont = $('<span>').attr('id', 'a-cont' + index).addClass('a-cont').attr('value', index)
     var ascoretitle = $('<span>').attr('id', 'a-score-title' + index).addClass('a-score-title')
     var ascore = $('<span>').attr('id', 'a-score' + index).addClass('a-score')
+    ascore.attr('value', index)
 
     var scoreTypeCp = value.scoreType == 'cp'
     var sc = scoreTypeCp ? parseInt(value.score) / 100 : value.score
@@ -48,8 +49,8 @@ function createAnal(index, value) {
     amoven.html('Move №' + (index+1) + ':&nbsp;')
     abest.html(best + '&emsp;')
     ascoretitle.html('Score:&nbsp;')
-    ascore.html(scoreTypeCp ? (game.turn() === 'b' ? -sc : sc) + '<br>' : ('Mate in ' + Math.abs(sc) + '<br>'))
-    aconttitle.html('Variant:&nbsp;')
+    ascore.html(scoreTypeCp ? (game.turn() === 'b' ? -sc : sc) : ('Mate in ' + Math.abs(sc)))
+    aconttitle.html('<br>Variant:&nbsp;')
     acont.html(newPv)
 
     avariant.append(amoven)
@@ -110,11 +111,52 @@ function fixAnal() {
     $('.a-cont').each(function() {
         $(this).html(clickToMove($(this).html(), 'analVariantMove(this, ' + $(this).attr('value') + ')', ' '))
     })
-
+    showMoveVarianButtons()
 }
+
+function showMoveVarianButtons() {
+    function createButton(action, sign, index) {
+        var $btn = $('<a>')
+        $btn.attr('id', 'mv-' + action)
+        $btn.attr('href', 'javascript:mv' + action + '(' + index +')')
+        $btn.html(sign)
+        return $btn
+    }
+    $('.a-score').each(function() {
+        var $btnPanel = $('<span>')
+        $btnPanel.css('float', 'right')
+        $btnPanel.css('font-size', '146%')
+
+        $btnPanel.append(createButton('left', '&#10232;', $(this).attr("value")))
+        $btnPanel.append(createButton('right', '&#10233;', $(this).attr("value")))
+
+        var lines = parseInt($('input#analysis-lines').val())
+        $(this).after($btnPanel)
+    })
+}
+
+function mvleft(index) {
+    var $nextMove = $('#a-cont' + index).children('.clicked-move').not('.gray-move').not('.last-move').last()
+    if ($nextMove && $nextMove.length > 0) $nextMove[0].onclick(this)
+    else setPosition()
+}
+
+function mvright(index) {
+    var $moveElement = $('#a-cont' + index)
+    var $nextMove = $moveElement.children('.clicked-move.gray-move').first()
+    if ($nextMove && $nextMove.length > 0) $nextMove[0].onclick(this)
+    else if ($moveElement.children('.last-move').size() == 0)
+        $moveElement.children('.clicked-move')[0].onclick()
+}
+
 function unfixAndSetPosition() {
     unfix()
+    setPosition()
+}
+
+function setPosition(f, arg) {
     game.load_pgn(convertPgn(getPgnFromNotation()))
+    f && f(arg)
     board.position(game.fen())
 }
 
@@ -124,13 +166,13 @@ function unfix() {
 }
 
 function analMove(element) {
-    game.load_pgn(convertPgn(getPgnFromNotation()))
-    game.move(getNotationText($(element).html().trim()))
-    board.position(game.fen())
+    setPosition(game.move, getNotationText($(element).html().trim()))
 }
 
 function analVariantMove(element, contIndex) {
-    $('#analysis').find('.clicked-move').removeClass('gray-move')
     var $cont = $('#a-cont' + contIndex)
+    var $contChld = $('.a-cont').children()
+    $contChld.removeClass('gray-move')
+    $contChld.removeClass('last-move')
     clickMove(element, $cont, getFenFromNotation())
 }
