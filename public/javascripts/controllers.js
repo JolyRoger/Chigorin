@@ -4,15 +4,6 @@ function turnSide() {
     board.flip()
 }
 
-function enterPgn(pgn) {
-    pgn.split(/\d+\.|\s+/).forEach(function(move) {
-        if (move.length > 0) {
-            var moveRes = game.move(getNotationText(move, notation, 0))
-            if (moveRes === null) return 'snapback';
-        }
-    })
-}
-
 function newPositionFromPGN(pgn) {
     startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
     game.reset()
@@ -74,6 +65,7 @@ function setPiecesOk() {
     game.load(startFen)
     closePosition()
     updateStatus()
+
 }
 
 function setPieces() {

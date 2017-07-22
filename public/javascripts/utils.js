@@ -42,7 +42,14 @@ function getCheckedValue(element) {
 function pgnToFen(pgn) {
     if (!pgn) return startFen
     var chess = new Chess()
-    chess.load_pgn(convertPgn(pgn))
+    chess.load(startFen)
+    pgn.split(/\d+\.|\s+/).forEach(function(move) {
+        if (move.length > 0) {
+            var moveRes = chess.move(getNotationText(move, notation, 0))
+            if (moveRes === null) return 'snapback';
+        }
+    })
+    //chess.load_pgn(convertPgn(pgn))
     var fen = chess.fen()
     chess = null
     return fen

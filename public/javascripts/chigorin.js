@@ -64,7 +64,7 @@ var updateStatus = function() {
             status += ', ' + moveColor + ' is in check';
         }
     }
-
+    unfix()
     statusEl.html(status);
     fenEl.html(game.fen());
     pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen); unfix();', ' '));

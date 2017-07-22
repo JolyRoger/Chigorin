@@ -136,9 +136,12 @@ function showMoveVarianButtons() {
 }
 
 function mvleft(index) {
-    var $nextMove = $('#a-cont' + index).children('.clicked-move').not('.gray-move').not('.last-move').last()
-    if ($nextMove && $nextMove.length > 0) $nextMove[0].onclick(this)
-    else setPosition()
+    var $prevMove = $('#a-cont' + index).children('.clicked-move').not('.gray-move').not('.last-move').last()
+    if ($prevMove && $prevMove.length > 0) $prevMove[0].onclick(this)
+    else {
+        $('#a-cont' + index + ' .last-move').addClass('gray-move')
+        setPosition()
+    }
 }
 
 function mvright(index) {
@@ -155,7 +158,10 @@ function unfixAndSetPosition() {
 }
 
 function setPosition(f, arg) {
-    game.load_pgn(convertPgn(getPgnFromNotation()))
+    //var pgn = convertPgn(getPgnFromNotation())
+    //if (pgn.length == 0) game.load(startFen)
+    //else game.load_pgn(pgn)
+    game.load(getFenFromNotation())
     f && f(arg)
     board.position(game.fen())
 }
