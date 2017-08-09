@@ -9,65 +9,70 @@ function onChange(oldPos, newPos) {
 
 // do not pick up pieces if the game is over
 // only pick up pieces for the side to move
-var onDragStart = function(source, piece, position, orientation) {
+function onDragStart(source, piece, position, orientation) {
+    if (analysis) {
+        var pgn = game.pgn()
+        loadFenPgn(game, startFen, convertPgn(getPgnFromNotation()))
+        doPgnMoves(game, pgn)
+    }
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
         return false;
     }
-};
+}
 
-var onDrop = function(source, target) {
+function onDrop(source, target) {
     // see if the move is legal
     var move = game.move({
         from: source,
         to: target,
         promotion: 'q' // NOTE: always promote to a queen for example simplicity
-    });
+    })
 
     // illegal move
-    if (move === null) return 'snapback';
-    updateStatus();
+    if (move === null) return 'snapback'
+    updateStatus()
     if (!analysis && getCheckedValue($('#players')) < 2 && !game.in_checkmate()) getBestMoveFromServer()
-};
+}
 
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
-var onSnapEnd = function() {
-    board.position(game.fen());
-};
+function onSnapEnd() {
+    board.position(game.fen())
+}
 
-var updateStatus = function() {
-    var status = '';
+function updateStatus() {
+    var status = ''
 
-    var moveColor = 'White';
+    var moveColor = 'White'
     if (game.turn() === 'b') {
-        moveColor = 'Black';
+        moveColor = 'Black'
     }
 
     // checkmate?
     if (game.in_checkmate() === true) {
-        status = 'Game over, ' + moveColor + ' is in checkmate.';
+        status = 'Game over, ' + moveColor + ' is in checkmate.'
     }
 
     // draw?
     else if (game.in_draw() === true) {
-        status = 'Game over, drawn position';
+        status = 'Game over, drawn position'
     }
 
     // game still on
     else {
-        status = moveColor + ' to move';
+        status = moveColor + ' to move'
 
         // check?
         if (game.in_check() === true) {
-            status += ', ' + moveColor + ' is in check';
+            status += ', ' + moveColor + ' is in check'
         }
     }
     unfix()
-    statusEl.html(status);
-    fenEl.html(game.fen());
-    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen); unfix();', ' '));
+    statusEl.html(status)
+    fenEl.html(game.fen())
+    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen); unfix();', ' '))
     pgnEl.children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
 }

@@ -43,13 +43,7 @@ function pgnToFen(pgn) {
     if (!pgn) return startFen
     var chess = new Chess()
     chess.load(startFen)
-    pgn.split(/\d+\.|\s+/).forEach(function(move) {
-        if (move.length > 0) {
-            var moveRes = chess.move(getNotationText(move, notation, 0))
-            if (moveRes === null) return 'snapback';
-        }
-    })
-    //chess.load_pgn(convertPgn(pgn))
+    doPgnMoves(chess, pgn)
     var fen = chess.fen()
     chess = null
     return fen
@@ -71,10 +65,20 @@ function getPgnFromNotation(element) {
     return out
 }
 
+function doPgnMoves(chess, pgn) {
+    pgn.split(/\d+\.|\s+/).forEach(function(move) {
+        if (move.length > 0) {
+            var moveRes = chess.move(getNotationText(move, notation, 0))
+            if (moveRes === null) return 'snapback';
+        }
+    })
+}
+
+function loadFenPgn(game, fen, pgn) {
+    game.load(fen)
+    doPgnMoves(game, pgn)
+}
+
 function doSmth() {
     console.log('do smth')
-    var bb = getFenFromNotation(pgnEl)
-    //console.info(getNotationText('1. e4 e5 2. Кf3 Кf6 3. Кxe5 d6 4. Кf3 Кxe4 5. d4 d5 6. Сd3 Сe7', 1, 0))        // en
-    //console.info(convertPgn('1. e4 e5 2. Кf3 Кf6 3. Кxe5 d6 4. Кf3 Кxe4 5. d4 d5 6. Сd3 Сe7', 1, 0))        // ru
-    //clickMove(this, $('#a-cont' 2))
 }

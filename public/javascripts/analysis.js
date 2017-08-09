@@ -111,10 +111,10 @@ function fixAnal() {
     $('.a-cont').each(function() {
         $(this).html(clickToMove($(this).html(), 'analVariantMove(this, ' + $(this).attr('value') + ')', ' '))
     })
-    showMoveVarianButtons()
+    showMoveVariantButtons()
 }
 
-function showMoveVarianButtons() {
+function showMoveVariantButtons() {
     function createButton(action, sign, index) {
         var $btn = $('<a>')
         $btn.attr('id', 'mv-' + action)
@@ -158,10 +158,7 @@ function unfixAndSetPosition() {
 }
 
 function setPosition(f, arg) {
-    //var pgn = convertPgn(getPgnFromNotation())
-    //if (pgn.length == 0) game.load(startFen)
-    //else game.load_pgn(pgn)
-    game.load(getFenFromNotation())
+    loadFenPgn(game, startFen, convertPgn(getPgnFromNotation()))
     f && f(arg)
     board.position(game.fen())
 }
