@@ -11,9 +11,15 @@ function onChange(oldPos, newPos) {
 // only pick up pieces for the side to move
 function onDragStart(source, piece, position, orientation) {
     if (analysis) {
-        var pgn = game.pgn()
-        loadFenPgn(game, startFen, convertPgn(getPgnFromNotation()))
-        doPgnMoves(game, pgn)
+        var gamePgn = game.pgn()
+        var notationPgn = convertPgn(getPgnFromNotation())
+        var gamePgnArr = gamePgn.split('\n\n')
+        if (gamePgnArr.length > 1) {
+            if (gamePgnArr[1] !== notationPgn.trim()) { // game pgn contains analysis variant
+                loadFenPgn(game, startFen, notationPgn)
+                doPgnMoves(game, gamePgn)
+            }
+        }
     }
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
