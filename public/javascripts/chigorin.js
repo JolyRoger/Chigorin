@@ -104,7 +104,6 @@ function init() {
             onSnapEnd: onSnapEnd
         }
         board = ChessBoard('board', cfg)
-        //statusEl = $('#analysis')
         statusEl = $('#status')
         fenEl = $('#fencontent')
         pgnEl = $('#notation-show')

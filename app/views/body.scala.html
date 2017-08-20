@@ -1,7 +1,24 @@
 @(content: Html)
 <body onunload="unload()">
     <div id="header">
-        <h1 id="welcome">Stockfish</h1>
+        <h1 id="welcome">
+            <div class="btn-group inline">
+                <button id="engine-selector"
+                        name="engine-selector"
+                        value="Stockfish"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        class="btn handlebtn btn-secondary dropdown-toggle">
+                    <span id="engine-name">Stockfish</span>&nbsp;<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="javascript:selectEngine('Stockfish')">Stockfish</a></li>
+                    <li><a href="javascript:selectEngine('Rybka')"> Rybka</a></li>
+                    <li><a href="javascript:selectEngine('Mediocre')">Mediocre</a></li>
+                </ul>
+            </div>
+        </h1>
         @tophandles(null)
     </div>
 

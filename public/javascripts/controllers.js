@@ -33,10 +33,6 @@ function newPosition(fen) {
     }
 }
 
-function changeEngine() {
-    changeEngineServer()
-}
-
 function setAnalysisLines() {
     if (analysis) setAnalysisLinesServer()
 }
@@ -76,10 +72,6 @@ function setPieces() {
     $('#fb-close-Position').click(close)
     $('#fb-modal-Position').fadeIn('slow')
     $('img').last().css('z-index', 102)
-    //$('#board-container').addClass('shifted-up')
-    //$('.set-board-btn').show()
-    //$('#showMoves').hide()
-    //console.log($('.board-b72b1').width())
     $('#pos-settings-btn').css('left')
 }
 
@@ -134,16 +126,17 @@ function positionSettings() {
 
 function changeNotation(_notation) {
     console.log(notation + ' :: ' + $('input.select-notation-input:checked').val())
-    //changeNotationServer()
     $('.clicked-move').each(function() {
         $(this).html(getNotationText($(this).html(), notation, _notation))
     })
     notation = _notation
 }
 
-
-
-
+function selectEngine(engine) {
+    $('#engine-name').text(engine)
+    $('#engine-name').css('color', 'darkgray')
+    changeEngineServer(engine)
+}
 
 
 
@@ -172,7 +165,6 @@ function loadFen() {
     var str = $('#fenstringpaste').val()
     var newstr = str.replace(/\s{2,}/g, ' ')
     newPosition(newstr.trim())
-    //else newPositionFromPGN(newstr.trim())
 }
 function loadPgn() {
     newPositionFromPGN($('#notation-paste').val())

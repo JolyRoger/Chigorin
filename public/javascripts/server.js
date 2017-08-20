@@ -40,14 +40,8 @@ function setAnalysisLinesServer() {
     $.get('/setAnalysisLines/' + parseInt($('input#analysis-lines').val()))
 }
 
-function changeEngineServer() {
-    $.get('/changeEngine/' + $('#select-engine').val(), function(data) {
-        $('#welcome').html('<span>' + data + '</span>')
+function changeEngineServer(engine) {
+    $.get('/changeEngine/' + engine, function(data) {
+        $('#engine-name').css('color', 'currentColor')
     })
-}
-
-function changeNotationServer() {
-    //$.get('/changeNotation/' + $('input.select-notation-input:checked').val(), function(data) {
-    //
-    //})
 }
