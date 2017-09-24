@@ -7,7 +7,6 @@ function turnSide() {
 function newPositionFromPGN(pgn) {
     startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
     game.reset()
-    //enterPgn(pgn)
     game.load_pgn(convertPgn(pgn, notation, 0))
     board.position(game.fen())
     updateStatus()

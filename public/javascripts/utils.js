@@ -1,5 +1,10 @@
 function normalize(text) {
-    return text.replace(/[хХ]/, 'x').replace(/[оО0]/g, 'O').replace(/[!\?]/g, '')
+    function replacer(str, offset, s) {
+        var strArr = str.split("")
+        return strArr[0] + 'x' + strArr[1]
+    }
+    return text.replace(/[хХ]/, 'x')/*.replace(/[оО0]/g, 'O')*/.replace(/[!\?]/g, '').
+        replace(/^[abcdefgh]{2}/, replacer)
 }
 
 function getNotationText(text, _from, _to) {

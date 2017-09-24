@@ -1349,11 +1349,12 @@ window['Chess'] = window['Chess'] || function(fen) {
         } else if (parse && parse[1]) {
           // regular moves
           var piece = parse[1].toLowerCase();
+          to = SQUARES[parse[4]];
+          if (board[to]) parse[3] = 'x'
           if (parse[3]) {
             // capture
             flags = BITS.CAPTURE;
           }
-          to = SQUARES[parse[4]];
           for (var j = 0, len = PIECE_OFFSETS[piece].length; j < len; j++) {
             var offset = PIECE_OFFSETS[piece][j];
             var square = to;
