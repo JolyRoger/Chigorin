@@ -47,14 +47,25 @@ function moveEndShow() {
     pgnEl.children('.clicked-move').last()[0].onclick()
 }
 
+var moveMap = []
+
 function clickToMove(pgn, clickFunction, space) {
     var pgnArr =  pgn.split(/\s+/g)
+    var chess = new Chess()
+    chess.load(startFen)
+    var fen = ""
+
     pgnArr.forEach(function(element, i, arr) {
         if (/\.+/.test(element)) pgnArr[i] = '<span value="' + i + '">' + element + '&nbsp;</span>'
-        else if (/[a-zA-Z][^\s\.]+/g.test(element))
+        else if (/[a-zA-Z][^\s\.]+/g.test(element)) {
+            chess.move(element)
+            fen = chess.fen()
+            moveMap[i] = fen
             pgnArr[i] = '<span value="' + i + '" class="clicked-move" onclick="' + clickFunction + '">' +
                 getNotationText(element, 0, notation) + (space == undefined ? '' : space) + '</span>'
+        }
     })
+    chess = undefined
     return pgnArr.join('')
 }
 
@@ -68,17 +79,25 @@ function clickMove(element, $target, startFen) {
         else $(this).removeClass('gray-move')
     })
 
+    var fen = moveMap[parseInt($(element).attr('value'))]
+    game.load(fen)
+    board.position(fen)
+
     //game.load_pgn(convertPgn(getPgnFromNotation($target)))
     //game.load_pgn(convertPgn(getPgnFromNotation()))
     //board.position(game.fen())
 
-    $target.children('.clicked-move').each(function() {
-        var curN = parseInt($(this).attr('value'))
-        if (curN <= lastChildIndex) game.move(getNotationText($(this).text().trim(), notation, 0))
-    })
-    board.position(game.fen())
+
+
+    /*
+     $target.children('.clicked-move').each(function() {
+     var curN = parseInt($(this).attr('value'))
+     if (curN <= lastChildIndex) game.move(getNotationText($(this).text().trim(), notation, 0))
+     })
+     */
+    //board.position(game.fen())
     //unfix()
-    fenEl.html(getFenFromNotation())
+    fenEl.html(fen)
 }
 
 function showThinking(show) {
