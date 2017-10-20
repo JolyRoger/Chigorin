@@ -1,6 +1,5 @@
 var board, statusEl, fenEl, pgnEl, game = new Chess()
 var startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-var initialMoveNumber = 1
 
 function onChange(oldPos, newPos) {
     if (analysis) continueAnalysis()
@@ -38,6 +37,7 @@ function onDrop(source, target) {
 
     // illegal move
     if (move === null) return 'snapback'
+    addClickToLastMove()
     updateStatus()
     if (!analysis && getCheckedValue($('#players')) < 2 && !game.in_checkmate()) getBestMoveFromServer()
 }
@@ -78,9 +78,12 @@ function updateStatus() {
     unfix()
     statusEl.html(status)
     fenEl.html(game.fen())
-    pgnEl.html(clickToMove(game.pgn({ with_header: false, pgn_move_number: initialMoveNumber }), 'clickMove(this, pgnEl, startFen); unfix();', ' '))
-    pgnEl.children().last().addClass('last-move')
     $('#fencopybtn').children().attr('src', '/assets/images/copy.png')
+}
+
+function reset() {
+    game.reset()
+    pgnEl.html('')
 }
 
 function unload() {

@@ -1,4 +1,5 @@
 function getBestMoveFromServer() {
+    deleteGrayMoves()
     showThinking()
     $.ajax({
         url: '/next/',

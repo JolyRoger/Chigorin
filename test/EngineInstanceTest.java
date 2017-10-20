@@ -14,11 +14,7 @@ public class EngineInstanceTest {
     @Test
     public void process() {
         EngineInstance engineInstance = new EngineInstance("Stockfish");
-        try {
-            engineInstance.write("quit");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        engineInstance.write("quit");
     }
 
     @Test

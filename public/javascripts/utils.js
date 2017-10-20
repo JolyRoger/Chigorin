@@ -58,16 +58,9 @@ function getFenFromNotation(element) {
     return pgnToFen(getPgnFromNotation(element))
 }
 
-function getPgnFromNotation(element) {
-    var _element = element == undefined ? pgnEl : element
-    var out = ''
-    var movesElements = _element.children()
-    var lastMove = parseInt(_element.children('.last-move').attr('value'))
-    movesElements.each(function() {
-        if (parseInt($(this).attr('value')) <= lastMove)
-            out += $(this).html().replace('&nbsp;', ' ')
-    })
-    return out
+function getPgnFromNotation(_element) {
+    var element = _element == undefined ? pgnEl : _element
+    return element.children('span:not(.gray-move)').text()
 }
 
 function doPgnMoves(chess, pgn) {

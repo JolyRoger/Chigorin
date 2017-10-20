@@ -1,50 +1,79 @@
 function doMove(move) {
     var from = move[0] + move[1]
     var to = move[2] + move[3]
+    //var oldFen = game.fen()
     game.move({ from: from, to: to,
         promotion: move[4] == undefined ? 'q' : move[4] })
-    board.position(game.fen())
+
+    var fen = game.fen()
+    board.position(fen)
+    hideThinking()
+    addClickToLastMove(fen)
     updateStatus()
     if (!analysis && getCheckedValue($('#players')) == 0 && !game.in_checkmate()) getBestMoveFromServer()
 }
 
-function moveShow(calculateMove, indexExitCriteria) {
-    var allMovesLength = pgnEl.children().size()
-    var valueIndex = parseInt(pgnEl.children('.clicked-move.last-move').attr('value')) || 0
-    var prevMove
+function addClickToLastMove(fen) {
+    function setMoveNumber(dots) {
+        lastValue += 1
+        var $moveNumber = $('<span>').attr('value', lastValue)
+        $moveNumber.html(moveNumber + dots)
+        pgnEl.append($moveNumber)
+    }
 
-    do {
-        valueIndex = calculateMove(valueIndex)
-        prevMove = pgnEl.children('.clicked-move[value="' + valueIndex + '"]')
-    } while(!/[a-zA-Z][^\s\.]+/g.test(prevMove.text().trim()) && indexExitCriteria(valueIndex, allMovesLength))
+    var pgnNodes = pgnEl.children()
+    var pgnArr = game.pgn().trim().split(/\s+/)
+    var move = pgnArr[pgnArr.length - 1]
+    var newFen = fen ? fen : game.fen()
 
-    prevMove && prevMove.length > 0 && prevMove[0].onclick(this)
+    var newFenArr = newFen.split(/\s+/)
+    var whiteMoves = newFenArr[1] == 'b'                    // Because of it is new fen. Prev move was of opposite side.
+    var moveNumber = parseInt(newFenArr[5])
+    moveNumber = whiteMoves ? moveNumber : moveNumber - 1   // Because this is new fen and new move number for white. We should show move number of already done move.
+    var lastValue = parseInt(pgnNodes.last().attr('value'))
+    if (!lastValue) lastValue = 0
+
+    if (whiteMoves) setMoveNumber('.&nbsp;')
+     else if (pgnNodes.size() == 0)
+        setMoveNumber('.&nbsp;...&nbsp;')
+
+    var $move = $('<span>').attr('value', lastValue + 1)
+    $move.attr('fen', newFen)
+    $('.last-move').removeClass('last-move')
+    $move.addClass('clicked-move').addClass('last-move')
+    $move.click(function() {
+        clickMove(this, pgnEl, startFen);
+        unfix();
+    })
+    $move.html(move + ' ')
+    pgnEl.append($move)
 }
 
 function moveBeginShow() {
     game.load(startFen)
-    pgnEl.children().each(function() {
-        $(this).addClass('gray-move')
-    })
+    pgnEl.children().addClass('gray-move')
     $('.last-move').removeClass('last-move')
     board.position(startFen)
     fenEl.html(startFen)
 }
 
 function moveDownShow() {
-    moveShow(
-        function(valueIndex) { return valueIndex - 1 },
-        function(valueIndex, movesLength) { return valueIndex > 0 })
+    var $prevMoves = pgnEl.children('.clicked-move.last-move').prevAll('span.clicked-move')
+    if ($prevMoves && $prevMoves.length > 0) $prevMoves[0].click()
+    else moveBeginShow()
 }
 
 function moveUpShow() {
-    moveShow(
-        function(valueIndex) { return valueIndex + 1 },
-        function(valueIndex, movesLength) { return valueIndex < movesLength-1 })
+    var $nextMoves = pgnEl.children('span.clicked-move.last-move').nextAll('span.clicked-move.gray-move')
+    if ($nextMoves && $nextMoves.length > 0) $nextMoves[0].click()
+    else {
+        var $first = pgnEl.children('span.clicked-move.gray-move').first()
+        $first && $first.length > 0 && $first[0].click()
+    }
 }
 
 function moveEndShow() {
-    pgnEl.children('.clicked-move').last()[0].onclick()
+    pgnEl.children('.clicked-move').last()[0].click()
 }
 
 var moveMap = []
@@ -69,8 +98,11 @@ function clickToMove(pgn, clickFunction, space) {
     return pgnArr.join('')
 }
 
-function clickMove(element, $target, startFen) {
-    game.load(startFen)
+function deleteGrayMoves() {
+    pgnEl.children('.gray-move').remove()
+}
+
+function clickMove(element, $target) {
     $target.children('.last-move').removeClass('last-move')
     $(element).addClass('last-move')
     var lastChildIndex = parseInt($(element).attr('value'))
@@ -79,28 +111,17 @@ function clickMove(element, $target, startFen) {
         else $(this).removeClass('gray-move')
     })
 
-    var fen = moveMap[parseInt($(element).attr('value'))]
-    game.load(fen)
+    var fen = $(element).attr('fen')
     board.position(fen)
-
-    //game.load_pgn(convertPgn(getPgnFromNotation($target)))
-    //game.load_pgn(convertPgn(getPgnFromNotation()))
-    //board.position(game.fen())
-
-
-
-    /*
-     $target.children('.clicked-move').each(function() {
-     var curN = parseInt($(this).attr('value'))
-     if (curN <= lastChildIndex) game.move(getNotationText($(this).text().trim(), notation, 0))
-     })
-     */
-    //board.position(game.fen())
-    //unfix()
+    game.load(fen)
     fenEl.html(fen)
 }
 
-function showThinking(show) {
+function hideThinking() {
+    pgnEl.children('#thinking').remove()
+}
+
+function showThinking() {
     if (analysis || $('#thinking').length) return
-    $('#notation-show').append('<img id="thinking" src="/assets/images/thinking.gif">')
+    pgnEl.append('<img id="thinking" src="/assets/images/thinking.gif">')
 }

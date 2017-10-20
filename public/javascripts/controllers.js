@@ -5,22 +5,28 @@ function turnSide() {
 }
 
 function newPositionFromPGN(pgn) {
+    reset()
     startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-    game.reset()
-    game.load_pgn(convertPgn(pgn, notation, 0))
+    pgn.split(/\d+\.|\s+/).filter(function(element) {
+        return element.length > 0
+    }).forEach(function(move) {
+        game.move(move)
+        addClickToLastMove()
+    })
     board.position(game.fen())
     updateStatus()
 }
 
 function newPosition(fen) {
     if (fen == undefined) {
+        reset()
         startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-        game.reset()
         board.start()
         updateStatus()
     } else {
         var validateResult = game.validate_fen(fen)
         if (validateResult.valid) {
+            reset()
             startFen = fen
             game.load(fen)
             board.position(fen)
@@ -55,12 +61,12 @@ function setPiecesOk() {
     var halfmoves = $('#half-moves-number').val()
     var fullmoves = $('#full-moves-number').val()
 
+    reset()
     startFen = piecesBoard.fen() + ' ' + whiteToMove + ' ' + castling + ' ' + enPassant + ' ' + halfmoves + ' ' + fullmoves
     board.position(startFen, true)
     game.load(startFen)
     closePosition()
     updateStatus()
-
 }
 
 function setPieces() {
@@ -136,18 +142,6 @@ function selectEngine(engine) {
     $('#engine-name').css('color', 'darkgray')
     changeEngineServer(engine)
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 function copyFen() {
     var clipboard = new Clipboard('#fencopybtn')
