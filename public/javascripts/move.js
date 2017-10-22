@@ -42,7 +42,7 @@ function addClickToLastMove(fen) {
     $('.last-move').removeClass('last-move')
     $move.addClass('clicked-move').addClass('last-move')
     $move.click(function() {
-        clickMove(this, pgnEl, startFen);
+        clickMove(this, pgnEl);
         unfix();
     })
     $move.html(move + ' ')
@@ -102,7 +102,7 @@ function deleteGrayMoves() {
     pgnEl.children('.gray-move').remove()
 }
 
-function clickMove(element, $target) {
+function clickMove(element, $target, _fen) {
     $target.children('.last-move').removeClass('last-move')
     $(element).addClass('last-move')
     var lastChildIndex = parseInt($(element).attr('value'))
@@ -111,7 +111,7 @@ function clickMove(element, $target) {
         else $(this).removeClass('gray-move')
     })
 
-    var fen = $(element).attr('fen')
+    var fen = _fen ? _fen : $(element).attr('fen')
     board.position(fen)
     game.load(fen)
     fenEl.html(fen)

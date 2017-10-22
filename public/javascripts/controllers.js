@@ -7,9 +7,7 @@ function turnSide() {
 function newPositionFromPGN(pgn) {
     reset()
     startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
-    pgn.split(/\d+\.|\s+/).filter(function(element) {
-        return element.length > 0
-    }).forEach(function(move) {
+    getMoveArrayFromPgn(pgn).forEach(function(move) {
         game.move(move)
         addClickToLastMove()
     })

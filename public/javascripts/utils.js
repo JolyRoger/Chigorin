@@ -54,8 +54,8 @@ function pgnToFen(pgn) {
     return fen
 }
 
-function getFenFromNotation(element) {
-    return pgnToFen(getPgnFromNotation(element))
+function getFenFromNotation() {
+    return pgnEl.children('.last-move').attr('fen')
 }
 
 function getPgnFromNotation(_element) {
@@ -63,18 +63,26 @@ function getPgnFromNotation(_element) {
     return element.children('span:not(.gray-move)').text()
 }
 
-function doPgnMoves(chess, pgn) {
-    pgn.split(/\d+\.|\s+/).forEach(function(move) {
-        if (move.length > 0) {
-            var moveRes = chess.move(getNotationText(move, notation, 0))
-            if (moveRes === null) return 'snapback';
-        }
+function doMoves(chess, movesArr) {
+    movesArr.forEach(function(move) {
+        var moveRes = chess.move(getNotationText(move, notation, 0))
+        if (moveRes === null) return 'snapback';
     })
+}
+
+function doPgnMoves(chess, pgn) {
+    doMoves(chess, getMoveArrayFromPgn(pgn))
 }
 
 function loadFenPgn(game, fen, pgn) {
     game.load(fen)
     doPgnMoves(game, pgn)
+}
+
+function getMoveArrayFromPgn(pgn) {
+    return pgn.split(/\d+\.|\s+/).filter(function(element) {
+        return element.length > 0
+    })
 }
 
 function doSmth() {

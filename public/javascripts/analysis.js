@@ -137,7 +137,7 @@ function showMoveVariantButtons() {
 
 function mvleft(index) {
     var $prevMove = $('#a-cont' + index).children('.clicked-move').not('.gray-move').not('.last-move').last()
-    if ($prevMove && $prevMove.length > 0) $prevMove[0].onclick(this)
+    if ($prevMove && $prevMove.length > 0) $prevMove[0].click(this)
     else {
         $('#a-cont' + index + ' .last-move').addClass('gray-move')
         setPosition()
@@ -147,9 +147,9 @@ function mvleft(index) {
 function mvright(index) {
     var $moveElement = $('#a-cont' + index)
     var $nextMove = $moveElement.children('.clicked-move.gray-move').first()
-    if ($nextMove && $nextMove.length > 0) $nextMove[0].onclick(this)
+    if ($nextMove && $nextMove.length > 0) $nextMove[0].click(this)
     else if ($moveElement.children('.last-move').size() == 0)
-        $moveElement.children('.clicked-move')[0].onclick()
+        $moveElement.children('.clicked-move')[0].click()
 }
 
 function unfixAndSetPosition() {
@@ -177,5 +177,10 @@ function analVariantMove(element, contIndex) {
     var $contChld = $('.a-cont').children()
     $contChld.removeClass('gray-move')
     $contChld.removeClass('last-move')
-    clickMove(element, $cont, getFenFromNotation())
+    $(element).nextAll().addClass('gray-move')
+    $(element).addClass('last-move')
+    var analPgnArr = getMoveArrayFromPgn($cont.children('span:not(.gray-move)').text())
+    game.load(getFenFromNotation())
+    doMoves(game, analPgnArr)
+    clickMove(element, $cont, game.fen())
 }
