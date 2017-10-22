@@ -55,9 +55,16 @@ public class InfoProcessor {
 
     public Set<InfoStructure> getStructure() {
         Set<InfoStructure> info = new TreeSet<>((v1, v2) -> {
-            int res = v2.score - v1.score;
-            return res == 0 ? -1 : res;
-        });
+            int res = 0;
+            if (v1.scoreType == v2.scoreType) {
+                if (v1.scoreType == Score.cp) {
+                    res = v2.score - v1.score;
+                } else res = v1.score - v2.score;
+            } else {
+                res = v1.scoreType == Score.mate ? -1 : 1;
+            }
+            return res == 0 ? -1 : res;});
+
         info.addAll(structureMap.values());
         return info;
     }

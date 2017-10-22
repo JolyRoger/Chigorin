@@ -55,7 +55,8 @@ function pgnToFen(pgn) {
 }
 
 function getFenFromNotation() {
-    return pgnEl.children('.last-move').attr('fen')
+    var fen = pgnEl.children('.last-move').attr('fen')
+    return fen ? fen : startFen
 }
 
 function getPgnFromNotation(_element) {
