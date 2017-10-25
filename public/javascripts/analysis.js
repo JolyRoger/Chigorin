@@ -1,6 +1,7 @@
 var analysis = false
 var fix = false
 var intervalId
+var analIndex
 
 function transform(pv) {
 
@@ -173,6 +174,7 @@ function analMove(element) {
 }
 
 function analVariantMove(element, contIndex) {
+    analIndex = contIndex
     var $cont = $('#a-cont' + contIndex)
     var $contChld = $('.a-cont').children()
     $contChld.removeClass('gray-move')

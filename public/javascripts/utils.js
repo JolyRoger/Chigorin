@@ -64,10 +64,11 @@ function getPgnFromNotation(_element) {
     return element.children('span:not(.gray-move)').text()
 }
 
-function doMoves(chess, movesArr) {
+function doMoves(chess, movesArr, f) {
     movesArr.forEach(function(move) {
-        var moveRes = chess.move(getNotationText(move, notation, 0))
+        var moveRes = chess.move(move)
         if (moveRes === null) return 'snapback';
+        f && (typeof f === 'function') && f()
     })
 }
 
@@ -81,7 +82,7 @@ function loadFenPgn(game, fen, pgn) {
 }
 
 function getMoveArrayFromPgn(pgn) {
-    return pgn.split(/\d+\.|\s+/).filter(function(element) {
+    return pgn.split(/\d+\.|\s+|\.+/).filter(function(element) {
         return element.length > 0
     })
 }

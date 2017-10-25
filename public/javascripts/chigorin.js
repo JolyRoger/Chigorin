@@ -9,17 +9,6 @@ function onChange(oldPos, newPos) {
 // do not pick up pieces if the game is over
 // only pick up pieces for the side to move
 function onDragStart(source, piece, position, orientation) {
-    if (analysis) {
-        var gamePgn = game.pgn()
-        var notationPgn = convertPgn(getPgnFromNotation())
-        var gamePgnArr = gamePgn.split('\n\n')
-        if (gamePgnArr.length > 1) {
-            if (gamePgnArr[1] !== notationPgn.trim()) { // game pgn contains analysis variant
-                loadFenPgn(game, startFen, notationPgn)
-                doPgnMoves(game, gamePgn)
-            }
-        }
-    }
     if (game.game_over() === true ||
         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
@@ -29,14 +18,22 @@ function onDragStart(source, piece, position, orientation) {
 
 function onDrop(source, target) {
     // see if the move is legal
-    var move = game.move({
-        from: source,
-        to: target,
-        promotion: 'q' // NOTE: always promote to a queen for example simplicity
-    })
+    /* NOTE: always promote to a queen for example simplicity*/
+    var move = game.move({ from: source, to: target, promotion: 'q' })
 
     // illegal move
     if (move === null) return 'snapback'
+    if (analysis) {
+        var analPgn = getPgnFromNotation($('#a-cont' + analIndex))
+        var notationPgn = getPgnFromNotation()
+        var gamePgnArr = getMoveArrayFromPgn(analPgn)
+        game.load(getFenFromNotation())
+        deleteGrayMoves()
+        doMoves(game, gamePgnArr, addClickToLastMove)
+    }
+
+    game.move({ from: source, to: target, promotion: 'q' })
+
     addClickToLastMove()
     updateStatus()
     if (!analysis && getCheckedValue($('#players')) < 2 && !game.in_checkmate()) getBestMoveFromServer()
