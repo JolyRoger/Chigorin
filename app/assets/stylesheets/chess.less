@@ -315,7 +315,6 @@ button#movend {
   background: #f9f9f9;
   color: black;
   border: 1px solid black;
-  width: 100%;
   left: -1px;
 }
 
@@ -326,6 +325,9 @@ button#movend {
 #fencontainer {
   position: relative;
   margin-top: 20px;
+  overflow-x: hidden;
+  width: @boardSize;
+  white-space: nowrap;
 }
 .fen-btn {
   width: 80px;
