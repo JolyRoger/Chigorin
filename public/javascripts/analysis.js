@@ -166,6 +166,7 @@ function setPosition(f, arg) {
 
 function unfix() {
     fix = false
+    analIndex = -1
     $('.fix-analysis-btn').html('Fix')
 }
 

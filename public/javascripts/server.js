@@ -1,6 +1,7 @@
 function getBestMoveFromServer() {
     deleteGrayMoves()
     showThinking()
+    if (fix && analIndex >= 0) doAnalysisMoves()
     $.ajax({
         url: '/next/',
         data: JSON.stringify(

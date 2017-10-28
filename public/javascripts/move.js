@@ -1,7 +1,6 @@
 function doMove(move) {
     var from = move[0] + move[1]
     var to = move[2] + move[3]
-    //var oldFen = game.fen()
     game.move({ from: from, to: to,
         promotion: move[4] == undefined ? 'q' : move[4] })
 
@@ -11,6 +10,15 @@ function doMove(move) {
     addClickToLastMove(fen)
     updateStatus()
     if (!analysis && getCheckedValue($('#players')) == 0 && !game.in_checkmate()) getBestMoveFromServer()
+}
+
+function doAnalysisMoves() {
+    var analPgn = getPgnFromNotation($('#a-cont' + analIndex))
+    var notationPgn = getPgnFromNotation()
+    var gamePgnArr = getMoveArrayFromPgn(analPgn)
+    game.load(getFenFromNotation())
+    deleteGrayMoves()
+    doMoves(game, gamePgnArr, addClickToLastMove)
 }
 
 function addClickToLastMove(fen) {

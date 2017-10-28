@@ -23,14 +23,7 @@ function onDrop(source, target) {
 
     // illegal move
     if (move === null) return 'snapback'
-    if (analysis) {
-        var analPgn = getPgnFromNotation($('#a-cont' + analIndex))
-        var notationPgn = getPgnFromNotation()
-        var gamePgnArr = getMoveArrayFromPgn(analPgn)
-        game.load(getFenFromNotation())
-        deleteGrayMoves()
-        doMoves(game, gamePgnArr, addClickToLastMove)
-    }
+    if (analysis) doAnalysisMoves()
 
     game.move({ from: source, to: target, promotion: 'q' })
 
