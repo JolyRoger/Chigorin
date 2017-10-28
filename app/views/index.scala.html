@@ -12,6 +12,23 @@
         @position()
     }
     @about(Map("title" -> "About", "width" -> "532px;", "height" -> "400px;", "closeButton" -> "$('#fb-modal-About').fadeOut('slow')")) {
-        <h2>Under construction</h2>
+        <p>Here you can play with a chess engine and/or analyse your position. Select desired chess engine with help of gray combobox in left top corner of screen. By default it is <b>Stockfish</b>. Well known <b>Rybka</b> and <a href="http://mediocrechess.sourceforge.net/index.html"><b>Mediocre</b></a> by Jonatan Pettersson are also available. To start playing just do move by dragging and dropping a piece on the board or press orange "<b>MOVE</b>" button on the panel above.</p>
+        <p>To start new game press button "<b>New game</b>" and select how you wish to enter the position. There are four options:</p>
+        <p><b>New position.</b> Game starts from initial chess position.</p>
+        <p><b>From PGN.</b> Paste correct PGN. The application will do all pgn moves and show them in black notation panel</p>
+        <p><b>From FEN.</b> Paste correct FEN string. Fen position will be shown on the board.</p>
+        <p><b>Set pieces.</b> Drag and drop pieces to board squares and press "OK".</p>
+        <p>Green "<b>Show FEN</b>" button shows fen code of position on board below the board. Further you can copy fen to clipboard pressing "<b>Copy</b>" button, past anywhere (Ctrl+V works quite well), and close fen text box by "<b>Hide</b>" button.</p>
+        <p>Orange "<b>MOVE</b>" button in any cases tries to get the best move from server and do it on board</p>
+        <p>When some moves have been done and represented on the black notation panel you can move position back and forward by pressing <b>⇤</b>, <b>☜</b>, <b>☞</b>, and <b>⇥</b> buttons on the panel down the board. They moves to start position, one move back, one move forward, or to the end of position respectively. Button <b>↻</b> reverts the board with no affection to your game or analysis.</p>
+        <p>To analyse position on the board move switcher to "<b>ON</b>" position. To stop analysis get it back to "<b>OFF</b>"</p>
+        <p>When the switcher is on you see on the light right panel different variations which chess engine considers as best, three by default. Playing blue "<b>Fix</b>" button, arising only when analysis is up, you can temporarily stop analysis, fix current variations, and play them on board by pressing to moves (they are clickable) or to arrows <b>⟸</b>/<b>⟹</b>. Back and forward, respectively.</p>
+        <p>Pressing "<b>Setting</b>" in the top right corner of screen you may want to tune some application options.</p>
+        <p><b>Select players</b>. Select by radio buttons who plays. </p>
+        <p><b>Computer vs. Human</b> by default. To every your move on the board selected chess engine responds by the the best move from its side.</p>
+        <p><b>Computer vs. Computer</b>. Just to watch how chess engine plays with itself.</p>
+        <p><b>Human vs. Human</b>. If you don't want chess engine to respond to your dragging pieces on board.</p>
+        <p><b>Pondering time</b> in seconds. How long chess engine thinks of the next move.</p>
+        <p><b>Analysis lines</b>. How many analysis lines chess engine shows when analysis is on. Keep and mind some chess engines does not support multiline analysis feature. E.g. Mediocre permanently will issue only one line an analysis mode.</p>
     }
 }

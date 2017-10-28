@@ -1,1 +1,35 @@
-Under construction
+Here you can play with a chess engine and/or analyse your position. Select desired chess engine with help of gray combobox in left top corner of screen. By default it is Stockfish. Well known Rybka and Mediocre by Jonatan Pettersson are also available. To start playing just do move by dragging and dropping a piece on the board or press orange "MOVE" button on the panel above.
+
+To start new game press button "New game" and select how you wish to enter the position. There are four options:
+
+New position. Game starts from initial chess position.
+
+From PGN. Paste correct PGN. The application will do all pgn moves and show them in black notation panel
+
+From FEN. Paste correct FEN string. Fen position will be shown on the board.
+
+Set pieces. Drag and drop pieces to board squares and press "OK".
+
+Green "Show FEN" button shows fen code of position on board below the board. Further you can copy fen to clipboard pressing "Copy" button, past anywhere (Ctrl+V works quite well), and close fen text box by "Hide" button.
+
+Orange "MOVE" button in any cases tries to get the best move from server and do it on board
+
+When some moves have been done and represented on the black notation panel you can move position back and forward by pressing ⇤, ☜, ☞, and ⇥ buttons on the panel down the board. They moves to start position, one move back, one move forward, or to the end of position respectively. Button ↻ reverts the board with no affection to your game or analysis.
+
+To analyse position on the board move switcher to "ON" position. To stop analysis get it back to "OFF"
+
+When the switcher is on you see on the light right panel different variations which chess engine considers as best, three by default. Playing blue "Fix" button, arising only when analysis is up, you can temporarily stop analysis, fix current variations, and play them on board by pressing to moves (they are clickable) or to arrows ⟸/⟹. Back and forward, respectively.
+
+Pressing "Setting" in the top right corner of screen you may want to tune some application options.
+
+Select players. Select by radio buttons who plays.
+
+Computer vs. Human by default. To every your move on the board selected chess engine responds by the the best move from its side.
+
+Computer vs. Computer. Just to watch how chess engine plays with itself.
+
+Human vs. Human. If you don't want chess engine to respond to your dragging pieces on board.
+
+Pondering time in seconds. How long chess engine thinks of the next move.
+
+Analysis lines. How many analysis lines chess engine shows when analysis is on. Keep and mind some chess engines does not support multiline analysis feature. E.g. Mediocre permanently will issue only one line an analysis mode.
