@@ -1,6 +1,5 @@
 package engine;
 
-import lombok.Getter;
 import java.util.*;
 
 public class InfoProcessor {
@@ -69,7 +68,7 @@ public class InfoProcessor {
         return info;
     }
 
-    public void clearMap() {
+    void clearMap() {
         structureMap.clear();
     }
 }

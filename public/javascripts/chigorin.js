@@ -26,7 +26,7 @@ function onDrop(source, target) {
     if (analysis) doAnalysisMoves()
 
     game.move({ from: source, to: target, promotion: 'q' })
-
+    deleteGrayMoves()
     addClickToLastMove()
     updateStatus()
     if (!analysis && getCheckedValue($('#players')) < 2 && !game.in_checkmate()) getBestMoveFromServer()

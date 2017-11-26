@@ -71,7 +71,8 @@ function startAnalysis() {
             $('#analysis').html('')
             $('#a-start').attr('src', '/assets/images/analoff.png')
             $('.fix-analysis-btn').hide()
-            fix = analysis = false
+            analysis = false
+            unfixAndSetPosition()
         })
         return
     }
@@ -161,7 +162,7 @@ function unfixAndSetPosition() {
 function setPosition(f, arg) {
     loadFenPgn(game, startFen, convertPgn(getPgnFromNotation()))
     f && f(arg)
-    board.position(game.fen())
+    onSnapEnd()
 }
 
 function unfix() {
@@ -175,6 +176,10 @@ function analMove(element) {
 }
 
 function analVariantMove(element, contIndex) {
+    $('.asterisk').remove()
+    var asterisk = $('<span>').append(' *')
+    asterisk.addClass('asterisk')
+    $('#a-score' + contIndex).after(asterisk)
     analIndex = contIndex
     var $cont = $('#a-cont' + contIndex)
     var $contChld = $('.a-cont').children()
