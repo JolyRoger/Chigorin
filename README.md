@@ -6,7 +6,7 @@ This is a chess application written in [Play](https://www.playframework.com) fra
 
 Just download the application:
 ```
-> https://github.com/JolyRoger/Chigorin.git
+> git clone https://github.com/JolyRoger/Chigorin.git
 ```
 
 ### Prerequisites
