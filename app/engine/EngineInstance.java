@@ -3,6 +3,7 @@ package engine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,14 +14,14 @@ import java.util.concurrent.Future;
 
 public class EngineInstance {
 
-    private final static String STOCKFISH_PATH = "public/engines/stockfish_8_x64";
-    private final static String STOCKFISH_WINDOWS_PATH = "public/engines/stockfish_8_x32.exe";
-    private final static String RYBKA_PATH = "public/engines/Rybka 4 x64.exe";
-    private final static String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
-    private final static String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
-    private final static String GO_INFINITE = "go infinite";
-    private final static String GO_MOVETIME = "go movetime ";
-    private final static boolean IS_LINUX = System.getProperty("os.name").contains("Linux");
+    private static final String STOCKFISH_PATH = "public/engines/stockfish_8_x64";
+    private static final String STOCKFISH_WINDOWS_PATH = "public/engines/stockfish_8_x32.exe";
+    private static final String RYBKA_PATH = "public/engines/Rybka 4 x64.exe";
+    private static final String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
+    private static final String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
+    private static final String GO_INFINITE = "go infinite";
+    private static final String GO_MOVETIME = "go movetime ";
+    private static final boolean IS_LINUX = System.getProperty("os.name").contains("Linux");
     private int ponderTime = 1000;
     private int analysisLines = 1;
     public boolean analysisMode;
@@ -43,7 +44,7 @@ public class EngineInstance {
         process(engineMap.get(engine));
     }
 
-    private void initCommand() throws IOException, ExecutionException, InterruptedException {
+    private void initCommand() throws ExecutionException, InterruptedException {
         write("uci ");
         read("uciok").get();
         write("isready");
@@ -91,12 +92,12 @@ public class EngineInstance {
         processor.process(line);
     }
 
-    public void analysisLines(int lines) throws IOException {
+    public void analysisLines(int lines) {
         if (analysisMode) setOption("MultiPV", lines + "");
         analysisLines = lines;
     }
 
-    public void ponderTime(int time) throws IOException {
+    public void ponderTime(int time) {
         ponderTime = time * 1000;
     }
 
@@ -106,7 +107,7 @@ public class EngineInstance {
         writer.close();
     }
 
-    public void changeEngine(String engine) throws IOException, ExecutionException, InterruptedException {
+    public void changeEngine(String engine) throws IOException {
         if (currentEngine.equals(engine)) return;
         currentEngine = engine;
         boolean continueAnal = false;
@@ -121,13 +122,13 @@ public class EngineInstance {
         }
     }
 
-    public String go(String conditionToAnswer) throws IOException, ExecutionException, InterruptedException {
+    public String go(String conditionToAnswer) throws ExecutionException, InterruptedException {
 
         write(ponderTime < 0 || analysisMode ? GO_INFINITE : GO_MOVETIME + ponderTime);
         return read(conditionToAnswer).get();
     }
 
-    public void startAnalysis(String fen) throws IOException, ExecutionException, InterruptedException {
+    public void startAnalysis(String fen) {
         write("position fen " + fen);
         this.fen = fen;
         analysisMode = true;
@@ -136,19 +137,19 @@ public class EngineInstance {
         bestmove = read("bestmove");
     }
 
-    public void stopAnalysis() throws IOException {
+    public void stopAnalysis() {
         write("stop");
         analysisMode = false;
         setOption("MultiPV", 1 + "");
         processor.clearMap();
     }
 
-    public String getBestMove() throws IOException, ExecutionException, InterruptedException {
+    public String getBestMove() throws ExecutionException, InterruptedException {
         write("stop");
         return bestmove.get();
     }
 
-    public void setOption(String name, String value) throws IOException {
+    private void setOption(String name, String value) {
         write("setoption name " + name + " value " + value);
         processor.clearMap();
     }

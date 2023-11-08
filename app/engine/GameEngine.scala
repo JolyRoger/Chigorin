@@ -4,8 +4,6 @@ import play.api.mvc.Session
 
 object GameEngine {
 
-
-
   val ENGINES = "/home/torquemada/Softdev/workspace/Chess/public/engines/"
   val OWN_BOOK_PATH = "public/books/performance.bin"
   val STOCKFISH_PATH = "public/engines/stockfish_8_x32.exe"
@@ -40,7 +38,7 @@ object GameEngine {
   }
 
 
-  def send(id: Session, command: String) {
+  def send(id: Session, command: String): Unit = {
     idMap.get(id) match {
       case Some(engine) => engine.write(command)
       case None => println("there is no key " + id.hashCode() + " in the map!!!")

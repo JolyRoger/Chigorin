@@ -12,6 +12,7 @@ POST    /update/				                                 controllers.Application.upd
 POST    /update/:move			                                 controllers.Application.update(move)
 GET     /stopPonder				                                 controllers.Application.stopPonder
 GET     /start                                                   controllers.Application.start
++nocsrf
 POST    /next/          										 controllers.Application.next
 GET     /rate   				                                 controllers.Application.rate
 GET     /startAnalysis/:fen                                      controllers.Analysis.startAnalysis(fen: String)

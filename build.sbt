@@ -1,21 +1,15 @@
-name := """engine"""
+name := """Chigorin"""
+organization := "org.torquemada"
+version := "1.1-SNAPSHOT"
 
-version := "1.0-SNAPSHOT"
+import com.typesafe.sbt.web.SbtWeb.autoImport._
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.10.5"
+scalaVersion := "2.13.12"
 
-libraryDependencies += "com.github.scala-incubator.io" % "scala-io-file_2.10" % "0.4.3"
-
-libraryDependencies += "org.scalatest" % "scalatest_2.10" % "3.2.0-SNAP4"
-
-libraryDependencies ++= Seq(jdbc, anorm, cache, ws)
-
-libraryDependencies += "org.projectlombok" % "lombok" % "1.16.14"
-
-libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.3.2"
-
-includeFilter in (Assets, LessKeys.less) := "*.less"
-
-excludeFilter in (Assets, LessKeys.less) := "_*.less"
+libraryDependencies += guice
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.0" % Test
+libraryDependencies += "org.projectlombok" % "lombok" % "1.18.30" % "provided"
+Assets / LessKeys.less / includeFilter := "*.less"
+enablePlugins(SbtWeb)
