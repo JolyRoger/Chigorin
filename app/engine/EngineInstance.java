@@ -16,7 +16,8 @@ public class EngineInstance {
 
     private static final String STOCKFISH_PATH = "public/engines/stockfish_8_x64";
     private static final String STOCKFISH_WINDOWS_PATH = "public/engines/stockfish_8_x32.exe";
-    private static final String RYBKA_PATH = "public/engines/Rybka 4 x64.exe";
+    private static final String KOMODO_PATH = "public/engines/komodo-14.1-linux";
+    private static final String KOMODO_WINDOWS_PATH = "public/engines/komodo-14.1-64bit.exe";
     private static final String STOCKFISH_MODERN_PATH = "public/engines/stockfish_8_x64_modern";
     private static final String MEDIOCRE_PATH = "public/engines/mediocre_v0.5.jar";
     private static final String GO_INFINITE = "go infinite";
@@ -27,18 +28,17 @@ public class EngineInstance {
     public boolean analysisMode;
     private BufferedReader reader;
     private BufferedWriter writer;
-    private Process process = null;
     private String currentEngine = "Stockfish";
     private String fen;
     private String[] pathTo;
-    private Map<String, String[]> engineMap = new HashMap<>(2);
-    private InfoProcessor processor;
+    private final Map<String, String[]> engineMap = new HashMap<>(2);
+    private final InfoProcessor processor;
     private Future<String> bestmove;
 
     public EngineInstance(String engine) {
         engineMap.put("Mediocre", new String[] {"java", "-jar", MEDIOCRE_PATH});
         engineMap.put("Stockfish", new String[] {IS_LINUX ? STOCKFISH_PATH : STOCKFISH_WINDOWS_PATH});
-        engineMap.put("Rybka", IS_LINUX ? new String[] {"wine", RYBKA_PATH} : new String[]{RYBKA_PATH});
+        engineMap.put("Komodo", new String[] {IS_LINUX ? KOMODO_PATH : KOMODO_WINDOWS_PATH});
         engineMap.put("Stockfish Modern", new String[] {STOCKFISH_MODERN_PATH});
         processor = new InfoProcessor();
         process(engineMap.get(engine));
@@ -55,7 +55,7 @@ public class EngineInstance {
     public void process(String... pathTo) {
         this.pathTo = pathTo;
         ProcessBuilder builder = new ProcessBuilder(pathTo);
-        process = builder.start();
+        Process process = builder.start();
         OutputStream stdin = process.getOutputStream();
         InputStream stdout = process.getInputStream();
         reader = new BufferedReader(new InputStreamReader(stdout));
@@ -155,8 +155,8 @@ public class EngineInstance {
     }
 
     public String getAnalysis() throws JsonProcessingException {
-        Set<InfoStructure> structureMap = processor.getStructure();
-        ObjectMapper mapper = new ObjectMapper();
+        var structureMap = processor.getStructure();
+        var mapper = new ObjectMapper();
         return mapper.writeValueAsString(structureMap);
     }
 }

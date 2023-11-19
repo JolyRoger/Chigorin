@@ -37,7 +37,7 @@ Now you can play with a chess engine and/or analyse your position. Select desire
 
 ![alt text](https://ic.pics.livejournal.com/mjol1nir/16493210/7257/7257_900.png)
 
-By default it is Stockfish. Well known Rybka and Mediocre by Jonatan Pettersson are also available. 
+By default it is Stockfish. Well known Komodo and Mediocre by Jonatan Pettersson are also available. 
 
 To start playing just do move by dragging and dropping a piece on the board 
 

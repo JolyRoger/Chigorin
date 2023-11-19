@@ -1,0 +1,296 @@
+#footer {
+  padding: 10px;
+  font-size: 70%;
+  border-top: 1px dotted #ccc;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  margin: 20px 0;
+  top: 830px;
+}
+#header {
+  height: 200px;
+  position: relative;
+  background: #000 url(../images/chess_200.jpg) center no-repeat;
+}
+#content {
+  background: url(/assets/images/background.jpg) repeat;
+  height: 510px;
+  padding: 60px;
+  position: relative;
+}
+#fb-modal-Position {
+  position: absolute;
+  top: -56px;
+  left: 60px;
+}
+#board {
+  width: 448px;
+}
+#board-container {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+.shifted-up {
+  bottom: 56px;
+}
+.set-board-btn {
+  width: 56px;
+  height: 56px;
+  position: absolute;
+}
+#pos-settings-btn {
+  left: 388px;
+}
+#notation {
+  background: url(/assets/images/notation_background.jpg);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font: 16pt Verdana;
+  color: #fff5ee;
+  border: solid gray;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 0 20px;
+}
+#notation-show {
+  margin: 10px;
+}
+#notation-paste-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  flex-direction: column;
+  display: none;
+}
+#notation-paste {
+  width: 100%;
+  height: 100%;
+  background: url(/assets/images/notation_background.jpg);
+  border: none;
+  overflow: hidden;
+  color: white;
+}
+.clicked-move {
+  cursor: pointer;
+}
+#moves-group {
+  width: 300px;
+  height: 95%;
+  display: inline-block;
+  vertical-align: top;
+}
+.board {
+  position: relative;
+  float: left;
+}
+.promotion {
+  display: none;
+  position: absolute;
+  top: 174px;
+  left: 64px;
+  width: 320px;
+  height: 100px;
+  z-index: 2;
+}
+.promoted {
+  top: 22px;
+  z-index: 3;
+}
+.panel {
+  float: left;
+  padding: 20px;
+}
+span.block {
+  display: block;
+}
+.piece {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+}
+.square {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+}
+#queen {
+  left: 33px;
+}
+#rook {
+  left: 99px;
+}
+#bishop {
+  left: 165px;
+}
+#knight {
+  left: 231px;
+}
+.wking {
+  background: url(/assets/images/pieces/wking.png) center no-repeat;
+  background-size: 56px;
+}
+.wqueen {
+  background: url(/assets/images/pieces/wqueen.png) center no-repeat;
+  background-size: 56px;
+}
+.wrook {
+  background: url(/assets/images/pieces/wrook.png) center no-repeat;
+  background-size: 56px;
+}
+.wbishop {
+  background: url(/assets/images/pieces/wbishop.png) center no-repeat;
+  background-size: 56px;
+}
+.wknight {
+  background: url(/assets/images/pieces/wknight.png) center no-repeat;
+  background-size: 56px;
+}
+.wpawn {
+  background: url(/assets/images/pieces/wpawn.png) center no-repeat;
+  background-size: 56px;
+}
+.bking {
+  background: url(/assets/images/pieces/bking.png) center no-repeat;
+  background-size: 56px;
+}
+.bqueen {
+  background: url(/assets/images/pieces/bqueen.png) center no-repeat;
+  background-size: 56px;
+}
+.brook {
+  background: url(/assets/images/pieces/brook.png) center no-repeat;
+  background-size: 56px;
+}
+.bbishop {
+  background: url(/assets/images/pieces/bbishop.png) center no-repeat;
+  background-size: 56px;
+}
+.bknight {
+  background: url(/assets/images/pieces/bknight.png) center no-repeat;
+  background-size: 56px;
+}
+.bpawn {
+  background: url(/assets/images/pieces/bpawn.png) center no-repeat;
+  background-size: 56px;
+}
+.clickedFrom {
+  border: 2px solid yellow;
+  width: 52px;
+  height: 52px;
+}
+.clickedTo {
+  border: 2px solid red;
+  width: 52px;
+  height: 52px;
+}
+form#loadgame {
+  visibility: hidden;
+  position: absolute;
+}
+#wintitlepanel {
+  position: absolute;
+  font: 38pt sans-serif;
+  width: 448px;
+  height: 448px;
+  display: none;
+}
+#wintitle {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  margin-left: -224px;
+  margin-top: -30px;
+  text-align: center;
+  color: black;
+  display: block;
+  font: 38pt sans-serif;
+  opacity: 1.0;
+  width: 448px;
+  height: 60px;
+}
+button.handlebtn {
+  width: 100px;
+}
+button#movebegin {
+  float: left;
+  width: 23%;
+  font-size: 150%;
+}
+button#movedown {
+  float: left;
+  width: 23%;
+  font-size: 150%;
+}
+button#turnsides {
+  float: left;
+  width: 8%;
+  font-size: 150%;
+}
+button#moveup {
+  width: 23%;
+  font-size: 150%;
+}
+button#movend {
+  float: right;
+  width: 23%;
+  font-size: 150%;
+}
+.semiMoveElement {
+  cursor: pointer;
+  padding: 10px;
+}
+#thinking {
+  height: 16pt;
+  width: auto;
+}
+#engine-selector {
+  position: relative;
+  top: 3px;
+  font-size: 16px;
+  width: 200px;
+  height: 30px;
+}
+.fen-content-element {
+  position: relative;
+  font-size: small;
+  padding: 5px;
+}
+#fenstringpaste {
+  width: 100%;
+  font: 14pt Arial;
+  color: black;
+  font-size: small;
+  margin-bottom: 0;
+}
+.fen-string-element {
+  font: 14pt Arial;
+  background: #f9f9f9;
+  color: black;
+  border: 1px solid black;
+  left: -1px;
+}
+#fencopybtn {
+  display: none;
+}
+#fencontainer {
+  position: relative;
+  margin-top: 20px;
+  overflow-x: hidden;
+  width: 448px;
+  white-space: nowrap;
+}
+.fen-btn {
+  width: 80px;
+}
+.top-handles {
+  position: absolute;
+  top: 13px;
+}
+.gray-move {
+  color: #778899;
+}
