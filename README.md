@@ -2,6 +2,14 @@
 
 This is a chess application written in [Play](https://www.playframework.com) framework to play and analyze a chess game. It's named in honor of great Russian chess master Mikhail Chigorin. 
 
+## I just want to run it
+
+This is not deployed, but Docker can help. Try 
+```
+> docker run -p 9000:9000 daniilmonakhov/chigorin 
+```
+Docker image exposes port 9000, so after downloading and running, the application will be active on http://localhost:9000 in your browser. 
+
 ## Getting Started
 
 Just download the application:
