@@ -24,6 +24,7 @@ dockerExposedVolumes := Seq("/opt/docker/logs",
 dockerUpdateLatest := true
 scalaVersion := "2.13.12"
 
+libraryDependencies += filters
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.0" % Test
 libraryDependencies += "org.projectlombok" % "lombok" % "1.18.30" % "provided"

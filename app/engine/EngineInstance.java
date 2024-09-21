@@ -3,6 +3,7 @@ package engine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+@Slf4j
 public class EngineInstance {
 
     private static final String STOCKFISH_PATH = "public/engines/stockfish_8_x64";
@@ -64,7 +66,7 @@ public class EngineInstance {
     }
 
     public void write(String command) {
-        System.out.println(command);
+        log.info(command);
         try {
             writer.write(command.trim());
             writer.newLine();
@@ -80,10 +82,8 @@ public class EngineInstance {
             String line = null;
             while (((line = reader.readLine()) != null && !line.contains(condition))) {
                 if (analysisMode) processLine(line);
-//                    line = reader.readLine();
-//                    System.out.println("\t" + line);
             }
-            System.out.println("\t" + (line == null ? "" : line));
+            log.info("\t" + (line == null ? "" : line));
             return line;
         });
     }
